@@ -1,0 +1,19 @@
+# Output
+-o "~/Downloads/%(title)s.%(ext)s"
+
+# Format
+-f "bestvideo[height<=2160][vcodec^=avc1]+bestaudio[ext=m4a]/bestvideo[height<=2160]+bestaudio/best[height<=2160]"
+
+# Embed
+--embed-metadata
+--embed-thumbnail
+
+# Subtitles
+--sub-langs "en,ru"
+--embed-subs
+
+# Misc
+--no-mtime
+--sponsorblock-mark all
+--download-archive ~/.cache/yt-dlp/archive.txt
+--throttled-rate 100K

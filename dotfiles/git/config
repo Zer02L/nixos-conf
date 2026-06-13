@@ -1,0 +1,63 @@
+[alias]
+    a = add
+    aa = add -A
+    cm = commit -m
+    ca = commit --amend
+    co = checkout
+    cb = checkout -b
+    df = diff
+    dc = diff --cached
+    lg = log --graph --pretty=format:'%C(auto)%h %C(blue)%an%C(auto)%d %s' --date=short
+    ls = log --oneline --graph
+    pl = pull --rebase
+    ps = push
+    st = status -sb
+    sw = switch
+    undo = reset HEAD~1 --mixed
+
+[advice]
+    addIgnoredFile = false
+    detachedHead = false
+
+[core]
+    pager = delta
+    whitespace = trailing-space,-space-before-tab
+
+[diff]
+    algorithm = histogram
+    colorMoved = plain
+    mnemonicPrefix = true
+    renames = copies
+
+[delta]
+    navigate = true
+    side-by-side = true
+    line-numbers = true
+    syntax-theme = gruvbox-dark
+    features = decorations
+
+[delta "decorations"]
+    commit-decoration-style = bold yellow box ul
+    file-decoration-style = bold yellow ul
+    file-style = bold yellow
+
+[fetch]
+    prune = true
+    pruneTags = true
+    all = true
+
+[merge]
+    conflictstyle = zdiff3
+
+[push]
+    autoSetupRemote = true
+    default = simple
+    followTags = true
+
+[rebase]
+    autoSquash = true
+    autoStash = true
+    updateRefs = true
+
+[status]
+    submoduleSummary = true

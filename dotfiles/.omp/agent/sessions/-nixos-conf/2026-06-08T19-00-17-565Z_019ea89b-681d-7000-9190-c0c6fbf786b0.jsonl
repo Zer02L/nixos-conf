@@ -1,0 +1,5 @@
+{"type":"session","version":3,"id":"019ea89b-681d-7000-9190-c0c6fbf786b0","timestamp":"2026-06-08T19:00:17.565Z","cwd":"/home/zerg/nixos-conf"}
+{"type":"thinking_level_change","id":"e090d004","parentId":null,"timestamp":"2026-06-08T19:00:17.565Z","thinkingLevel":"low"}
+{"type":"service_tier_change","id":"c9e365e7","parentId":"e090d004","timestamp":"2026-06-08T19:00:17.565Z","serviceTier":null}
+{"type":"message","id":"08ddb5bd","parentId":"c9e365e7","timestamp":"2026-06-08T19:00:47.763Z","message":{"role":"user","content":[{"type":"text","text":"ты же не менял agent.md?"}],"attribution":"user","timestamp":1780945247753}}
+{"type":"message","id":"8a8601b5","parentId":"08ddb5bd","timestamp":"2026-06-08T19:01:39.421Z","message":{"role":"assistant","content":[],"api":"openai-completions","provider":"opencode-zen","model":"deepseek-v4-flash-free","usage":{"input":0,"output":0,"cacheRead":0,"cacheWrite":0,"totalTokens":0,"cost":{"input":0,"output":0,"cacheRead":0,"cacheWrite":0,"total":0}},"stopReason":"aborted","errorMessage":"Interrupted by user","timestamp":1780945299418}}

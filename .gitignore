@@ -1,0 +1,19 @@
+# nix build output
+/result
+
+
+# editor
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OMP agent local cache, DBs, logs, sessions and terminal states
+dotfiles/.omp/agent/*.db
+dotfiles/.omp/agent/*.db-wal
+dotfiles/.omp/agent/*.db-shm
+dotfiles/.omp/agent/terminal-sessions/
+dotfiles/.omp/agent/sessions/
+dotfiles/.omp/logs/
+
+

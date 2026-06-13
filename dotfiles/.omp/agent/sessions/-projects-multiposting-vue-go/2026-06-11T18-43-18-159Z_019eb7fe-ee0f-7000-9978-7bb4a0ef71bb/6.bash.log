@@ -1,0 +1,38 @@
+=== Line 149 (translate_enabled comment) ===
+        translate_enabled BOOLEAN DEFAULT FALSE NOT NULL, -- Rule snapshot (may be overridden to FALSE by business logic for media-only posts)
+
+=== Line 274 (maintenance index) ===
+    CREATE INDEX IF NOT EXISTS idx_channels_maintenance ON channels(last_maintenance_charged_at) WHERE status IN ('active', 'disabled', 'reconnect_required') AND platform NOT IN ('telegram', 'discord');
+
+=== Line 340 (media-only override) ===
+    - Calculate `cost_paid` (total credits required for active Zernio platforms) and `cost_free` (total credits required for active native platforms + translation). Note: If translation is enabled but the post contains no text caption (media-only), the translation surcharge is automatically skipped (cost is 0), and the `posts.translate_enabled` column must be overridden to `FALSE` (business-rule override — not a straight snapshot of the rule) in the database for this post to prevent duplicate/unearned translation refunds in the event of delivery failure.
+
+=== Line 372 (translation fallback) ===
+        *   If translation fails with a permanent error (or provider quota is completely exhausted), attempt the configured fallback provider (`TRANSLATION_FALLBACK`). If the fallback also fails with a permanent error (or the keyless `translate.googleapis.com` fallback is disabled in production), abort the entire delivery run: open a short-lived transaction, update all associated deliveries to `failed` status, trigger the unified refund flow for the failed translation surcharge (1 free credit) and failed deliveries, and skip immediately.
+
+=== Line 374 (TOCTOU mitigation) ===
+        *   **Pre-flight Channel Status Check**: Before making any API call, verify the target channel's current status from the `channels` table (`SELECT status FROM channels WHERE id = $1`). If the channel is no longer `'active'` (e.g., changed to `'disabled'` or `'reconnect_required'` since billing), mark this delivery as `failed` with error message 'Channel is no longer active' and trigger the unified refund flow via `RefundDelivery`. **TOCTOU Mitigation**: Re-verify the channel status inside the refund transaction (after acquiring the lock on the channel row) — if the channel has become active again since the pre-flight check, abort the refund and attempt dispatch instead. This prevents incorrect refunds from concurrent channel re-enablement.
+
+=== Line 433 (translation surcharge per-attempt) ===
+            - *Note: Translation surcharge (1 credit) is a per-attempt fee, tracked per post via `translation_refunded`. On retry (see §4.F), it is re-charged and the flag is reset, so the same logical content may incur the surcharge multiple times across retries. If the first delivery failure triggers the refund, subsequent deliveries succeed without compensating for the surcharge (user wins). If the last failure triggers it, earlier successful deliveries consumed the surcharge without refund (user loses). This asymmetry is accepted for simplicity — splitting the surcharge across deliveries would require per-delivery tracking.*
+
+=== Line 487 (heartbeat extension) ===
+    6.  **Fast-Path Idempotency Key**: Before proceeding, set the `telegram:update:status:<update_id>` key to `processing` with a TTL of 2 minutes using `SET ... NX EX 120` for each incoming chunk update_id. This mirrors the §4.B non-album fast-path check. If the key is already `processing` (concurrent retry), skip processing this chunk — return `429 Too Many Requests` to force Telegram retry. If this chunk was already fully processed (key is `done`), return `200 OK` immediately. **Heartbeat extension**: The webhook handler must refresh the TTL of `telegram:update:status:<update_id>` on each incoming chunk of the same media group using `EXPIRE ... 120` to prevent premature expiry while the debouncer is still collecting chunks. The Asynq worker must also extend this TTL on each reschedule cycle (see step 7) to cover the debouncing window.
+
+=== Line 499-508 (post-Lua integrity) ===
+        *   **Post-Lua integrity check**: Even after the Lua script confirms `last_seen` is stable, a new chunk could arrive between the Lua call and the subsequent `HGETALL mediagroup:processing:<media_group_id>`. To close this window, the worker must atomically append any newly arrived data *before* reading: use a second Lua script that returns the full processing hash and atomically sets a `mediagroup:claiming:<media_group_id>` lock (TTL 30s, `SET NX`). If the lock already exists (another worker claimed this group), exit early. This guarantees that no chunk arriving after the first Lua script can be missed:
+        ```lua
+        -- KEYS[1] = mediagroup:claiming:<media_group_id>
+        -- KEYS[2] = mediagroup:processing:<media_group_id>
+        local claimed = redis.call("SET", KEYS[1], "1", "NX", "EX", 30)
+        if not claimed then return nil end  -- another worker claimed
+        local data = redis.call("HGETALL", KEYS[2])
+        return data
+        ```
+        The non-atomic fallback (separate `SET NX` then `HGETALL`) is acceptable only in development/testing.
+
+=== Line 574 (rate limiting) ===
+    *   **Translation Rate Limiting (Worker & Preview)**: The per-provider rate limits described above (Gemini 1.5 Flash — **15 requests per minute**; DeepL API Free — **500k chars/month**) are enforced via a **global** Redis-backed Token Bucket shared by both the manual `/api/translate` preview endpoint and the Asynq worker (§3.B.2). The bucket is shared across all concurrent requests and workers, not per-user or per-worker. **Redis instance**: The token bucket must be stored on the primary (`noeviction`) Redis instance — not the cache instance — since the bucket's key space is small, and the primary instance's `noeviction` policy prevents eviction from disrupting rate limit enforcement under memory pressure.
+
+=== Line 636 (pre-length check) ===
+        **Pre-length check**: Verify that the decoded payload signature length matches the expected HMAC-SHA256 output (32 bytes) before calling `ConstantTimeCompare` — mismatched lengths would cause a panic in Go ≥1.20. Follow the same pattern shown in §5.A (Telegram InitData verification).

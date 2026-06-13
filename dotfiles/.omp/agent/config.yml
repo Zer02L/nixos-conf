@@ -1,0 +1,16 @@
+symbolPreset: nerd
+theme: 
+  dark: titanium
+setupVersion: 1
+modelRoles: 
+  slow: opencode-zen/deepseek-v4-flash-free
+  smol: opencode-zen/deepseek-v4-flash-free
+  designer: opencode-zen/mimo-v2.5-free
+  plan: opencode-zen/deepseek-v4-flash-free
+  task: opencode-zen/deepseek-v4-flash-free
+  default: opencode-zen/deepseek-v4-flash-free:low
+defaultThinkingLevel: auto
+browser: 
+  headless: false
+secrets: 
+  enabled: true

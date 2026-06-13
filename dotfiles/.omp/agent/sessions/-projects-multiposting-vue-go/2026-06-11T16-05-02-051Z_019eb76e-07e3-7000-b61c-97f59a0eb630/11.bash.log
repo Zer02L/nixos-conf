@@ -1,0 +1,43 @@
+
+│
+●   claude  Agent detected — installing non-interactively
+│
+◇  Source: https://github.com/sickn33/antigravity-awesome-skills.git
+│
+◒  Cloning repository◐  Cloning repository◓  Cloning repository◑  Cloning repository◒  Cloning repository◐  Cloning repository◓  Cloning repository◑  Cloning repository◒  Cloning repository.◐  Cloning repository.◓  Cloning repository.◑  Cloning repository.◒  Cloning repository.◐  Cloning repository.◓  Cloning repository.◑  Cloning repository.◒  Cloning repository..◐  Cloning repository..◓  Cloning repository..◑  Cloning repository..◒  Cloning repository..◐  Cloning repository..◓  Cloning repository..◑  Cloning repository..◒  Cloning repository...◐  Cloning repository...◓  Cloning repository...◑  Cloning repository...◒  Cloning repository...◐  Cloning repository...◓  Cloning repository...◑  Cloning repository...◒  Cloning repository...◐  Cloning repository◓  Cloning repository◑  Cloning repository◒  Cloning repository◐  Cloning repository◓  Cloning repository◑  Cloning repository◒  Cloning repository◐  Cloning repository.◓  Cloning repository.◑  Cloning repository.◒  Cloning repository.◐  Cloning repository.◓  Cloning repository.◑  Cloning repository.◒  Cloning repository.◐  Cloning repository..◓  Cloning repository..◑  Cloning repository..◒  Cloning repository..◐  Cloning repository..◓  Cloning repository..◑  Cloning repository..◒  Cloning repository..◐  Cloning repository...◓  Cloning repository...◑  Cloning repository...◒  Cloning repository...◐  Cloning repository...◓  Cloning repository...◑  Cloning repository...◒  Cloning repository...◐  Cloning repository...◓  Cloning repository◑  Cloning repository◒  Cloning repository◐  Cloning repository◓  Cloning repository◑  Cloning repository◒  Cloning repository◐  Cloning repository◓  Cloning repository.◑  Cloning repository.◒  Cloning repository.◐  Cloning repository.◓  Cloning repository.◑  Cloning repository.◒  Cloning repository.◐  Cloning repository.◓  Cloning repository..◑  Cloning repository..◒  Cloning repository..◇  Repository cloned
+│
+◒  Discovering skills◐  Discovering skills◓  Discovering skills◑  Discovering skills◒  Discovering skills◐  Discovering skills◓  Discovering skills◑  Discovering skills◒  Discovering skills.◐  Discovering skills.◓  Discovering skills.◑  Discovering skills.◒  Discovering skills.◐  Discovering skills.◓  Discovering skills.◇  Found 1508 skills
+│
+●  Selected 1 skill: telegram-bot-builder
+
+│
+◇  Installation Summary ──────────────────────────────────────────────────╮
+│                                                                         │
+│  ~/projects/multiposting-vue-go/.agents/skills/telegram-bot-builder     │
+│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +12 more  │
+│    symlink → Claude Code                                                │
+│                                                                         │
+├─────────────────────────────────────────────────────────────────────────╯
+│
+◇  Security Risk Assessments ──────────────────────────────────────────╮
+│                                                                      │
+│                        Gen               Socket            Snyk      │
+│  telegram-bot-builder  Safe              0 alerts          Med Risk  │
+│                                                                      │
+│  Details: https://skills.sh/sickn33/antigravity-awesome-skills       │
+│                                                                      │
+├──────────────────────────────────────────────────────────────────────╯
+│
+◇  Installation complete
+
+│
+◇  Installed 1 skill ─────────────────────────────────────────────────────╮
+│                                                                         │
+│  ✓ ~/projects/multiposting-vue-go/.agents/skills/telegram-bot-builder   │
+│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +12 more  │
+│                                                                         │
+├─────────────────────────────────────────────────────────────────────────╯
+
+│
+└  Done!  Review skills before use; they run with full agent permissions.
+

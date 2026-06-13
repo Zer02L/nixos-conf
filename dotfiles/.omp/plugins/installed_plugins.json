@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "plugins": {
+    "context7@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/home/zerg/.omp/plugins/cache/plugins/claude-plugins-official___context7___0.0.0",
+        "version": "0.0.0",
+        "installedAt": "2026-06-08T18:05:32.586Z",
+        "lastUpdated": "2026-06-08T18:05:32.586Z"
+      }
+    ]
+  }
+}

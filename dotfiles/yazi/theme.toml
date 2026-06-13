@@ -1,0 +1,18 @@
+[status]
+separator_open = ""
+separator_close = ""
+separator_style = { fg = "#282828", bg = "#504945" }
+mode_normal = { fg = "#d65d0e", bg = "#282828", bold = true }
+mode_select = { fg = "#458588", bg = "#282828", bold = true }
+mode_unset = { fg = "#cc241d", bg = "#282828", bold = true }
+
+[manager]
+cwd = { fg = "#83a598" }
+permalink = { fg = "#d79921" }
+
+[preview]
+syntect_theme = "gruvbox"
+
+[milkytracker]
+volume = { fg = "#689d6a" }
+panning = { fg = "#d79921" }

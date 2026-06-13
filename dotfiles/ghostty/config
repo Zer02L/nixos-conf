@@ -1,0 +1,10 @@
+command = env TERM=xterm-256color fish
+theme = Gruvbox Dark Hard
+confirm-close-surface = false
+font-family = JetBrainsMono Nerd Font
+font-size = 14
+cursor-style = bar
+cursor-style-blink = true
+shell-integration-features = no-cursor
+mouse-hide-while-typing = true
+copy-on-select = clipboard

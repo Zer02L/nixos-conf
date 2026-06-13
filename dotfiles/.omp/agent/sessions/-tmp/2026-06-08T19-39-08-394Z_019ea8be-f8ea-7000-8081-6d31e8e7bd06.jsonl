@@ -1,0 +1,5 @@
+{"type":"session","version":3,"id":"019ea8be-f8ea-7000-8081-6d31e8e7bd06","timestamp":"2026-06-08T19:39:08.394Z","cwd":"/tmp"}
+{"type":"model_change","id":"b6ac2e17","parentId":null,"timestamp":"2026-06-08T19:39:14.180Z","model":"opencode-zen/mimo-v2.5-free"}
+{"type":"thinking_level_change","id":"c804e0d2","parentId":"b6ac2e17","timestamp":"2026-06-08T19:39:14.180Z","thinkingLevel":"low"}
+{"type":"message","id":"21b556ed","parentId":"c804e0d2","timestamp":"2026-06-08T19:39:29.213Z","message":{"role":"user","content":[{"type":"text","text":"что ты умеешь?"}],"attribution":"user","timestamp":1780947569187}}
+{"type":"message","id":"92535cb3","parentId":"21b556ed","timestamp":"2026-06-08T19:39:47.124Z","message":{"role":"assistant","content":[],"api":"openai-completions","provider":"opencode-zen","model":"mimo-v2.5-free","usage":{"input":0,"output":0,"cacheRead":0,"cacheWrite":0,"totalTokens":0,"cost":{"input":0,"output":0,"cacheRead":0,"cacheWrite":0,"total":0}},"stopReason":"aborted","errorMessage":"Interrupted by user","timestamp":1780947587121}}

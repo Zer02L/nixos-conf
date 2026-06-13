@@ -1,0 +1,43 @@
+
+│
+●   claude  Agent detected — installing non-interactively
+│
+◇  Source: https://github.com/unovue/shadcn-vue.git
+│
+◒  Cloning repository◐  Cloning repository◓  Cloning repository◑  Cloning repository◒  Cloning repository◐  Cloning repository◓  Cloning repository◑  Cloning repository◒  Cloning repository.◐  Cloning repository.◓  Cloning repository.◑  Cloning repository.◒  Cloning repository.◐  Cloning repository.◓  Cloning repository.◑  Cloning repository.◒  Cloning repository..◐  Cloning repository..◓  Cloning repository..◑  Cloning repository..◒  Cloning repository..◐  Cloning repository..◓  Cloning repository..◑  Cloning repository..◒  Cloning repository...◐  Cloning repository...◓  Cloning repository...◑  Cloning repository...◒  Cloning repository...◐  Cloning repository...◓  Cloning repository...◑  Cloning repository...◒  Cloning repository...◐  Cloning repository◓  Cloning repository◑  Cloning repository◒  Cloning repository◐  Cloning repository◓  Cloning repository◑  Cloning repository◒  Cloning repository◐  Cloning repository.◓  Cloning repository.◑  Cloning repository.◒  Cloning repository.◐  Cloning repository.◓  Cloning repository.◑  Cloning repository.◒  Cloning repository.◐  Cloning repository..◓  Cloning repository..◑  Cloning repository..◒  Cloning repository..◇  Repository cloned
+│
+◇  Found 1 skill
+│
+●  Selected 1 skill: shadcn-vue
+
+│
+◇  Installation Summary ──────────────────────────────────────────────────╮
+│                                                                         │
+│  ~/projects/multiposting-vue-go/.agents/skills/shadcn-vue               │
+│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +12 more  │
+│    symlink → Claude Code                                                │
+│                                                                         │
+├─────────────────────────────────────────────────────────────────────────╯
+│
+◇  Security Risk Assessments ────────────────────────────────╮
+│                                                            │
+│              Gen               Socket            Snyk      │
+│  shadcn-vue  Safe              1 alert           Med Risk  │
+│                                                            │
+│  Details: https://skills.sh/unovue/shadcn-vue              │
+│                                                            │
+├────────────────────────────────────────────────────────────╯
+│
+◇  Installation complete
+
+│
+◇  Installed 1 skill ─────────────────────────────────────────────────────╮
+│                                                                         │
+│  ✓ ~/projects/multiposting-vue-go/.agents/skills/shadcn-vue             │
+│    universal: Amp, Antigravity, Antigravity CLI, Cline, Codex +12 more  │
+│                                                                         │
+├─────────────────────────────────────────────────────────────────────────╯
+
+│
+└  Done!  Review skills before use; they run with full agent permissions.
+

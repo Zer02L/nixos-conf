@@ -1,0 +1,151 @@
+format = """
+$username\
+$hostname\
+$localip\
+$os\
+$shlvl\
+$singularity\
+$kubernetes\
+$directory\
+$vcsh\
+$fossil_branch\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+$hg_branch\
+$pijul_channel\
+$docker_context\
+$package\
+$c\
+$cmake\
+$cobol\
+$daml\
+$dart\
+$deno\
+$dotnet\
+$elixir\
+$elm\
+$erlang\
+$fennel\
+$fill\
+$golang\
+$guix_shell\
+$haskell\
+$haxe\
+$helm\
+$java\
+$julia\
+$kotlin\
+$gradle\
+$lua\
+$nim\
+$node\
+$ocaml\
+$opa\
+$perl\
+$php\
+$pulumi\
+$purescript\
+$python\
+$quarto\
+$raku\
+$rlang\
+$ruby\
+$rust\
+$scala\
+$solidity\
+$swift\
+$terraform\
+$typst\
+$unison\
+$v\
+$vala\
+$zig\
+$buf\
+$nix_shell\
+$conda\
+$meson\
+$spack\
+$memory_usage\
+$aws\
+$gcloud\
+$openstack\
+$azure\
+$env_var\
+$crystal\
+$custom\
+$sudo\
+$cmd_duration\
+$line_break\
+$jobs\
+$battery\
+$time\
+$status\
+$os\
+$container\
+$shell\
+$character"""
+
+[character]
+error_symbol = "[✗](bold red)"
+success_symbol = "[▶](bold green)"
+vicmd_symbol = "[Ⅵ](bold green)"
+
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+
+[git_branch]
+format = " [$symbol$branch]($style)"
+style = "bold purple"
+
+[git_status]
+conflicted = "[≠](bold red)"
+ahead = "[⇡$count](bold yellow)"
+behind = "[⇣$count](bold yellow)"
+diverged = "[⇕$ahead_behind](bold yellow)"
+untracked = "[?$count](bold red)"
+stashed = "[⚑$count](bold cyan)"
+modified = "[!$count](bold red)"
+staged = "[+$count](bold green)"
+renamed = "[»$count](bold blue)"
+deleted = "[✘$count](bold red)"
+
+[nix_shell]
+format = " [$symbol$state(\($name\))]($style)"
+impure_msg = "impure"
+pure_msg = "pure"
+style = "bold blue"
+
+[cmd_duration]
+min_time = 500
+show_milliseconds = false
+
+[python]
+format = " [${symbol}${version}(\($virtualenv\))]($style)"
+style = "bold yellow"
+
+[rust]
+format = " [$symbol$version]($style)"
+style = "bold red"
+
+[line_break]
+disabled = false
+
+[status]
+disabled = false
+format = "[$status](bold red)"
+
+[os]
+disabled = false
+style = "bold white"
+format = "[$symbol]($style)"
+
+[os.symbols]
+windows = ""
+nixos = "❄️"
+macos = ""
+linux = ""
+ubuntu = ""

@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "marketplaces": [
+    {
+      "name": "claude-plugins-official",
+      "sourceType": "github",
+      "sourceUri": "anthropics/claude-plugins-official",
+      "catalogPath": "/home/zerg/.omp/plugins/cache/marketplaces/claude-plugins-official/marketplace.json",
+      "addedAt": "2026-06-08T18:04:06.551Z",
+      "updatedAt": "2026-06-12T23:38:37.901Z"
+    }
+  ]
+}

@@ -1,0 +1,357 @@
+URL: https://skillsmp.com/skills/sickn33-antigravity-awesome-skills-plugins-antigravity-awesome-skills-claude-skills-tailwind-patterns-skill-md
+Content-Type: text/markdown
+Method: content-negotiation
+Notes: Content negotiation returned text/markdown
+
+---
+
+---
+description: Tailwind CSS v4 principles. CSS-first configuration, container queries, modern patterns, design token architecture. 40198 stars | by sickn33
+title: tailwind-patterns - Agent Skill by sickn33 | SkillsMP
+image: https://skillsmp.com/skills/sickn33-antigravity-awesome-skills-plugins-antigravity-awesome-skills-claude-skills-tailwind-patterns-skill-md/opengraph-image
+---
+
+[Skip to main content](#main-content)
+
+[Run any Skill in Manus with one click](https://manus.im/features/agent-skills?utm%5Fsource=nav%5Fskillsmp)
+
+Run any Skill in Manus with one click
+
+[Get Started](https://manus.im/features/agent-skills?utm%5Fsource=nav%5Fskillsmp)
+
+# tailwind-patterns
+
+Tailwind CSS v4 principles. CSS-first configuration, container queries, modern patterns, design token architecture.
+
+[Run Skill in Manus](https://manus.im/import-skills?githubUrl=https%3A%2F%2Fgithub.com%2Fsickn33%2Fantigravity-awesome-skills%2Ftree%2Fmain%2Fplugins%2Fantigravity-awesome-skills-claude%2Fskills%2Ftailwind-patterns&utm%5Fsource=nav%5Fskillsmp)
+
+Stars40,198
+
+Forks6,503
+
+UpdatedApril 13, 2026 at 22:14
+
+SKILL.md
+
+readonly
+
+Scroll to top[Run any Skill with one click](https://manus.im/features/agent-skills?utm%5Fsource=nav%5Fskillsmp)
+
+Source
+
+![sickn33](https://avatars.githubusercontent.com/u/184072420?u=9c8d55c946cad719cdeccb6e3a47322fcdeae3f7&v=4)
+
+sickn33
+
+sickn33/antigravity-awesome-skills
+
+[View GitHub Repository](https://github.com/sickn33/antigravity-awesome-skills/tree/main/plugins/antigravity-awesome-skills-claude/skills/tailwind-patterns)[View Creator Repositories](https://skillsmp.com/creators/sickn33)
+
+Install command
+
+npxbunxpnpm
+
+`npx skills add https://github.com/sickn33/antigravity-awesome-skills --skill tailwind-patterns`
+
+Download
+
+Download Zip[Run Skill in Manus](https://manus.im/import-skills?githubUrl=https%3A%2F%2Fgithub.com%2Fsickn33%2Fantigravity-awesome-skills%2Ftree%2Fmain%2Fplugins%2Fantigravity-awesome-skills-claude%2Fskills%2Ftailwind-patterns&utm%5Fsource=nav%5Fskillsmp)
+
+Useful forSOC
+
+[Web DevelopersComputer and Mathematical Occupations15-1254L4](https://skillsmp.com/occupations/web-developers)
+
+More from this repository
+
+same repository
+
+## More from this repository
+
+[2slides-ppt-generatorsickn33/antigravity-awesome-skillsAI-powered presentation generation via the 2slides API — create slides from text, match a reference image style, summarize documents into decks, add AI voice narration, and export pages/audio. Use for any "make slides", "create a deck", or "slides from this document" request.2026-06-0740.2k](https://skillsmp.com/skills/sickn33-antigravity-awesome-skills-plugins-antigravity-awesome-skills-claude-skills-2slides-ppt-generator-skill-md)[accesslint-diffsickn33/antigravity-awesome-skillsDiff a live page's accessibility violations against a baseline — by default compares uncommitted changes (stash-based), or pass --branch \[<name>\] to diff against a branch. Reports only new violations introduced, violations fixed, and pre-existing count. Use \`scan\` for a full audit with no diffing.2026-06-0740.2k](https://skillsmp.com/skills/sickn33-antigravity-awesome-skills-plugins-antigravity-awesome-skills-claude-skills-accesslint-diff-skill-md)[hugging-face-clisickn33/antigravity-awesome-skillsUse the Hugging Face Hub CLI (\`hf\`) to download, upload, and manage models, datasets, and Spaces.2026-06-0740.2k](https://skillsmp.com/skills/sickn33-antigravity-awesome-skills-plugins-antigravity-awesome-skills-claude-skills-hugging-face-cli-skill-md)[open-dynamic-workflowssickn33/antigravity-awesome-skillsPlan, orchestrate, and adversarially verify parallel AI coding agents with a dynamic multi-agent workflow engine.2026-06-0740.2k](https://skillsmp.com/skills/sickn33-antigravity-awesome-skills-plugins-antigravity-awesome-skills-claude-skills-open-dynamic-workflows-skill-md)[permission-managersickn33/antigravity-awesome-skillsManage opencode permissions: review always-allow lists, suggest safe read-only commands, configure permission patterns2026-06-0740.2k](https://skillsmp.com/skills/sickn33-antigravity-awesome-skills-plugins-antigravity-awesome-skills-claude-skills-permission-manager-skill-md)[runapi-clisickn33/antigravity-awesome-skillsGenerate AI images, videos, and music/audio from agents using the RunAPI CLI.2026-06-0740.2k](https://skillsmp.com/skills/sickn33-antigravity-awesome-skills-plugins-antigravity-awesome-skills-claude-skills-runapi-cli-skill-md)
+
+| name        | tailwind-patterns                                                                                                   |
+| ----------- | ------------------------------------------------------------------------------------------------------------------- |
+| description | Tailwind CSS v4 principles. CSS-first configuration, container queries, modern patterns, design token architecture. |
+| risk        | unknown                                                                                                             |
+| source      | community                                                                                                           |
+| date\_added | 2026-02-27                                                                                                          |
+
+## Tailwind CSS Patterns (v4 - 2025)
+
+> Modern utility-first CSS with CSS-native configuration.
+
+### When to Use
+
+Use this skill when configuring Tailwind v4, using CSS-first theme and design tokens, or implementing container queries and modern Tailwind patterns.
+
+---
+
+### 1\. Tailwind v4 Architecture
+
+#### What Changed from v3
+
+| v3 (Legacy)        | v4 (Current)               |
+| ------------------ | -------------------------- |
+| tailwind.config.js | CSS-based @theme directive |
+| PostCSS plugin     | Oxide engine (10x faster)  |
+| JIT mode           | Native, always-on          |
+| Plugin system      | CSS-native features        |
+| @apply directive   | Still works, discouraged   |
+
+#### v4 Core Concepts
+
+| Concept            | Description                          |
+| ------------------ | ------------------------------------ |
+| **CSS-first**      | Configuration in CSS, not JavaScript |
+| **Oxide Engine**   | Rust-based compiler, much faster     |
+| **Native Nesting** | CSS nesting without PostCSS          |
+| **CSS Variables**  | All tokens exposed as \--\* vars     |
+
+---
+
+### 2\. CSS-Based Configuration
+
+#### Theme Definition
+
+```
+@theme {
+  /* Colors - use semantic names */
+  --color-primary: oklch(0.7 0.15 250);
+  --color-surface: oklch(0.98 0 0);
+  --color-surface-dark: oklch(0.15 0 0);
+  
+  /* Spacing scale */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+  
+  /* Typography */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+```
+
+#### When to Extend vs Override
+
+| Action              | Use When                                   |
+| ------------------- | ------------------------------------------ |
+| **Extend**          | Adding new values alongside defaults       |
+| **Override**        | Replacing default scale entirely           |
+| **Semantic tokens** | Project-specific naming (primary, surface) |
+
+---
+
+### 3\. Container Queries (v4 Native)
+
+#### Breakpoint vs Container
+
+| Type                       | Responds To          |
+| -------------------------- | -------------------- |
+| **Breakpoint** (md:)       | Viewport width       |
+| **Container** (@container) | Parent element width |
+
+#### Container Query Usage
+
+| Pattern              | Classes                         |
+| -------------------- | ------------------------------- |
+| Define container     | @container on parent            |
+| Container breakpoint | @sm:, @md:, @lg: on children    |
+| Named containers     | @container/card for specificity |
+
+#### When to Use
+
+| Scenario                   | Use                                     |
+| -------------------------- | --------------------------------------- |
+| Page-level layouts         | Viewport breakpoints                    |
+| Component-level responsive | Container queries                       |
+| Reusable components        | Container queries (context-independent) |
+
+---
+
+### 4\. Responsive Design
+
+#### Breakpoint System
+
+| Prefix | Min Width | Target                     |
+| ------ | --------- | -------------------------- |
+| (none) | 0px       | Mobile-first base          |
+| sm:    | 640px     | Large phone / small tablet |
+| md:    | 768px     | Tablet                     |
+| lg:    | 1024px    | Laptop                     |
+| xl:    | 1280px    | Desktop                    |
+| 2xl:   | 1536px    | Large desktop              |
+
+#### Mobile-First Principle
+
+1. Write mobile styles first (no prefix)
+2. Add larger screen overrides with prefixes
+3. Example: `w-full md:w-1/2 lg:w-1/3`
+
+---
+
+### 5\. Dark Mode
+
+#### Configuration Strategies
+
+| Method   | Behavior                  | Use When              |
+| -------- | ------------------------- | --------------------- |
+| class    | .dark class toggles       | Manual theme switcher |
+| media    | Follows system preference | No user control       |
+| selector | Custom selector (v4)      | Complex theming       |
+
+#### Dark Mode Pattern
+
+| Element    | Light           | Dark                 |
+| ---------- | --------------- | -------------------- |
+| Background | bg-white        | dark:bg-zinc-900     |
+| Text       | text-zinc-900   | dark:text-zinc-100   |
+| Borders    | border-zinc-200 | dark:border-zinc-700 |
+
+---
+
+### 6\. Modern Layout Patterns
+
+#### Flexbox Patterns
+
+| Pattern            | Classes                           |
+| ------------------ | --------------------------------- |
+| Center (both axes) | flex items-center justify-center  |
+| Vertical stack     | flex flex-col gap-4               |
+| Horizontal row     | flex gap-4                        |
+| Space between      | flex justify-between items-center |
+| Wrap grid          | flex flex-wrap gap-4              |
+
+#### Grid Patterns
+
+| Pattern             | Classes                                               |
+| ------------------- | ----------------------------------------------------- |
+| Auto-fit responsive | grid grid-cols-\[repeat(auto-fit,minmax(250px,1fr))\] |
+| Asymmetric (Bento)  | grid grid-cols-3 grid-rows-2 with spans               |
+| Sidebar layout      | grid grid-cols-\[auto\_1fr\]                          |
+
+> **Note:** Prefer asymmetric/Bento layouts over symmetric 3-column grids.
+
+---
+
+### 7\. Modern Color System
+
+#### OKLCH vs RGB/HSL
+
+| Format    | Advantage                               |
+| --------- | --------------------------------------- |
+| **OKLCH** | Perceptually uniform, better for design |
+| **HSL**   | Intuitive hue/saturation                |
+| **RGB**   | Legacy compatibility                    |
+
+#### Color Token Architecture
+
+| Layer         | Example          | Purpose              |
+| ------------- | ---------------- | -------------------- |
+| **Primitive** | \--blue-500      | Raw color values     |
+| **Semantic**  | \--color-primary | Purpose-based naming |
+| **Component** | \--button-bg     | Component-specific   |
+
+---
+
+### 8\. Typography System
+
+#### Font Stack Pattern
+
+| Type    | Recommended                              |
+| ------- | ---------------------------------------- |
+| Sans    | 'Inter', 'SF Pro', system-ui, sans-serif |
+| Mono    | 'JetBrains Mono', 'Fira Code', monospace |
+| Display | 'Outfit', 'Poppins', sans-serif          |
+
+#### Type Scale
+
+| Class     | Size     | Use              |
+| --------- | -------- | ---------------- |
+| text-xs   | 0.75rem  | Labels, captions |
+| text-sm   | 0.875rem | Secondary text   |
+| text-base | 1rem     | Body text        |
+| text-lg   | 1.125rem | Lead text        |
+| text-xl+  | 1.25rem+ | Headings         |
+
+---
+
+### 9\. Animation & Transitions
+
+#### Built-in Animations
+
+| Class          | Effect               |
+| -------------- | -------------------- |
+| animate-spin   | Continuous rotation  |
+| animate-ping   | Attention pulse      |
+| animate-pulse  | Subtle opacity pulse |
+| animate-bounce | Bouncing effect      |
+
+#### Transition Patterns
+
+| Pattern        | Classes                              |
+| -------------- | ------------------------------------ |
+| All properties | transition-all duration-200          |
+| Specific       | transition-colors duration-150       |
+| With easing    | ease-out or ease-in-out              |
+| Hover effect   | hover:scale-105 transition-transform |
+
+---
+
+### 10\. Component Extraction
+
+#### When to Extract
+
+| Signal                    | Action             |
+| ------------------------- | ------------------ |
+| Same class combo 3+ times | Extract component  |
+| Complex state variants    | Extract component  |
+| Design system element     | Extract + document |
+
+#### Extraction Methods
+
+| Method                  | Use When             |
+| ----------------------- | -------------------- |
+| **React/Vue component** | Dynamic, JS needed   |
+| **@apply in CSS**       | Static, no JS needed |
+| **Design tokens**       | Reusable values      |
+
+---
+
+### 11\. Anti-Patterns
+
+| Don't                       | Do                         |
+| --------------------------- | -------------------------- |
+| Arbitrary values everywhere | Use design system scale    |
+| !important                  | Fix specificity properly   |
+| Inline style=               | Use utilities              |
+| Duplicate long class lists  | Extract component          |
+| Mix v3 config with v4       | Migrate fully to CSS-first |
+| Use @apply heavily          | Prefer components          |
+
+---
+
+### 12\. Performance Principles
+
+| Principle          | Implementation             |
+| ------------------ | -------------------------- |
+| **Purge unused**   | Automatic in v4            |
+| **Avoid dynamism** | No template string classes |
+| **Use Oxide**      | Default in v4, 10x faster  |
+| **Cache builds**   | CI/CD caching              |
+
+---
+
+> **Remember:** Tailwind v4 is CSS-first. Embrace CSS variables, container queries, and native features. The config file is now optional.
+
+### Limitations
+
+* Use this skill only when the task clearly matches the scope described above.
+* Do not treat the output as a substitute for environment-specific validation, testing, or expert review.
+* Stop and ask for clarification if required inputs, permissions, safety boundaries, or success criteria are missing.
+
+```json
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","name":"Skills Marketplace","alternateName":"SkillsMP","url":"https://skillsmp.com","description":"Discover and share high-quality Agent Skills compatible with Claude Code, Codex CLI and ChatGPT.","contactPoint":{"@type":"ContactPoint","contactType":"customer support","url":"https://skillsmp.com/about"},"sameAs":["https://x.com/God_I_13"]},{"@type":"WebSite","name":"Skills Marketplace","url":"https://skillsmp.com","description":"Discover and share high-quality Agent Skills compatible with Claude Code, Codex CLI and ChatGPT","inLanguage":"en-US","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://skillsmp.com/search?q={search_term_string}"},"query-input":"required name=search_term_string"}}]}
+{"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","name":"Tailwind Patterns","description":"Tailwind CSS v4 principles. CSS-first configuration, container queries, modern patterns, design token architecture.","url":"https://skillsmp.com/skills/sickn33-antigravity-awesome-skills-plugins-antigravity-awesome-skills-claude-skills-tailwind-patterns-skill-md","applicationCategory":"DeveloperApplication","applicationSubCategory":"Agent Skill","operatingSystem":"Cross-platform","author":{"@type":"Person","name":"sickn33","url":"https://github.com/sickn33"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"codeRepository":"https://github.com/sickn33/antigravity-awesome-skills/tree/main/plugins/antigravity-awesome-skills-claude/skills/tailwind-patterns","dateModified":"2026-04-13T22:14:42.000Z"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Skills","item":"https://skillsmp.com/skills"},{"@type":"ListItem","position":2,"name":"Tailwind Patterns","item":"https://skillsmp.com/skills/sickn33-antigravity-awesome-skills-plugins-antigravity-awesome-skills-claude-skills-tailwind-patterns-skill-md"}]},{"@type":"HowTo","name":"How to install the tailwind-patterns agent skill","description":"Install tailwind-patterns from sickn33/antigravity-awesome-skills as an agent skill.","totalTime":"PT1M","tool":[{"@type":"HowToTool","name":"Skills CLI"}],"step":[{"@type":"HowToStep","position":1,"name":"Run the install command","text":"Open your terminal and run: npx skills add https://github.com/sickn33/antigravity-awesome-skills --skill tailwind-patterns"}]}]}
+```

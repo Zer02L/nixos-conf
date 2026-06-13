@@ -1,0 +1,5 @@
+{"type":"session","version":3,"id":"019ea89e-a1a1-7000-8e4e-fe53260f1bfd","timestamp":"2026-06-08T19:03:48.897Z","cwd":"/home/zerg/nixos-conf"}
+{"type":"model_change","id":"b9d6e57d","parentId":null,"timestamp":"2026-06-08T19:03:49.230Z","model":"opencode-zen/deepseek-v4-flash-free"}
+{"type":"thinking_level_change","id":"93bed6c3","parentId":"b9d6e57d","timestamp":"2026-06-08T19:03:49.230Z","thinkingLevel":"low"}
+{"type":"message","id":"e9045b6d","parentId":"93bed6c3","timestamp":"2026-06-08T19:03:54.672Z","message":{"role":"user","content":[{"type":"text","text":"что ты умеешь"}],"attribution":"user","timestamp":1780945434648}}
+{"type":"message","id":"a8b364af","parentId":"e9045b6d","timestamp":"2026-06-08T19:10:41.468Z","message":{"role":"assistant","content":[],"api":"openai-completions","provider":"opencode-zen","model":"deepseek-v4-flash-free","usage":{"input":0,"output":0,"cacheRead":0,"cacheWrite":0,"totalTokens":0,"cost":{"input":0,"output":0,"cacheRead":0,"cacheWrite":0,"total":0}},"stopReason":"aborted","errorMessage":"Interrupted by user","timestamp":1780945841462}}
