@@ -9,7 +9,9 @@
     ./services/zram.nix
     ./services/zapret.nix
     ./programs/brave.nix
+    ./programs/steam.nix
     ./services/power.nix
+    ./services/postgresql.nix
     ./programs/common.nix
     ./users/zerg.nix
     ./networking

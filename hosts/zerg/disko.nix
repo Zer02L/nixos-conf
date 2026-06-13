@@ -43,6 +43,22 @@
                       mountpoint = "/nix";
                       mountOptions = [ "compress=zstd" "noatime" ];
                     };
+                    "/games" = {
+                      mountpoint = "/mnt/games";
+                      mountOptions = [ "noatime" "nodatacow" ];
+                    };
+                    "/steam" = {
+                      mountpoint = "/mnt/steam";
+                      mountOptions = [ "noatime" "nodatacow" ];
+                    };
+                    "/downloads" = {
+                      mountpoint = "/mnt/downloads";
+                      mountOptions = [ "noatime" "nodatacow" ];
+                    };
+                    "/db" = {
+                      mountpoint = "/mnt/db";
+                      mountOptions = [ "noatime" "nodatacow" ];
+                    };
                   };
                 };
               };
