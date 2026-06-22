@@ -30,13 +30,7 @@ in {
     # nvim
     ".config/nvim".source = mkOutOfStoreSymlink "${dotfilesDir}/nvim";
 
-    # opencode
-    ".config/opencode/opencode.jsonc".source = mkOutOfStoreSymlink "${dotfilesDir}/opencode/opencode.jsonc";
-
-    # pi / oh-my-pi
-    ".pi/agent/mcp.json".source = mkOutOfStoreSymlink "${dotfilesDir}/pi/agent/mcp.json";
-
-    # omp — llm-agents extensions
+    # omp config
     ".omp".source = mkOutOfStoreSymlink "${dotfilesDir}/.omp";
 
   };

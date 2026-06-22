@@ -37,5 +37,4 @@
 
   programs.appimage.enable = true;
   programs.fish.enable = true;
-  programs.firefox.enable = true;
 }
