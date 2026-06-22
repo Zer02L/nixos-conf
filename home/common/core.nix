@@ -2,14 +2,13 @@
   config,
   lib,
   pkgs,
-  inputs,
   ...
 }:
 {
   # KDE/Plasma устанавливает GIT_ASKPASS=ksshaskpass, который не работает
   # внутри neovim/lazy.nvim. Переопределяем на /usr/bin/false.
   home.sessionVariables.GIT_ASKPASS = "/usr/bin/false";
-  home.stateVersion = "25.05";
+  home.stateVersion = "26.05";
 
   home.packages =
     (with pkgs; [
@@ -17,6 +16,7 @@
       neovim
       bat
       eza
+      lazygit
       fzf
       ripgrep-all
       btop
@@ -29,6 +29,8 @@
 
       # media
       mpv
+      obs-studio
+      obs-studio-plugins.obs-vkcapture # захват игр (Vulkan/OpenGL) на Wayland
 
       # network
       bitwarden-cli
@@ -45,18 +47,16 @@
       obsidian
 
       zed-editor-fhs
+      vscode-fhs
 
       zrok
 
-      antigravity-cli
+      blender
+      onlyoffice-desktopeditors
+    ]);
 
-    ])
-    ++ [
-      # flakes (requires pkgs. prefix due to hyphens in names)
-      # inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.omp # better then pi agent
-      inputs.herdr.packages.${pkgs.stdenv.hostPlatform.system}.default # better then cmux
-    ];
-
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+  };
   programs.home-manager.enable = true;
 }
