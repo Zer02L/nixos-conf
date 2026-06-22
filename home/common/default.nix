@@ -5,7 +5,10 @@
     ./fish.nix
     ./ghostty.nix
     ./git.nix
-    ./librewolf.nix
+    ./firefox-librewolf-like.nix
+    ./karousel.nix
+    ./git-hooks.nix
+    ./kwin-rules.nix
     ./links.nix
     ./tmux.nix
     ./yazi.nix

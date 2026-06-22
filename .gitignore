@@ -16,4 +16,6 @@ dotfiles/.omp/agent/terminal-sessions/
 dotfiles/.omp/agent/sessions/
 dotfiles/.omp/logs/
 
+# OMP agent secrets
+dotfiles/.omp/agent/.env
 
