@@ -13,11 +13,12 @@ All files here are owned by the system owner (zerg). These replace the monolithi
 :- Each file is a flake-parts module: `{ inputs, ... }: { flake.*, perSystem.* }`
 :- `parts/nixos.nix` exports `nixosModules.<name>` для каждого NixOS-модуля в `modules/` и `nixosModules.default` как aggregator
 :- `parts/home.nix` exports `homeManagerModules.<name>` для каждого home-manager модуля в `home/common/` и `homeManagerModules.default` как aggregator
-:- Hosts и home-конфиги импортируют модули через `inputs.self.nixosModules.default` / `inputs.self.homeManagerModules.default` (не относительными путями)
-:- Добавление нового NixOS-модуля: создать файл в `modules/`, добавить в `parts/nixos.nix` + `modules/default.nix`
-:- Добавление нового home-manager модуля: создать файл в `home/common/`, добавить в `parts/home.nix` + `home/common/default.nix`
-:- Добавление нового хоста: добавить в `parts/nixos.nix` в `nixosConfigurations`
-:- Shared NixOS modules stay in `modules/`; host-specific config stays in `hosts/<name>/`
+- Hosts и home-конфиги импортируют модули через `inputs.self.nixosModules.default` / `inputs.self.homeManagerModules.default` (не относительными путями)
+- Добавление нового NixOS-модуля: создать файл в `modules/`, добавить в `parts/nixos.nix` в `modules` attrset
+- Добавление нового home-manager модуля: создать файл в `home/common/`, добавить в `parts/home.nix` в `modules` attrset
+- Оба `.default` aggregator-а генерируются автоматически из `builtins.attrValues modules`
+- Добавление нового хоста: добавить в `parts/nixos.nix` в `nixosConfigurations`
+- Shared NixOS modules stay in `modules/`; host-specific config stays in `hosts/<name>/`
 
 ## Work Guidance
 

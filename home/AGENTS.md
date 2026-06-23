@@ -18,7 +18,8 @@ All files under this directory are user-level home-manager configuration owned b
 ## Work Guidance
 
 - Shared modules live in `common/`; user-specific overrides go in `<user>/`
-- When adding a new shared module: add to `home/common/default.nix` imports list
+- When adding a new shared module: add to the `modules` attrset in `parts/home.nix` (as `homeManagerModules.<name>`)
+  The `homeManagerModules.default` aggregator is auto-generated.
 - When adding user-specific config: add to the user's `default.nix` imports or inline
 - Dotfile symlinks are managed via `common/dotfiles.nix` using `mkOutOfStoreSymlink`
 - Keep user dirs minimal — prefer common modules, override only what differs

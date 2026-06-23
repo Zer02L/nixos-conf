@@ -2,8 +2,7 @@
 
 ## Purpose
 
-NixOS system-level modules imported by `modules/default.nix`. Each file or subdirectory configures a discrete system concern.
-
+NixOS system-level modules. Each file or subdirectory configures a discrete system concern. All modules are registered in `parts/nixos.nix` (as `nixosModules.<name>`) and re-exported via `nixosModules.default` (auto-generated aggregator).
 ## Ownership
 
 All `.nix` files under this directory are system-level NixOS configuration owned by the system owner (zerg).
@@ -11,10 +10,9 @@ All `.nix` files under this directory are system-level NixOS configuration owned
 ## Local Contracts
 
 - Every module receives `{ config, lib, pkgs, ... }` and returns an attrset of NixOS options
-- `modules/default.nix` is the single import hub; new modules MUST be added here to take effect
+- `parts/nixos.nix` is the single registry; new modules MUST be added to the `modules` attrset there
 - Modules are grouped by concern into subdirectories: `services/`, `hardware/`, `programs/`, `networking/`, `users/`
 - Standalone files (`system.nix`, `nix.nix`, `fonts.nix`) remain at the top level when they don't belong to a group
-
 ## Work Guidance
 
 - Add new services to `services/`, following existing patterns (see `omniroute.nix` for Docker containers, `pipewire.nix` for minimal service imports)
