@@ -12,7 +12,9 @@
 
 ## Как это работает
 
-**KWin Window Rules** — механизм KDE, который автоматически назначает приложение на нужный виртуальный рабочий стол при запуске. Правила генерируются декларативно через Nix в файл `~/.config/kwinrulesrc`.
+**KWin Window Rules** — механизм KDE, который автоматически назначает приложение на нужный виртуальный рабочий стол при запуске. Правила хранятся в `~/.config/kwinrulesrc`.
+
+**kwinrulesrc** — единственный plasma-конфиг, которым KDE управляет напрямую (не симлинк). При `home-manager switch` изменения из GUI автоматически копируются обратно в `dotfiles/plasma/kwinrulesrc`.
 
 **Karousel** — тайлинг-скрипт, работающий *внутри* каждого рабочего стола. KWin Rules управлют распределением окон по столам, Karousel — расположением внутри стола.
 
@@ -40,18 +42,24 @@ xprop | grep WM_CLASS
 
 ## Добавить новое приложение
 
-### Вариант A: Через Nix (рекомендуется)
+### Вариант A: Через dotfiles (быстро)
 
-Отредактируй `home/common/kwin-rules.nix`, добавь правило в список `rules`:
+Правила живут в `dotfiles/plasma/kwinrulesrc`. Редактируешь напрямую, потом применяешь:
 
-```nix
-(mkRule { name = "Новое приложение"; wmclass = "app-wmclass"; desktop = 3; })
-```
-
-Затем применить:
-```bash
-home-manager switch --flake .#zerg@zerg
-```
+1. Открой `dotfiles/plasma/kwinrulesrc`
+2. Добавь новую секцию с индексом `[N]` (следующий свободный номер) и полями:
+   ```ini
+   [N]
+   Description=My App
+   wmclass=myapp
+   wmclassmatch=0
+   desktop=3
+   desktoprule=2
+   ```
+3. Увеличь `count=` в секции `[General]`
+4. Скопируй в конфиг: `cp dotfiles/plasma/kwinrulesrc ~/.config/kwinrulesrc`
+5. Перезагрузи KWin: `qdbus org.kde.KWin /KWin reconfigure`
+6. Или сразу сделай `home-manager switch` — activation-хук сам раскидает
 
 ### Вариант B: Через GUI
 
@@ -60,22 +68,11 @@ home-manager switch --flake .#zerg@zerg
 3. Вкладка «Свойства окна» → **Виртуальный рабочий стол** → выбери номер
 4. Режим: Apply Initially или Force
 5. Сохрани
+6. **GUI-изменения автоматически скопируются в dotfiles при следующем `home-manager switch`** (активационный хук `captureKwinRules`)
 
-### Вариант C: Вручную в kwinrulesrc
+### Вариант C: Вручную
 
-Добавь секцию в `~/.config/kwinrulesrc`:
-
-```ini
-[9]
-Description=My App
-wmclass=myapp
-wmclassmatch=2
-wmclasscomplete=true
-desktops=3
-desktopsrule=0
-```
-
-Затем перезагрузи KWin: `qdbus org.kde.KWin /KWin reconfigure`
+Отредактируй `~/.config/kwinrulesrc` напрямую. Изменения нужно синхронизировать в dotfiles вручную: `cp ~/.config/kwinrulesrc dotfiles/plasma/kwinrulesrc`.
 
 ## Полезные команды
 
@@ -92,25 +89,48 @@ desktopsrule=0
 
 | Комбинация | Действие |
 |---|---|
-| `Meta + Tab` | Переключение между рабочими столами |
+| `Meta + Tab` | Переключение между окнами |
 | `Meta + Shift + Tab` | Переключение в обратном порядке |
 | `Meta + Ctrl + ←/→` | Предыдущий/следующий стол |
-| `Meta + 1-5` | Перейти к столу N |
-| `Meta + Shift + 1-5` | Переместить окно на стол N |
-| `Meta + T` | Показать все столы (Overview) |
+| `Meta + F1-F4` | Перейти к столу N |
+| `Meta + W` | Overview (все столы) |
+| `Meta + G` | Grid View (сетка столов) |
+| `Meta + T` | Редактор тайлов (Tile Editor) |
+| `Meta + D` | Показать/скрыть рабочий стол |
+| `Meta + Q` | Переключатель активностей |
+| `Meta + L` | **Блокировка экрана** (занято!) |
+| `Meta + Enter` | Терминал (если настроено в KDE) |
 
 ## Karousel (тайлинг внутри стола)
 
+WASD-схема: `A`/`S`/`D`/`W` + модификаторы под левую руку. Никаких конфликтов с глобальными шорткатами KDE.
+
 | Комбинация | Действие |
 |---|---|
-| `Super + j/k` | Фокус влево/вправо по колонкам |
-| `Super + J/K` | Переместить колонку влево/вправо |
-| `Super + h/l` | Уменьшить/увеличить колонку |
-| `Super + Shift + h/l` | Сдвинуть соседа |
-| `Super + Enter` | Новый терминал (stacked) |
-| `Super + Shift + c` | Закрыть колонку |
-| `Super + f` | Полноэкранный режим колонки |
-| `Super + space` | Float/unfloat окно |
+| `Meta + S` | Фокус на следующую колонку вниз |
+| `Meta + Home` / `Meta + End` | Фокус на первую/последнюю колонку |
+| `Meta + [` / `Meta + ]` | Уменьшить/увеличить колонку |
+| `Meta + Ctrl + D` | Сжать колонки вправо |
+| **Перемещение окон** | |
+| `Meta + Shift + W` | Окно вверх |
+| `Meta + Shift + D` | Окно вправо |
+| `Meta + Shift + 1..9` | Окно в колонку N |
+| **Перемещение колонок** | |
+| `Meta + Ctrl + Shift + A` | Колонку влево |
+| `Meta + Ctrl + Shift + D` | Колонку вправо |
+| `Meta + Ctrl + Shift + 1..9` | Колонку на позицию N |
+| `Meta + Ctrl + Shift + F1..F12` | Колонку на десктоп N |
+| **Режимы** | |
+| `Meta + Space` | Float/unfloat окна |
+| `Meta + X` | Stacked/grid режим колонки |
+| **Скролл** | |
+| `Meta + Alt + A` / `Meta + Alt + D` | Скролл на колонку влево/вправо |
+| `Meta + Alt + PgUp` / `Meta + Alt + PgDown` | Скролл влево/вправо |
+| `Meta + Alt + Return` | Центрировать фокус |
+| `Meta + Ctrl + Return` | Переместить Karousel на текущий экран |
+| **Сервис** | |
+| `Meta + Ctrl + Shift + R` | Перезапустить Karousel (если тайлинг сломался) |
+| `Meta + Ctrl + Shift + X` | Перезагрузить Plasma Shell (если глючит интерфейс) |
 
 ## Troubleshooting
 
@@ -123,12 +143,17 @@ desktopsrule=0
 - Добавь столы: **Настрой → Рабочий стол → Виртуальные рабочие столы** → кол-во
 
 **Конфликт с Karousel?**
-- Karousel тайлингует *внутри* стола, KWin Rules — *между* столами. Конфликта быть не должно.
-- Если окно «улетает» — проверь, нет ли правила с `desktopsrule=2` (Force) на неправильном столе.
+- Если окно открывается на **всех столах** сразу — Karousel видит `desktops.length = 0` и не тайлит его.
+- Внутренняя проверка в Karousel: `getDesktopForClient()` требует `kwinClient.desktops.length === 1`.
+- Решение: `qdbus org.kde.KWin /KWin reconfigure` — после `home-manager switch` KWin перечитывает kwinrulesrc.
+- При `home-manager switch` `qdbus` теперь вызывается автоматически из activation-скриптов.
+
+**Окно на всех столах?**
+- Проверь, что KWin перечитал конфиг: `qdbus org.kde.KWin /KWin reconfigure`
+- Проверь WM_CLASS через `xprop` (или `kwin_rules_dump` на Wayland)
+- Отключи Karousel временно: если правила работают без него — конфликт с Karousel
 
 ---
 
-Связанные файлы конфигурации:
-- `home/common/kwin-rules.nix` — правила назначения на столы
-- `home/common/karousel.nix` — тайлинг внутри столов
-- `~/.config/kwinrulesrc` — генерируемый файл (NEVER редактировать вручную)
+- `dotfiles/plasma/kwinrulesrc` — master-копия правил в репозитории
+- `~/.config/kwinrulesrc` — актуальный конфиг, читаемый KWin. KDE управляет им напрямую (не симлинк). При `home-manager switch` изменения автоматически копируются в dotfiles.

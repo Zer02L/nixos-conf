@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Wrapper for ShellCheck that strips '--external-sources' flag.
+#
+# bash-language-server ≤5.6.0 hardcodes --external-sources when invoking
+# ShellCheck.  In projects with hundreds of sourced scripts (e.g. .devenv/)
+# this causes unbounded memory growth and V8 OOM crashes.
+# See: https://github.com/bash-lsp/bash-language-server/issues/1375
+#
+# This wrapper removes the flag so ShellCheck only analyses the file itself
+# (the default behaviour).  Cross-file source resolution is neither expected
+# nor safe in monorepo/dev-shell workspaces.
+
+args=()
+for arg in "$@"; do
+  if [ "$arg" != "--external-sources" ]; then
+    args+=("$arg")
+  fi
+done
+
+exec shellcheck "${args[@]}"

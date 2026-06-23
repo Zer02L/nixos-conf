@@ -11,7 +11,7 @@ All files here are system-level NixOS host configuration owned by the system own
 ## Local Contracts
 
 - `hosts/<name>/default.nix` is the entry point; imports `../../modules` plus host-specific files
-- `flake.nix` references hosts via `nixosConfigurations.<name>`
+- `parts/nixos.nix` defines `nixosConfigurations.<name>` using `mkNixos`; each host is added there
 - Each host defines: `disko.nix` (disk layout), `hardware-configuration.nix` (generated hardware config), and `default.nix` (imports + hostName)
 
 ## Work Guidance

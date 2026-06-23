@@ -1,151 +1,207 @@
+# starship — кастомный промпт NixOS + Gruvbox + JetBrainsMono Nerd Font
+# Две строки: первая — контекст, вторая — статус + приглашение
+
 format = """
+$os\
 $username\
 $hostname\
-$localip\
-$os\
-$shlvl\
-$singularity\
-$kubernetes\
 $directory\
-$vcsh\
-$fossil_branch\
 $git_branch\
-$git_commit\
 $git_state\
-$git_metrics\
 $git_status\
-$hg_branch\
-$pijul_channel\
-$docker_context\
-$package\
-$c\
-$cmake\
-$cobol\
-$daml\
-$dart\
-$deno\
-$dotnet\
-$elixir\
-$elm\
-$erlang\
-$fennel\
-$fill\
-$golang\
-$guix_shell\
-$haskell\
-$haxe\
-$helm\
-$java\
-$julia\
-$kotlin\
-$gradle\
-$lua\
-$nim\
-$node\
-$ocaml\
-$opa\
-$perl\
-$php\
-$pulumi\
-$purescript\
-$python\
-$quarto\
-$raku\
-$rlang\
-$ruby\
-$rust\
-$scala\
-$solidity\
-$swift\
-$terraform\
-$typst\
-$unison\
-$v\
-$vala\
-$zig\
-$buf\
 $nix_shell\
-$conda\
-$meson\
-$spack\
-$memory_usage\
-$aws\
-$gcloud\
-$openstack\
-$azure\
-$env_var\
-$crystal\
-$custom\
 $sudo\
+$python\
+$rust\
+$golang\
+$nodejs\
+$lua\
 $cmd_duration\
-$line_break\
 $jobs\
-$battery\
-$time\
+$line_break\
 $status\
-$os\
-$container\
-$shell\
 $character"""
 
+right_format = "$time$battery"
+
+# ── Палитра Gruvbox Dark ──────────────────────────────
+# fg:        #ebdbb2    bg:        #282828
+# red:       #fb4934    green:     #b8bb26
+# yellow:    #fabd2f    blue:      #83a598
+# purple:    #d3869b    aqua:      #8ec07c
+# orange:    #fe8019    gray:      #928374
+
+# ── Основные элементы ────────────────────────────────────
+
 [character]
-error_symbol = "[✗](bold red)"
-success_symbol = "[▶](bold green)"
-vicmd_symbol = "[Ⅵ](bold green)"
+success_symbol = "[▶](bold #b8bb26)"
+error_symbol = "[▶](bold #fb4934)"
+vicmd_symbol = "[◀](bold #d3869b)"
+
+[os]
+disabled = false
+style = "bold #8ec07c"
+format = "[$symbol]($style) "
+
+[os.symbols]
+NixOS = " "
+Linux = " "
+Macos = " "
+Windows = " "
+
+[username]
+show_always = true
+style_user = "bold #d3869b"
+format = "[$user]($style)"
+
+[hostname]
+ssh_only = false
+style = "#928374"
+format = "[@$hostname]($style) "
 
 [directory]
 truncation_length = 3
 truncate_to_repo = true
+style = "bold #fabd2f"
+format = "[ ]($style)[$path]($style)[$read_only]($read_only_style) "
 
 [git_branch]
-format = " [$symbol$branch]($style)"
-style = "bold purple"
+format = "[$symbol$branch]($style) "
+style = "bold #8ec07c"
+
+[git_state]
+format = '[\($state( $progress_current of $progress_total)\)]($style) '
+style = "#fe8019"
 
 [git_status]
-conflicted = "[≠](bold red)"
-ahead = "[⇡$count](bold yellow)"
-behind = "[⇣$count](bold yellow)"
-diverged = "[⇕$ahead_behind](bold yellow)"
-untracked = "[?$count](bold red)"
-stashed = "[⚑$count](bold cyan)"
-modified = "[!$count](bold red)"
-staged = "[+$count](bold green)"
-renamed = "[»$count](bold blue)"
-deleted = "[✘$count](bold red)"
+conflicted = "[](bold #fb4934) "
+ahead = "[⇡$count](#fabd2f) "
+behind = "[⇣$count](#fabd2f) "
+diverged = "[⇕$ahead_behind](#fabd2f) "
+untracked = "[?$count](#928374) "
+stashed = "[⚑$count](#83a598) "
+modified = "[!$count](#fe8019) "
+staged = "[+$count](#b8bb26) "
+renamed = "[»$count](#83a598) "
+deleted = "[✘$count](#fb4934) "
+style = ""
 
 [nix_shell]
-format = " [$symbol$state(\($name\))]($style)"
+format = '[❄️ $state(\($name\))]($style) '
+style = "bold #fe8019"
 impure_msg = "impure"
 pure_msg = "pure"
-style = "bold blue"
+
+[sudo]
+disabled = false
+format = "[🔒]($style) "
+style = "bold #fabd2f"
 
 [cmd_duration]
-min_time = 500
-show_milliseconds = false
+min_time = 1000
+show_milliseconds = true
+format = "[⏱ $duration]($style) "
+style = "italic #928374"
 
-[python]
-format = " [${symbol}${version}(\($virtualenv\))]($style)"
-style = "bold yellow"
-
-[rust]
-format = " [$symbol$version]($style)"
-style = "bold red"
-
-[line_break]
-disabled = false
+[jobs]
+format = "[ $number]($style) "
+style = "bold #83a598"
+threshold = 1
 
 [status]
 disabled = false
-format = "[$status](bold red)"
+format = "[$status]($style) "
+style = "bold #fb4934"
+map_symbol = true
+pipestatus = true
 
-[os]
+[time]
 disabled = false
-style = "bold white"
-format = "[$symbol]($style)"
+format = "[ $time]($style) "
+style = "italic #928374"
+time_format = "%H:%M"
 
-[os.symbols]
-windows = ""
-nixos = "❄️"
-macos = ""
-linux = ""
-ubuntu = ""
+[battery]
+disabled = false
+full_symbol = " "
+charging_symbol = " "
+discharging_symbol = " "
+display = [
+  { threshold = 100, style = "bold #b8bb26" },
+  { threshold = 20, style = "#fe8019" },
+  { threshold = 0, style = "bold #fb4934" },
+]
+
+# ── Языковые модули (только по обнаружению проекта) ──────
+
+[python]
+format = '[🐍 $version(\($virtualenv\))]($style) '
+style = "bold #fabd2f"
+detect_extensions = ["py"]
+detect_files = ["Pipfile", "pyproject.toml", "requirements.txt", ".python-version"]
+
+[rust]
+format = "[🦀 $version]($style) "
+style = "bold #fe8019"
+
+[golang]
+format = "[ $version]($style) "
+style = "bold #83a598"
+
+[nodejs]
+format = "[ $version]($style) "
+style = "bold #b8bb26"
+detect_extensions = []
+detect_files = ["package.json", ".node-version"]
+detect_folders = []
+
+[lua]
+format = "[🌙 $version]($style) "
+style = "bold #83a598"
+detect_extensions = ["lua"]
+[aws]
+disabled = true
+[azure]
+disabled = true
+[gcloud]
+disabled = true
+[openstack]
+disabled = true
+[container]
+disabled = true
+[kubernetes]
+disabled = true
+[shell]
+disabled = true
+[localip]
+disabled = true
+[shlvl]
+disabled = true
+[singularity]
+disabled = true
+[vcsh]
+disabled = true
+[fossil_branch]
+disabled = true
+[hg_branch]
+disabled = true
+[pijul_channel]
+disabled = true
+[package]
+disabled = true
+[env_var]
+disabled = true
+[custom]
+disabled = true
+[buf]
+disabled = true
+[conda]
+disabled = true
+[meson]
+disabled = true
+[spack]
+disabled = true
+[crystal]
+disabled = true
+[guix_shell]
+disabled = true

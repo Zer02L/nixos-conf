@@ -13,7 +13,7 @@
     ./services/power.nix
     ./services/postgresql.nix
     ./services/omniroute.nix
-    ./programs/common.nix
+    ./programs/admin-tools.nix
     ./users/zerg.nix
     ./networking
   ];

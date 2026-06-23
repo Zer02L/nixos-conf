@@ -8,7 +8,7 @@ modelRoles:
   designer: opencode-zen/mimo-v2.5-free
   plan: opencode-zen/deepseek-v4-flash-free
   task: opencode-zen/deepseek-v4-flash-free
-  default: opencode-zen/mimo-v2.5-free:low
+  default: opencode-zen/deepseek-v4-flash-free:medium
 defaultThinkingLevel: auto
 browser: 
   headless: false

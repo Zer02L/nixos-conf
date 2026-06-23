@@ -82,7 +82,8 @@ When the user requests a durable behavior change, record it here or in the relev
 
 | Path | Covers |
 |---|---|
-| `modules/` | NixOS system-level modules (services, hardware, programs, networking, users) |
-| `home/` | Home-manager user configurations and shared modules |
 | `dotfiles/` | Raw dotfiles symlinked into ~/.config via mkOutOfStoreSymlink |
+| `home/` | Home-manager user configurations and shared modules |
 | `hosts/` | Per-machine NixOS host configurations (disko, hardware, host-specific imports) |
+| `modules/` | NixOS system-level modules (services, hardware, programs, networking, users) |
+| `parts/` | Flake-parts modules: nixosConfigurations, homeConfigurations, devShells, formatter |

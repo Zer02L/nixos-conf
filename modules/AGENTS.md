@@ -18,7 +18,7 @@ All `.nix` files under this directory are system-level NixOS configuration owned
 ## Work Guidance
 
 - Add new services to `services/`, following existing patterns (see `omniroute.nix` for Docker containers, `pipewire.nix` for minimal service imports)
-- Add new programs to `programs/`; use `programs/common.nix` for shared packages, dedicated files for complex configs (`steam.nix`, `brave.nix`)
+- Add new programs to `programs/`; use `programs/common.nix` for shared packages, dedicated files for complex configs (`steam.nix`, `brave.nix`, `dev-tools.nix`)
 - Add hardware-specific config to `hardware/` (one file per device/driver)
 - User definitions go in `users/`; one file per user
 - Keep module files focused — one concern per file; merge only when coupling is inherent
