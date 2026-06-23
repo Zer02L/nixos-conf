@@ -67,5 +67,27 @@
         "includeAllWorkspaceSymbols": false,
       },
     },
+    "nil": {
+      "binary": {
+        // nil установлен через home-manager, но FHS-окружение zed-editor-fhs
+        // не видит ~/.nix-profile/bin — указываем явно.
+        "path": "/home/zerg/.nix-profile/bin/nil"
+      }
+    },
+    "nixd": {
+      "disabled": true,
+    },
   },
+  // ── Language-Specific ─────────────────────────────────────────────────
+  "languages": {
+    "Nix": {
+      "language_servers": ["nil", "..."],
+      "format_on_save": "on",
+      "formatter": {
+        "external": {
+          "command": "nixfmt"
+        }
+      }
+    }
+  }
 }

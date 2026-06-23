@@ -37,5 +37,5 @@ Dry build without switching: `home-manager build --flake .#zerg@zerg`
 
 | Path | Covers |
 |---|---|
-| `common/` | Shared home-manager modules: core packages, fish, git, tmux, ghostty, firefox, dotfile symlinks, git-hooks, zapret, karousel activation (apply.sh runs every switch), stylix (Stylix theming — Catppuccin Mocha) |
+| `common/` | Shared home-manager modules: core packages, fish, git, tmux, ghostty, firefox, dotfile symlinks, git-hooks, zapret, karousel (Nix-managed KWin tiling), kwin-rules (window rules), stylix (Stylix theming — Catppuccin Mocha) |
 | `zerg/` | User `zerg` home config (imports common, sets username/homeDirectory) |

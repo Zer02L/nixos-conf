@@ -42,20 +42,25 @@
 
     # Какие приложения темизировать
     targets = {
-      kde.enable = true;
-      qt.enable = true;
-      gtk.enable = true;
-      fish.enable = true;
-      neovim.enable = true;
-      starship.enable = true;
-      tmux.enable = true;
-      fzf.enable = true;
-      zed.enable = true;
+    # platform: "kde" — использует KDE-native тему (Breeze) вместо kvantum,
+    # т.к. qtstyleplugin-kvantum не предоставляет QML-модуль, что ломает
+    # Kirigami (wallpaper, activity manager, панели)
+    qt = {
+      enable = true;
+      platform = "kde";
+    };
+    gtk.enable = true;
+    fish.enable = true;
+    neovim.enable = true;
+    starship.enable = true;
+    tmux.enable = true;
+    fzf.enable = true;
+    zed.enable = true;
 
-      # Отключено — управляется через dotfiles.nix с кастомными конфигами
-      ghostty.enable = false;
-      yazi.enable = false;
-      firefox.enable = false; # без profileNames темизация Firefox не работает
+    # Отключено — управляется через dotfiles.nix с кастомными конфигами
+    ghostty.enable = false;
+    yazi.enable = false;
+    firefox.enable = false; # без profileNames темизация Firefox не работает
     };
   };
 }

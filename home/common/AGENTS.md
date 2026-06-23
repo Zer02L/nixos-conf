@@ -10,16 +10,16 @@ All `.nix` files here are shared home-manager module configuration owned by the 
 
 ## Local Contracts
 
-- `default.nix` is the import hub; new modules MUST be added here
-- `dotfiles.nix` manages the symlink map from `dotfiles/` into `~/.config/` and activation hooks: `captureKwinRules` syncs kwinrulesrc with dotfiles, `applyKarousel` runs dotfiles/karousel/apply.sh after every switch
-- `settings.nix` sets user-level settings (session variables, stateVersion, nixpkgs config)
+- New modules are added to the `modules` attrset in `parts/home.nix` (auto-loaded by `homeManagerModules.default`)
+- `dotfiles.nix` manages the symlink map from `dotfiles/` into `~/.config/`
+- `settings_hm.nix` sets user-level settings (session variables, stateVersion, nixpkgs config)
 ## Work Guidance
 
-- Add new shared tool config: create `<tool>.nix`, add import in `default.nix`
+- Add new shared tool config: create `<tool>.nix`, add entry in `parts/home.nix`
 - Keep modules single-concern; one tool per file
 - `firefox-librewolf-like.nix` is complex (custom policies, UI tweaks) — read fully before editing
 - `git-hooks.nix` defines pre-commit hooks — changes affect CI-equivalent local workflow
-- KDE window rules live in `dotfiles/plasma/kwinrulesrc` (regular file, KDE-managed, synced via `captureKwinRules` activation hook); see `KDE-DESKTOPS.md` in root for operational docs
+- KWin window rules live in `home/common/kwin-rules.nix` (declarative Nix module); see `KDE-DESKTOPS.md` in root for operational docs
 - `llm-agents-install.md` is a reference doc (not Nix config) for installing AI agent tools
 
 ## Verification

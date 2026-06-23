@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Raw dotfiles for terminal tools, editors, and KDE Plasma 6. Symlinked into `~/.config/` by `home/common/dotfiles.nix` via `mkOutOfStoreSymlink`.
+Raw dotfiles for terminal tools and editors. Symlinked into `~/.config/` by `home/common/dotfiles.nix` via `mkOutOfStoreSymlink`.
 
 ## Ownership
 
@@ -21,10 +21,6 @@ All files here are user-level dotfiles owned by zerg. Managed as part of the Nix
 - Keep configs self-contained per tool directory
 - Sensitive data (API keys, tokens) should NOT be committed; use `.gitignore`
 - `nvim/` contains Neovim config with lazy.nvim; plugin versions tracked in `lazy-lock.json`
-- `zed/` contains Zed editor config (`settings.json`) and a `shellcheck-wrapper` that strips `--external-sources` from ShellCheck to prevent OOM crashes
-- `plasma/` contains KDE Plasma 6 user configs — stable settings and window rules (kdeglobals, kwinrc, kwinrulesrc, konsolerc, etc.)
-- `karousel/` and `plasma/` come with `apply.sh` scripts; `~/.local/bin/apply-karousel` and `~/.local/bin/apply-plasma` re-sync if KDE overwrites symlinks
-- Исключение: `kwinrulesrc` не симлинк — KDE управляет им напрямую, при `hm switch` изменения автоматически копируются в dotfiles через activation-хук
 - `git/config` is the non-personal git config loaded via `include.path` from the real `~/.config/git/config`
 
 ## Verification

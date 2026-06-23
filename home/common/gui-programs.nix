@@ -1,4 +1,10 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   home.packages = with pkgs; [
     # media
     mpv
@@ -18,7 +24,7 @@
     obsidian
 
     # editors
-    zed-editor-fhs
+    zed-editor
     vscode-fhs
 
     blender

@@ -1,4 +1,10 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   home.packages = with pkgs; [
     # Lua
     lua-language-server
@@ -6,6 +12,7 @@
 
     # Nix
     nil
+    nixd
     nixfmt
 
     # Python
