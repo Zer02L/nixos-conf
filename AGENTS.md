@@ -86,4 +86,4 @@ When the user requests a durable behavior change, record it here or in the relev
 | `home/` | Home-manager user configurations and shared modules |
 | `hosts/` | Per-machine NixOS host configurations (disko, hardware, host-specific imports) |
 | `modules/` | NixOS system-level modules (services, hardware, programs, networking, users) |
-| `parts/` | Flake-parts modules: nixosConfigurations, homeConfigurations, devShells, formatter |
+| `parts/` | Flake-parts модули: nixosConfigurations, homeConfigurations, nixosModules, homeManagerModules, devShells, formatter |

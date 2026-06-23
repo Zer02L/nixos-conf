@@ -1,6 +1,6 @@
 { config, lib, pkgs, inputs, ... }: {
   imports = [
-    ../../modules
+    inputs.self.nixosModules.default
     ./disko.nix
     ./hardware-configuration.nix
   ];

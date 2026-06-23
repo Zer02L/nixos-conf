@@ -18,4 +18,5 @@ dotfiles/.omp/logs/
 
 # OMP agent secrets
 dotfiles/.omp/agent/.env
+dotfiles/.omp/plugins/cache/marketplaces/claude-plugins-official/
 
