@@ -23,6 +23,7 @@ let
     chromium = import ../modules/programs/chromium.nix;
     steam = import ../modules/programs/steam.nix;
     admin-tools = import ../modules/programs/admin-tools.nix;
+    nsjail = import ../modules/programs/nsjail.nix;
     nvidia = import ../modules/hardware/nvidia.nix;
     pipewire = import ../modules/services/pipewire.nix;
     zram = import ../modules/services/zram.nix;

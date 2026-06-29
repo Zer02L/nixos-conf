@@ -9,6 +9,8 @@ modelRoles:
   plan: opencode-zen/deepseek-v4-flash-free
   task: opencode-zen/deepseek-v4-flash-free
   default: opencode-zen/deepseek-v4-flash-free:medium
+  tiny: opencode-zen/deepseek-v4-flash-free
+  advisor: opencode-zen/deepseek-v4-flash-free
 defaultThinkingLevel: auto
 browser: 
   headless: false

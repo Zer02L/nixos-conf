@@ -1,4 +1,10 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   home.packages = with pkgs; [
     neovim
     bat
@@ -13,8 +19,12 @@
 
     devenv
     nodejs_24
+    pnpm
+
+    openspec
 
     antigravity-cli
+    pi-coding-agent
 
     bitwarden-cli
     zapret2

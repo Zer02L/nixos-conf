@@ -29,7 +29,7 @@ let
     yazi = import ../home/common/yazi.nix;
     zapret-custom = import ../home/common/zapret-custom.nix;
     karousel = import ../home/common/karousel.nix;
-    kwin-rules = import ../home/common/kwin-rules.nix;
+    plasma = import ../home/common/plasma.nix;
     stylix = import ../home/common/stylix.nix;
   };
 in

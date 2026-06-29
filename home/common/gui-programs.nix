@@ -24,11 +24,13 @@
     obsidian
 
     # editors
-    zed-editor
+    zed-editor-fhs
     vscode-fhs
 
     blender
     onlyoffice-desktopeditors
+
+    qbittorrent
 
     # KDE
     kdePackages.karousel

@@ -12,11 +12,11 @@
 
 ## Как это работает
 
-**KWin Window Rules** — механизм KDE, который автоматически назначает приложение на нужный виртуальный рабочий стол при запуске. Правила хранятся в `~/.config/kwinrulesrc`.
+**plasma-manager** (nix-community/plasma-manager) — home-manager модуль, который управляет всеми Plasma-конфигами декларативно через `programs.plasma`.
 
-**kwinrulesrc** — единственный plasma-конфиг, которым KDE управляет напрямую (не симлинк). При `home-manager switch` изменения из GUI автоматически копируются обратно в `dotfiles/plasma/kwinrulesrc`.
+**kwinrulesrc** теперь генерируется plasma-manager'ом из `home/common/plasma.nix` (опция `programs.plasma.window-rules`). Изменения вносятся в Nix, после чего `home-manager switch`.
 
-**Karousel** — тайлинг-скрипт, работающий *внутри* каждого рабочего стола. KWin Rules управлют распределением окон по столам, Karousel — расположением внутри стола.
+**Karousel** — тайлинг-скрипт, работающий *внутри* каждого рабочего стола. KWin Rules управляют распределением окон по столам, Karousel — расположением внутри стола.
 
 ## Два режима привязки
 
@@ -41,38 +41,33 @@ xprop | grep WM_CLASS
 2. Нажми **«Определить свойства окна»** → кликни по окну.
 
 ## Добавить новое приложение
+### Вариант A: Через plasma.nix (рекомендуется)
 
-### Вариант A: Через dotfiles (быстро)
+Правила декларируются в `home/common/plasma.nix`:
 
-Правила живут в `dotfiles/plasma/kwinrulesrc`. Редактируешь напрямую, потом применяешь:
-
-1. Открой `dotfiles/plasma/kwinrulesrc`
-2. Добавь новую секцию с индексом `[N]` (следующий свободный номер) и полями:
-   ```ini
-   [N]
-   Description=My App
-   wmclass=myapp
-   wmclassmatch=0
-   desktop=3
-   desktoprule=2
+1. Открой `home/common/plasma.nix`
+2. Добавь правило через `mkDesktopRule`:
+   ```nix
+   (mkDesktopRule { name = "My App"; wmclass = "myapp"; desktop = 3; })
    ```
-3. Увеличь `count=` в секции `[General]`
-4. Скопируй в конфиг: `cp dotfiles/plasma/kwinrulesrc ~/.config/kwinrulesrc`
-5. Перезагрузи KWin: `qdbus org.kde.KWin /KWin reconfigure`
-6. Или сразу сделай `home-manager switch` — activation-хук сам раскидает
+3. Для Force-режима: `force = true`
+4. Сделай `home-manager switch`
 
-### Вариант B: Через GUI
+### Вариант B: Через GUI + capture
 
 1. **Настрой → Окно → Диспетчер правил окон**
 2. **Добавить** → «Определить свойства окна» → кликни по окну
 3. Вкладка «Свойства окна» → **Виртуальный рабочий стол** → выбери номер
 4. Режим: Apply Initially или Force
 5. Сохрани
-6. **GUI-изменения автоматически скопируются в dotfiles при следующем `home-manager switch`** (активационный хук `captureKwinRules`)
+6. Захвати изменения и перенеси в Nix: прочитай `~/.config/kwinrulesrc` и перенеси в `home/common/plasma.nix`
+7. Удали GUI-правило (чтобы не было дублирования) и сделай `home-manager switch`
 
-### Вариант C: Вручную
+### Вариант C: Вручную (не рекомендуется — plasma-manager перезапишет)
 
-Отредактируй `~/.config/kwinrulesrc` напрямую. Изменения нужно синхронизировать в dotfiles вручную: `cp ~/.config/kwinrulesrc dotfiles/plasma/kwinrulesrc`.
+Можно отредактировать `~/.config/kwinrulesrc` напрямую, но plasma-manager перезапишет файл при `home-manager switch`.
+Используй этот вариант только для тестирования: внеси изменения, проверь, что работает, перенеси в `plasma.nix`.
+
 
 ## Полезные команды
 
@@ -155,5 +150,7 @@ WASD-схема: `A`/`S`/`D`/`W` + модификаторы под левую р
 
 ---
 
-- `dotfiles/plasma/kwinrulesrc` — master-копия правил в репозитории
-- `~/.config/kwinrulesrc` — актуальный конфиг, читаемый KWin. KDE управляет им напрямую (не симлинк). При `home-manager switch` изменения автоматически копируются в dotfiles.
+- `home/common/plasma.nix` — декларативный источник правил (Nix)
+- `~/.config/kwinrulesrc` — генерируется plasma-manager'ом, перезаписывается при `home-manager switch`
+- Для тестирования правь `~/.config/kwinrulesrc` напрямую, затем переноси в `plasma.nix`
+- Перезагрузить KWin после изменений: `qdbus org.kde.KWin /KWin reconfigure`

@@ -196,7 +196,7 @@ let
     echo "            build | ci | chore | revert"
     echo ""
     echo "  Examples:"
-    echo "            feat(kwin-rules): add window rules for dev workflow"
+    echo "            feat(plasma): update window rules or plasma settings"
     echo "            fix(ghostty): correct font size on HiDPI"
     echo "            docs: update KDE-DESKTOPS cheatsheet"
     echo "            chore: update flake inputs"
