@@ -1,4 +1,10 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   programs.chromium = {
     enable = true;
     extraOpts = {
@@ -24,8 +30,13 @@
   };
 
   environment.systemPackages = with pkgs; [
-    (pkgs.brave.override {
-      commandLineArgs = "--password-store=basic --disable-features=UseOzonePlatform --ozone-platform=wayland";
-    })
+    (pkgs.runCommand "brave" {
+      buildInputs = [ pkgs.makeWrapper ];
+      meta.mainProgram = "brave";
+    } ''
+      mkdir -p $out/bin
+      makeWrapper ${pkgs.brave}/bin/brave $out/bin/brave \
+        --add-flags "--password-store=basic --disable-features=UseOzonePlatform --ozone-platform=wayland"
+    '')
   ];
 }

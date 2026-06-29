@@ -2,35 +2,45 @@
   config,
   lib,
   pkgs,
+  pkgs-stable,
   ...
 }:
 {
-  home.packages = with pkgs; [
-    # media
-    mpv
-    obs-studio
-    obs-studio-plugins.obs-vkcapture # захват игр (Vulkan/OpenGL) на Wayland
+  home.packages =
+    (with pkgs; [
+      # media
+      mpv
+      obs-studio
+      obs-studio-plugins.obs-vkcapture # захват игр (Vulkan/OpenGL) на Wayland
 
-    # network
-    v2rayn
-    vesktop
-    mullvad-browser
-    telegram-desktop
+      # network
+      v2rayn
+      mullvad-browser
+      telegram-desktop
 
-    # productivity
-    handy
-    super-productivity
-    activitywatch
-    obsidian
+      # productivity
+      handy
+      super-productivity
+      obsidian
 
-    # editors
-    zed-editor
-    vscode-fhs
+      # editors
+      zed-editor
+      vscode
 
-    blender
-    onlyoffice-desktopeditors
+      godot
+      blender
 
-    # KDE
-    kdePackages.karousel
-  ];
+      qbittorrent
+
+      quantframe
+
+      # KDE
+      kdePackages.karousel
+    ])
+    ++ (with pkgs-stable; [
+      # стабильные версии
+      vesktop
+      activitywatch
+      onlyoffice-desktopeditors
+    ]);
 }

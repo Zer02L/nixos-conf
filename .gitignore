@@ -8,15 +8,22 @@
 *~
 .DS_Store
 
-# OMP agent local cache, DBs, logs, sessions and terminal states
+# OMP agent local cache, DBs, logs, sessions, blobs, run state and terminal states
 dotfiles/.omp/agent/*.db
 dotfiles/.omp/agent/*.db-wal
 dotfiles/.omp/agent/*.db-shm
 dotfiles/.omp/agent/terminal-sessions/
 dotfiles/.omp/agent/sessions/
+dotfiles/.omp/agent/blobs/
+dotfiles/.omp/run/
+dotfiles/.omp/gpu_cache.json
 dotfiles/.omp/logs/
 
 # OMP agent secrets
 dotfiles/.omp/agent/.env
+dotfiles/.omp/agent/secret-placeholder.key
 dotfiles/.omp/plugins/cache/marketplaces/claude-plugins-official/
 
+
+# sops backup files
+*.bak

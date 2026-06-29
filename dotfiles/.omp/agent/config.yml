@@ -1,6 +1,6 @@
 symbolPreset: nerd
 theme: 
-  dark: titanium
+  dark: dark-gruvbox
 setupVersion: 1
 modelRoles: 
   slow: opencode-zen/deepseek-v4-flash-free
@@ -8,11 +8,13 @@ modelRoles:
   designer: opencode-zen/mimo-v2.5-free
   plan: opencode-zen/deepseek-v4-flash-free
   task: opencode-zen/deepseek-v4-flash-free
-  default: opencode-zen/deepseek-v4-flash-free:medium
+  tiny: opencode-zen/deepseek-v4-flash-free
+  advisor: opencode-zen/deepseek-v4-flash-free
+  default: opencode-zen/deepseek-v4-flash-free
 defaultThinkingLevel: auto
 browser: 
   headless: false
 secrets: 
   enabled: true
 providers: 
-  webSearch: auto
+  webSearchOrder: []

@@ -8,6 +8,23 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
   "agent_servers": {
+    "pi-acp": {
+      "type": "registry"
+    },
+    "Pi (Oh My Pi)": {
+      "default_config_options": {
+        "thinking": "auto"
+      },
+      "favorite_config_option_values": {
+        "thinking": [
+          "auto"
+        ]
+      },
+      "type": "custom",
+      "command": "omp",
+      "args": ["acp"],
+      "env": {}
+    },
     "opencode": {
       "type": "registry"
     }

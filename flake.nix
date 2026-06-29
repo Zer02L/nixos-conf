@@ -3,6 +3,8 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
+
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     disko = {
@@ -15,10 +17,20 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    zapret-discord-youtube.url = "github:kartavkun/zapret-discord-youtube";
+    # zapret-discord-youtube.url = "github:kartavkun/zapret-discord-youtube";  # удалён с GitHub (404)
 
     stylix = {
       url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

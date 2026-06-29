@@ -1,0 +1,21 @@
+# Custom providers for Oh My Pi
+# See https://router.bynara.id/docs for NaraRouter API docs
+
+providers:
+  nararouter:
+    baseUrl: https://router.bynara.id/v1
+    api: openai-completions
+    apiKey: NARA_ROUTER_KEY
+    authHeader: true
+    discovery:
+      type: openai-models-list
+    models:
+      - id: auto/bynara
+        name: Nara Auto Router
+        contextWindow: 128000
+        maxTokens: 8192
+      - id: deepseek-3.2
+        name: DeepSeek 3.2
+        reasoning: true
+        contextWindow: 128000
+        maxTokens: 16384

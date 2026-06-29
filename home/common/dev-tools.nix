@@ -15,26 +15,62 @@
     nixd
     nixfmt
 
+    # C++
+    gcc
+
     # Python
-    pyright
-    ruff
+    python3
     uv
+    ruff
+    pyright
 
     # Rust
     rust-analyzer
 
     # Go
+    go
     gopls
 
-    # JavaScript / TypeScript
+    # JavaScript / TypeScript runtimes & package managers
+    nodejs_24
+    pnpm
+
     typescript-language-server
     vue-language-server
     tailwindcss-language-server
+
     prettier
     oxlint
     oxfmt
 
     # Прочее
     yaml-language-server
+
+    # Editors
+    neovim
+
+    git
+    lazygit
+
+    jujutsu
+    lazyjj
+
+    # Code browsing
+    bat
+    ripgrep
+    ripgrep-all
+
+    # Ai Dev tooling
+    openspec
+    antigravity-cli
+    pi-coding-agent
+
+    # Dev environments
+    devenv
+
+    docker
+    docker-language-server
+
+    turso-cli # вместо sql
   ];
 }

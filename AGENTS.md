@@ -1,45 +1,79 @@
 # DOX framework
 
-- DOX is highly performant AGENTS.md hierarchy installed here
-- Agent must follow DOX instructions across any edits
+## Purpose
 
-## Core Contract
+DPI bypass configuration for zapret (nfqws) service (`modules/services/zapret.nix`).
+Hostlist/ipset files in `dotfiles/zapret/lists/` are referenced at build time
+and copied into the Nix store. Strategy parameters are defined in `.args` files
+in `dotfiles/zapret/strategies/`.
 
-- AGENTS.md files are binding work contracts for their subtrees
-- Work products, source materials, instructions, records, assets, and durable docs must stay understandable from the nearest applicable AGENTS.md plus every parent AGENTS.md above it
+## Ownership
 
-## Read Before Editing
+Active. Owned by zerg. Consumed by `services.zapret`.
 
-1. Read the root AGENTS.md
-2. Identify every file or folder you expect to touch
-3. Walk from the repository root to each target path
-4. Read every AGENTS.md found along each route
-5. If a parent AGENTS.md lists a child AGENTS.md whose scope contains the path, read that child and continue from there
-6. Use the nearest AGENTS.md as the local contract and parent docs for repo-wide rules
-7. If docs conflict, the closer doc controls local work details, but no child doc may weaken DOX
+## Local Contracts
 
-Do not rely on memory. Re-read the applicable DOX chain in the current session before editing.
+- `dotfiles/zapret/lists/` — hostlist and ipset files for nfqws per-domain filtering
+- `dotfiles/zapret/strategies/` — `.args` файлы с блоками стратегий, разделёнными `--new`
+- `dotfiles/zapret/blobs/` — бинарники TLS/QUIC/STUN для `--dpi-desync-fake-*`
+- List files (`list-*.txt`, `ipset-*.txt`) tracked in Git; Nix flake requires `git add`
+- **Самостоятельный модуль** — не использует `services.zapret` из nixpkgs.
+  systemd unit, capabilities, iptables определяются напрямую.
+- Изоляция: `ProtectKernelModules`, `ProtectKernelTunables`,
+  `RestrictNamespaces`, `NoNewPrivileges` — `true`.
+  Единственное ослабление: `CAP_NET_ADMIN` + `CAP_NET_RAW`
+  в `AmbientCapabilities`/`CapabilityBoundingSet` (raw sockets).
+- Iptables: `iptables` + `ip6tables` раздельно (без `ip46tables` — его нет на NixOS).
+  UDP range'ы — через `--dport` с `:`, не через multiport.
 
-## Update After Editing
+NixOS module: `modules/services/zapret.nix`. Standalone — не использует `services.zapret`.
 
-Every meaningful change requires a DOX pass before the task is done.
+Service: `zapret` (systemd) — single nfqws instance with NFQUEUE.
 
-Update the closest owning AGENTS.md when a change affects:
+PreStart: модули ядра + ipset `nozapret`.
+Модули также в `boot.kernelModules`.
 
-- purpose, scope, ownership, or responsibilities
-- durable structure, contracts, workflows, or operating rules
-- required inputs, outputs, permissions, constraints, side effects, or artifacts
-- user preferences about behavior, communication, process, organization, or quality
-- AGENTS.md creation, deletion, move, rename, or index contents
+Iptables (`networking.firewall.extraCommands`):
+- TCP: 80, 443, 8443, 2053, 2083, 2087, 2096
+- UDP: 443, 19294-19344, 50000-50100
 
-Update parent docs when parent-level structure, ownership, workflow, or child index changes. Update child docs when parent changes alter local rules. Remove stale or contradictory text immediately. Small edits that do not change behavior or contracts may leave docs unchanged, but the DOX pass still must happen.
+## Security
 
-## Hierarchy
+See [SECURITY.md](./SECURITY.md) for full threat model, capability analysis,
+isolation boundaries, and trade-offs.
+## Work Guidance
 
-- Root AGENTS.md is the DOX rail: project-wide instructions, global preferences, durable workflow rules, and the top-level Child DOX Index
-- Child AGENTS.md files own domain-specific instructions and their own Child DOX Index
-- Each parent explains what its direct children cover and what stays owned by the parent
-- The closer a doc is to the work, the more specific and practical it must be
+### Смена стратегии
+
+В `modules/services/zapret.nix` переключить `strategyFile`:
+```nix
+strategyFile = ../../dotfiles/zapret/strategies/default.args;  # базовая
+# strategyFile = ../../dotfiles/zapret/strategies/alt12.args;  # агрессивная (ALT12)
+```
+
+### Обновление hostlist-файлов
+
+1. Отредактировать файлы в `dotfiles/zapret/lists/`
+2. `git add` — иначе Nix flake не увидит изменения
+3. `sudo nixos-rebuild switch --flake .#zerg`
+
+### Добавление новых blob-файлов
+
+Положить в `dotfiles/zapret/blobs/`, добавить подстановку `@blobs@/<filename>` в `modules/services/zapret.nix` (строка: `[ "@lists@" "@blobs@" ]` уже включает все файлы из blobs/).
+
+## Verification
+
+```bash
+sudo nixos-rebuild switch --flake .#zerg
+systemctl status zapret --no-pager
+journalctl -u zapret -n 20 --no-pager
+# Проверить capabilities:
+cat /proc/$(cat /run/nfqws.pid)/status | grep -i cap
+# Проверить модули:
+lsmod | grep -E 'xt_NFQUEUE|xt_connbytes|xt_multiport'
+# Проверить ipset:
+sudo ipset list nozapret
+```
 
 ## Child Doc Shape
 
@@ -77,6 +111,8 @@ Default section order:
 ## User Preferences
 
 When the user requests a durable behavior change, record it here or in the relevant child AGENTS.md
+
+Before any SWAP/DEL edit from a structural summary: read the target range in `:raw` mode first to confirm no elided lines between the visible rows.
 
 ## Child DOX Index
 

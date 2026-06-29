@@ -1,4 +1,10 @@
-{ inputs, pkgs, config, ... }: {
+{
+  inputs,
+  pkgs,
+  config,
+  ...
+}:
+{
   imports = [ inputs.stylix.homeModules.stylix ];
 
   stylix = {
@@ -42,25 +48,25 @@
 
     # Какие приложения темизировать
     targets = {
-    # platform: "kde" — использует KDE-native тему (Breeze) вместо kvantum,
-    # т.к. qtstyleplugin-kvantum не предоставляет QML-модуль, что ломает
-    # Kirigami (wallpaper, activity manager, панели)
-    qt = {
-      enable = true;
-      platform = "kde";
-    };
-    gtk.enable = true;
-    fish.enable = true;
-    neovim.enable = true;
-    starship.enable = true;
-    tmux.enable = true;
-    fzf.enable = true;
-    zed.enable = true;
+      # platform: "qtct" — использует qtstyleplugin-kvantum для темизации Qt.
+      # "kde" пока не поддерживается Stylix (выдаёт trace-предупреждение),
+      # будет добавлено в будущем.
+      qt = {
+        enable = true;
+        platform = "kde";
+      };
+      gtk.enable = true;
+      fish.enable = true;
+      neovim.enable = true;
+      starship.enable = true;
+      tmux.enable = true;
+      fzf.enable = true;
+      zed.enable = true;
 
-    # Отключено — управляется через dotfiles.nix с кастомными конфигами
-    ghostty.enable = false;
-    yazi.enable = false;
-    firefox.enable = false; # без profileNames темизация Firefox не работает
+      # Отключено — управляется через dotfiles.nix с кастомными конфигами
+      ghostty.enable = false;
+      yazi.enable = false;
+      firefox.enable = false; # без profileNames темизация Firefox не работает
     };
   };
 }

@@ -1,15 +1,22 @@
 { inputs, ... }:
 let
-  inherit (inputs) nixpkgs home-manager;
+  inherit (inputs) nixpkgs home-manager nixpkgs-stable;
 
   system = "x86_64-linux";
+
+  pkgs-stable = import nixpkgs-stable {
+    inherit system;
+    config = {
+      allowUnfree = true;
+    };
+  };
 
   mkHome =
     username:
     home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages.${system};
       modules = [ ../home/${username} ];
-      extraSpecialArgs = { inherit inputs; };
+      extraSpecialArgs = { inherit inputs pkgs-stable; };
     };
 
   # Individual home-manager modules — один источник истины
@@ -26,10 +33,12 @@ let
     git-hooks = import ../home/common/git-hooks.nix;
     links = import ../home/common/links.nix;
     tmux = import ../home/common/tmux.nix;
+    secrets = import ../home/common/secrets.nix;
     yazi = import ../home/common/yazi.nix;
     zapret-custom = import ../home/common/zapret-custom.nix;
     karousel = import ../home/common/karousel.nix;
-    kwin-rules = import ../home/common/kwin-rules.nix;
+    mangohud = import ../home/common/mangohud.nix;
+    plasma = import ../home/common/plasma.nix;
     stylix = import ../home/common/stylix.nix;
   };
 in

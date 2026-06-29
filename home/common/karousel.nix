@@ -8,20 +8,26 @@
 }:
 
 let
+  # KConfig INI parser processes escape sequences (\\ → \) in values.
+  # JSON regex patterns like \. must survive this: we need \\\\ in the INI file
+  # which KConfig reduces to \\, and JSON.parse reduces to \.
+  # Double every backslash in class/caption values to compensate.
+  iniEsc = builtins.replaceStrings [ "\\" ] [ "\\\\" ];
+
   karouselConfig = {
-    gapsOuterTop = 16;
-    gapsOuterBottom = 16;
-    gapsOuterLeft = 16;
-    gapsOuterRight = 16;
-    gapsInnerHorizontal = 8;
-    gapsInnerVertical = 8;
-    stackOffsetX = 8;
+    gapsOuterTop = 8;
+    gapsOuterBottom = 8;
+    gapsOuterLeft = 8;
+    gapsOuterRight = 8;
+    gapsInnerHorizontal = 4;
+    gapsInnerVertical = 4;
+    stackOffsetX = 4;
     stackOffsetY = 32;
-    presetWidths = "33%, 50%, 67%";
+    # presetWidths = "33%, 50%, 67%";
     verticalResizeStep = 32;
     manualScrollStep = 200;
     scrollingLazy = true;
-    scrollingCentered = true;
+    scrollingCentered = false;
     scrollingGrouped = false;
     cursorFollowsFocus = true;
     tiledKeepBelow = true;
@@ -110,29 +116,69 @@ let
   };
 
   windowRulesJSON = builtins.toJSON [
-    { class = "(org\\\\.kde\\\\.)?plasmashell"; tile = false; }
-    { class = "(org\\\\.kde\\\\.)?polkit-kde-authentication-agent-1"; tile = false; }
-    { class = "(org\\\\.kde\\\\.)?kded6"; tile = false; }
-    { class = "(org\\\\.kde\\\\.)?kcalc"; tile = false; }
-    { class = "(org\\\\.kde\\\\.)?kfind"; tile = true; }
-    { class = "(org\\\\.kde\\\\.)?kruler"; tile = false; }
-    { class = "(org\\\\.kde\\\\.)?krunner"; tile = false; }
-    { class = "(org\\\\.kde\\\\.)?yakuake"; tile = false; }
-    { class = "steam"; caption = "Steam Big Picture Mode"; tile = false; }
-    { class = "zoom"; caption = "Zoom Cloud Meetings|zoom|zoom <2>"; tile = false; }
-    { class = "jetbrains-.*"; caption = "splash"; tile = false; }
+    {
+      class = iniEsc "(org\\.kde\\.)?plasmashell";
+      tile = false;
+    }
+    {
+      class = iniEsc "(org\\.kde\\.)?polkit-kde-authentication-agent-1";
+      tile = false;
+    }
+    {
+      class = iniEsc "(org\\.kde\\.)?kded6";
+      tile = false;
+    }
+    {
+      class = iniEsc "(org\\.kde\\.)?kcalc";
+      tile = false;
+    }
+    {
+      class = iniEsc "(org\\.kde\\.)?kfind";
+      tile = true;
+    }
+    {
+      class = iniEsc "(org\\.kde\\.)?kruler";
+      tile = false;
+    }
+    {
+      class = iniEsc "(org\\.kde\\.)?krunner";
+      tile = false;
+    }
+    {
+      class = iniEsc "(org\\.kde\\.)?yakuake";
+      tile = false;
+    }
+    {
+      class = iniEsc "steam";
+      caption = "Steam Big Picture Mode";
+      tile = false;
+    }
+    {
+      class = iniEsc "zoom";
+      caption = "Zoom Cloud Meetings|zoom|zoom <2>";
+      tile = false;
+    }
+    {
+      class = iniEsc "jetbrains-.*";
+      caption = "splash";
+      tile = false;
+    }
   ];
 
   # Build section text — no JSON with parens goes into bash directly
   karouselSectionText = lib.concatStringsSep "\n" (
-    [ "[Script-karousel]" ] ++
-    (lib.mapAttrsToList (n: v: "${n}=${builtins.toJSON v}") karouselConfig) ++
-    [ "windowRules=${windowRulesJSON}" "tiledDesktops=.*" ]
+    [ "[Script-karousel]" ]
+    ++ (lib.mapAttrsToList (
+      n: v: "${n}=${if lib.isString v then v else builtins.toJSON v}"
+    ) karouselConfig)
+    ++ [
+      "windowRules=${windowRulesJSON}"
+      "tiledDesktops=.*"
+    ]
   );
 
   kwinSectionText = lib.concatStringsSep "\n" (
-    [ "[kwin]" ] ++
-    (lib.mapAttrsToList (n: v: "${n}=${v}") karouselKeybindings)
+    [ "[kwin]" ] ++ (lib.mapAttrsToList (n: v: "${n}=${v}") karouselKeybindings)
   );
 
   # Write sections to temp files so activation reads from file (no bash escaping issues)
@@ -157,12 +203,20 @@ in
     chmod 644 "$KWINRC" "$KGLOBAL"
 
     # --- kwinrc: upsert [Script-karousel] ---
-    $AWK -v newdata="$(cat ${karouselSectionFile})" '
-      BEGIN { in_sec=0; done=0 }
-      /^\[Script-karousel\]/ { in_sec=1; done=1; printf "%s\n", newdata; next }
-      /^\[/ { if (in_sec && !done) { printf "%s\n", newdata; done=1 } in_sec=0 }
+    # NOTE: section content read inside awk to avoid bash/awk escape processing of \ in JSON
+    $AWK -v sectionfile="${karouselSectionFile}" '
+      BEGIN {
+        newdata = ""
+        while ((getline line < sectionfile) > 0)
+          newdata = newdata line "\n"
+        close(sectionfile)
+        in_sec = 0
+        done = 0
+      }
+      /^\[Script-karousel\]/ { in_sec=1; done=1; printf "%s", newdata; next }
+      /^\[/ { if (in_sec && !done) { printf "%s", newdata; done=1 } in_sec=0 }
       { if (!in_sec) print }
-      END { if (!done) printf "\n%s\n", newdata }
+      END { if (!done) printf "\n%s", newdata }
     ' "$KWINRC" > "$KWINRC.tmp" && mv "$KWINRC.tmp" "$KWINRC"
 
     # --- kglobalshortcutsrc: upsert [kwin] karousel keys ---

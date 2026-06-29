@@ -23,6 +23,7 @@ All `.nix` files under this directory are system-level NixOS configuration owned
 - Keep module files focused — one concern per file; merge only when coupling is inherent
 - Use `lib.mkDefault`, `lib.mkIf`, and `lib.mkMerge` for option composition
 - Prefer upstream NixOS modules over manual `environment.systemPackages` when available
+- Перед SWAP/DEL из структурного summary — сначала прочитать целевой диапазон строк в :raw-режиме (напр. `read parts/home.nix:29-32`), чтобы убедиться в отсутствии свёрнутых строк
 
 ## Verification
 
@@ -35,8 +36,8 @@ If just validating syntax: `nix eval .#nixosConfigurations.zerg.config.system.bu
 ## Child DOX Index
 
 | Path | Covers |
-| `services/` | Docker containers, PipeWire, zram, power, PostgreSQL, zapret |
-| `hardware/` | GPU drivers (Nvidia), hardware-specific kernel modules |
+  | `services/` | Docker containers, PipeWire, zram, power, PostgreSQL, secrets |
+  | `hardware/` | GPU drivers (Nvidia), hardware-specific kernel modules |
 | `programs/` | System-wide program packages and program-specific options |
 | `networking/` | DNS, firewall, DHCP, hostname |
 | `desktop/` | Desktop environments (Plasma6/KDE) and DE-specific services (SDDM) |

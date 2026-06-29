@@ -27,5 +27,6 @@
     LIBVA_DRIVER_NAME = "nvidia"; # VA-API → NVDEC (только декодинг)
     NIXOS_OZONE_WL = "1"; # Electron/Chromium → Wayland
     __GLX_VENDOR_LIBRARY_NAME = "nvidia"; # GLX через Nvidia (Qt fix)
+    __EGL_VENDOR_LIBRARY_DIRS = "/run/opengl-driver/share/glvnd/egl_vendor.d";
   };
 }

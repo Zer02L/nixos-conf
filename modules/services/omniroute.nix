@@ -7,7 +7,7 @@
       image = "diegosouzapw/omniroute:latest";
       ports = [ "20128:20128" ];
       volumes = [
-        "/var/lib/omniroute:/root/.omniroute"
+        "/var/lib/omniroute:/app/data"
       ];
       autoStart = true;
     };

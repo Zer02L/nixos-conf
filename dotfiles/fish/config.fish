@@ -1,7 +1,7 @@
 # fish config — live, sourced via interactiveShellInit
 
 # aliases
-alias pi omp
+# alias pi omp
 alias vim nvim
 alias vi nvim
 alias ll 'eza -l --icons'

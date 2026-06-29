@@ -19,6 +19,7 @@ All files here are owned by the system owner (zerg). These replace the monolithi
 - Оба `.default` aggregator-а генерируются автоматически из `builtins.attrValues modules`
 - Добавление нового хоста: добавить в `parts/nixos.nix` в `nixosConfigurations`
 - Shared NixOS modules stay in `modules/`; host-specific config stays in `hosts/<name>/`
+- `pkgs-stable` доступен как `specialArgs` в `nixosConfigurations` — использовать `pkgs-stable.<pkg>` в модулях для стабильной версии пакета
 
 ## Work Guidance
 
