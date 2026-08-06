@@ -28,38 +28,12 @@
                   # keyFile = "/tmp/secret.key"; # Закомментировано для ручного ввода пароля
                 };
                 content = {
-                  type = "btrfs";
-                  extraArgs = [ "-f" ];
-                  subvolumes = {
-                    "/root" = {
-                      mountpoint = "/";
-                      mountOptions = [ "compress=zstd" "noatime" ];
-                    };
-                    "/home" = {
-                      mountpoint = "/home";
-                      mountOptions = [ "compress=zstd" "noatime" ];
-                    };
-                    "/nix" = {
-                      mountpoint = "/nix";
-                      mountOptions = [ "compress=zstd" "noatime" ];
-                    };
-                    "/games" = {
-                      mountpoint = "/mnt/games";
-                      mountOptions = [ "noatime" "nodatacow" ];
-                    };
-                    "/steam" = {
-                      mountpoint = "/mnt/steam";
-                      mountOptions = [ "noatime" "nodatacow" ];
-                    };
-                    "/downloads" = {
-                      mountpoint = "/mnt/downloads";
-                      mountOptions = [ "noatime" "nodatacow" ];
-                    };
-                    "/db" = {
-                      mountpoint = "/mnt/db";
-                      mountOptions = [ "noatime" "nodatacow" ];
-                    };
-                  };
+                  # ext4 — одна ФС на весь LUKS-контейнер, без subvolumes.
+                  # /home, /nix, /mnt/* — обычные каталоги на корневой ФС.
+                  type = "filesystem";
+                  format = "ext4";
+                  mountpoint = "/";
+                  mountOptions = [ "noatime" ];
                 };
               };
             };

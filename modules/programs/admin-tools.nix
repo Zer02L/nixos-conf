@@ -12,7 +12,7 @@
     wget
     curl
     cryptsetup
-    btrfs-progs
+    # btrfs-progs
     smartmontools
     nix-output-monitor
 

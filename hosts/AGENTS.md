@@ -31,4 +31,4 @@ sudo nixos-rebuild switch --flake .#<name>
 
 | Path | Covers |
 |---|---|
-| `zerg/` | Main desktop: NVMe + LUKS + Btrfs, Nvidia GPU, KDE Plasma |
+| `zerg/` | Main desktop: NVMe + LUKS + ext4, Nvidia GPU, KDE Plasma |
