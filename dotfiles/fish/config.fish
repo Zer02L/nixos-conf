@@ -65,3 +65,8 @@ starship init fish | source
 
 # zoxide
 zoxide init fish | source
+
+# Added by jcode installer
+if not contains "/home/zerg/.local/bin" $PATH
+    set -gx PATH "/home/zerg/.local/bin" $PATH
+end

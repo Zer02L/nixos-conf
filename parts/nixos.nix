@@ -36,15 +36,17 @@ let
     zram = import ../modules/services/zram.nix;
     zapret = import ../modules/services/zapret.nix;
     # zapret2 = import ../modules/services/zapret2.nix;
-    cloudflare-warp = import ../modules/services/cloudflare-warp.nix;
+    # cloudflare-warp = import ../modules/services/cloudflare-warp.nix;
     power = import ../modules/services/power.nix;
     postgresql = import ../modules/services/postgresql.nix;
+    comfyui = import ../modules/services/comfyui.nix;
     omniroute = import ../modules/services/omniroute.nix;
     secrets = import ../modules/services/secrets.nix;
     networking = import ../modules/networking/base.nix;
     desktop = import ../modules/desktop/foundation.nix;
     plasma = import ../modules/desktop/plasma.nix;
     users-zerg = import ../modules/users/zerg.nix;
+    #     firefox-librewolf-like = import ../home/common/firefox-librewolf-like.nix;
   };
 in
 {

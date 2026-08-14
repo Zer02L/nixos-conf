@@ -26,6 +26,7 @@
 
     # Rust
     rust-analyzer
+    cargo-tauri
 
     # Go
     go
@@ -34,6 +35,7 @@
     # JavaScript / TypeScript runtimes & package managers
     nodejs_24
     pnpm
+    bun
 
     typescript-language-server
     vue-language-server
@@ -63,7 +65,10 @@
     # Ai Dev tooling
     openspec
     antigravity-cli
+    antigravity-ide
     pi-coding-agent
+    codex
+    codebuff
 
     # Dev environments
     devenv

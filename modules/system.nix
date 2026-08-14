@@ -1,4 +1,10 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -11,9 +17,9 @@
 
   systemd.tmpfiles.rules = [
     "d /mnt/steam 0755 zerg users -"
-    "d /mnt/downloads 0755 zerg users -"
-    "d /mnt/games 0755 zerg users -"
-    "d /mnt/db 0700 postgres postgres -"
+    # "d /mnt/downloads 0755 zerg users -"
+    # "d /mnt/games 0755 zerg users -"
+    # "d /mnt/db 0700 postgres postgres -"
   ];
 
   system.stateVersion = "26.05";
