@@ -1,0 +1,5 @@
+creation_rules:
+  - path_regex: secrets\.ya?ml$
+    key_groups:
+      - age:
+          - age19pu6ks4dpp5rruyl78qz6ju5ux2yrgh3pcc058xt3akk8fggp9gsw3ac8h

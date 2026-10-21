@@ -1,24 +1,47 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-{
-  # Hostname задаётся в hosts/<machine>/default.nix
-  # networking.hostName = "my-hostname";
+{ config, pkgs, ... }:
 
-  networking.useDHCP = lib.mkDefault true;
+{
+  services.resolved = {
+    enable = true;
 
-  # Разрешаем сторонним сервисам изменять настройки DNS
+    settings = {
+      Resolve = {
+        # Основные DNS-серверы (xbox-dns.ru) — указываем IP-адреса, а не домен,
+        # чтобы избежать циклической зависимости при разрешении имён.
+        # К каждому IP добавляем TLS-имя хоста (для проверки сертификата при DoT).
+        DNS = [
+          "111.88.96.50#xbox-dns.ru"
+          "111.88.96.51#xbox-dns.ru"
+        ];
+
+        # Запасные DNS-серверы — используются, если основные не отвечают.
+        # Указываем с TLS-именами, чтобы они тоже работали по DoT.
+        FallbackDNS = [
+          "1.1.1.1#cloudflare-dns.com"
+          "8.8.8.8#dns.google"
+          "9.9.9.9#dns.quad9.net"
+        ];
+
+        # Включаем DNSSEC (проверка цифровых подписей)
+        DNSSEC = "true";
+
+        # Режим DNS-over-TLS:
+        #   "opportunistic" – использовать TLS, если сервер поддерживает,
+        #                    иначе работать без шифрования (не ломает работу).
+        #   "true"          – строгий режим: если TLS не работает, сервер игнорируется.
+        # Рекомендую "opportunistic" для максимальной живучести.
+        DNSOverTLS = "opportunistic";
+
+        # Обрабатываем все DNS-запросы через этот резолвер
+        Domains = "~.";
+      };
+    };
+  };
+
+  # Явно говорим системе использовать локальный systemd-resolved
   networking.nameservers = [
-    "1.1.1.1"
-    "1.0.0.1"
+    "127.0.0.1"
+    "::1"
   ];
 
-  # networking.networkmanager.enable = true;
-
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # networking.firewall.enable = false;
 }

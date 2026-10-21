@@ -132,10 +132,12 @@ in
     ".config/git/hooks/pre-commit" = {
       source = preCommitScript;
       executable = true;
+      force = true;
     };
     ".config/git/hooks/commit-msg" = {
       source = commitMsgScript;
       executable = true;
+      force = true;
     };
   };
 

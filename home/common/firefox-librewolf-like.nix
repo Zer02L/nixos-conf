@@ -89,46 +89,6 @@
         BehaviorPrivateBrowsing = 5; # То же в приватном режиме
       };
 
-      # ─── Extensions (плагины) ──────────────────────────────────────────────
-      # Автоматическая установка расширений из addons.mozilla.org.
-      # installation_mode = "force_installed" → ставится без запроса.
-      # Каждое расширение идентифицируется по внутреннему ID.
-      ExtensionSettings = {
-        # ── Приватность ──
-        "uBlock0@raymondhill.net" = {
-          install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
-          installation_mode = "force_installed"; # Блокировщик рекламы и трекеров
-        };
-        "{b86e4813-687a-43e6-ab65-0bde4ab75758}" = {
-          install_url = "https://addons.mozilla.org/firefox/downloads/latest/localcdn-fork-of-decentraleyes/latest.xpi";
-          installation_mode = "force_installed"; # Подменяет CDN-запросы на локальные (защита от fingerprinting через CDN)
-        };
-
-        # ── Продуктивность ──
-        "{3c078156-979c-498b-8990-85f7987dd929}" = {
-          install_url = "https://addons.mozilla.org/firefox/downloads/latest/sidebery/latest.xpi";
-          installation_mode = "force_installed"; # Вертикальные вкладки с деревом, группами и контейнерами
-        };
-        "tridactyl.vim@cmcaine.co.uk" = {
-          install_url = "https://addons.mozilla.org/firefox/downloads/latest/tridactyl-vim/latest.xpi";
-          installation_mode = "force_installed"; # Vim-навигация (j/k/f/t/b/d/u, :tabopen, :help)
-        };
-        "{531906d3-e22f-4a6c-a102-8057b88a1a63}" = {
-          install_url = "https://addons.mozilla.org/firefox/downloads/latest/single-file/latest.xpi";
-          installation_mode = "force_installed"; # Сохранение страниц в один HTML-файл
-        };
-        # ── Multi-Account Containers ──
-        "@testpilot-containers" = {
-          install_url = "https://addons.mozilla.org/firefox/downloads/latest/multi-account-containers/latest.xpi";
-          installation_mode = "force_installed"; # Multi-Account Containers — изоляция контекстов
-        };
-
-        # ── Менеджер паролей ──
-        "{446900e4-71c2-419f-a6a7-df9c091e268b}" = {
-          install_url = "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi";
-          installation_mode = "force_installed"; # Bitwarden — менеджер паролей
-        };
-      };
     };
 
     # ==========================================================================
@@ -142,6 +102,26 @@
       id = 0;
       isDefault = true;
 
+      extensions = {
+        # packages = with pkgs.nur.repos.rycee.firefox-addons; [
+        #   ublock-origin
+        #   localcdn
+        #   sidebery
+        #   tridactyl
+        #   sponsorblock
+        #   bitwarden
+        #   multi-account-containers
+        # ];
+        # settings."uBlock0@raymondhill.net".settings = {
+        #   selectedFilterLists = [
+        #     "ublock-filters"
+        #     "ublock-badware"
+        #     "ublock-privacy"
+        #     "ublock-unbreak"
+        #     "ublock-quick-fixes"
+        #   ];
+        # };
+      };
       settings = {
 
         # ╔═══════════════════════════════════════════════════════════════════╗

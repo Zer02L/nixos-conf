@@ -5,6 +5,8 @@
 
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
 
+    nur.url = "github:nix-community/NUR";
+
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     disko = {
@@ -17,7 +19,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # zapret-discord-youtube.url = "github:kartavkun/zapret-discord-youtube";  # удалён с GitHub (404)
+    zapret-discord-youtube.url = "github:kartavkun/zapret-discord-youtube"; # удалён с GitHub (404)
 
     stylix = {
       url = "github:nix-community/stylix";
@@ -33,9 +35,20 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    bun2nix = {
+      url = "github:nix-community/bun2nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    antigravity-manager.url = "github:Draculabo/AntigravityManager";
+
+    comfyui-nix.url = "github:utensils/comfyui-nix";
+
   };
 
-  outputs = { flake-parts, ... } @ inputs:
+  outputs =
+    { flake-parts, ... }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" ];
       imports = [
@@ -43,6 +56,7 @@
         ./parts/home.nix
         ./parts/devshell.nix
         ./parts/formatter.nix
+
       ];
     };
 }

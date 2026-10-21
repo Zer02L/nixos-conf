@@ -37,4 +37,20 @@
     clean.extraArgs = "--keep-since 4d --keep 3";
     flake = "/home/zerg/nixos-conf";
   };
+
+  # Karing appimage
+  programs.appimage = {
+    enable = true;
+    binfmt = true; # Регистрирует AppImage в binfmt_misc[reference:7]
+    package = pkgs.appimage-run.override {
+      extraPkgs =
+        pkgs: with pkgs; [
+          # Сюда добавляете библиотеки, которых не хватает вашей программе
+
+          # и другие...
+          libepoxy
+          zstd
+        ];
+    };
+  };
 }

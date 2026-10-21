@@ -21,25 +21,27 @@ let
 
   # Individual home-manager modules — один источник истины
   modules = {
+    shell = import ../home/common/shell.nix;
     settings_hm = import ../home/common/settings_hm.nix;
     cli-tools = import ../home/common/cli-tools.nix;
     gui-programs = import ../home/common/gui-programs.nix;
     dev-tools = import ../home/common/dev-tools.nix;
     dotfiles = import ../home/common/dotfiles.nix;
-    fish = import ../home/common/fish.nix;
-    ghostty = import ../home/common/ghostty.nix;
     git = import ../home/common/git.nix;
     firefox-librewolf-like = import ../home/common/firefox-librewolf-like.nix;
     git-hooks = import ../home/common/git-hooks.nix;
     links = import ../home/common/links.nix;
     tmux = import ../home/common/tmux.nix;
-    secrets = import ../home/common/secrets.nix;
+    # secrets = import ../home/common/secrets.nix;
     yazi = import ../home/common/yazi.nix;
     zapret-custom = import ../home/common/zapret-custom.nix;
-    karousel = import ../home/common/karousel.nix;
+    # karousel = import ../home/common/karousel.nix;
     mangohud = import ../home/common/mangohud.nix;
     plasma = import ../home/common/plasma.nix;
     stylix = import ../home/common/stylix.nix;
+    # karing = import ../home/common/karing.nix;
+    pi-coding-agent = import ../home/common/pi-coding-agent.nix;
+    distrobox = import ../home/common/distrobox.nix;
   };
 in
 {
@@ -47,6 +49,7 @@ in
     homeConfigurations = {
       "zerg@zerg" = mkHome "zerg";
       "zerg@nixos" = mkHome "zerg";
+      extraSpecialArgs = { inherit inputs pkgs-stable; };
     };
 
     # Individual + автогенерированный .default (импортирует всё)

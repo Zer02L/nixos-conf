@@ -67,6 +67,7 @@
       ghostty.enable = false;
       yazi.enable = false;
       firefox.enable = false; # без profileNames темизация Firefox не работает
+      rofi.enable = false; # не используется, устраняет warning устаревшего programs.rofi.font в Stylix
     };
   };
 }

@@ -24,7 +24,7 @@ function hm --description 'Rebuild home-manager (git add + nh home switch)'
 end
 
 function nc --description 'Clean old NixOS generations'
-    nh clean
+    nh clean all --keep 3 --keep-since 7d
 end
 
 function upall --description 'Update home-manager then system (git add + hm + up)'

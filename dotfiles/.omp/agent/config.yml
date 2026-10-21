@@ -1,8 +1,8 @@
 symbolPreset: nerd
-theme: 
+theme:
   dark: dark-gruvbox
-setupVersion: 1
-modelRoles: 
+setupVersion: 2
+modelRoles:
   slow: opencode-zen/deepseek-v4-flash-free
   smol: opencode-zen/deepseek-v4-flash-free
   designer: opencode-zen/mimo-v2.5-free
@@ -10,11 +10,14 @@ modelRoles:
   task: opencode-zen/deepseek-v4-flash-free
   tiny: opencode-zen/deepseek-v4-flash-free
   advisor: opencode-zen/deepseek-v4-flash-free
-  default: opencode-zen/deepseek-v4-flash-free
+  default: opencode-zen/mimo-v2.5-free
 defaultThinkingLevel: auto
-browser: 
+browser:
   headless: false
-secrets: 
+secrets:
   enabled: true
-providers: 
-  webSearchOrder: []
+providers:
+  webSearchOrder:
+    []
+composer:
+  shape: pi

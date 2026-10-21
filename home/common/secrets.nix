@@ -1,5 +1,12 @@
-{ inputs, ... }: {
+{ inputs, pkgs, ... }: {
   imports = [ inputs.sops-nix.homeManagerModules.sops ];
+
+  home.packages = with pkgs; [
+    secretspec
+    sops
+    age
+    bitwarden-cli
+  ];
 
   sops = {
     defaultSopsFile = "${inputs.self}/secrets.yaml";

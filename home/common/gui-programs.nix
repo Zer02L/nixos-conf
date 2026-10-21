@@ -3,11 +3,16 @@
   lib,
   pkgs,
   pkgs-stable,
+  inputs,
   ...
 }:
 {
-  home.packages =
-    (with pkgs; [
+  home.packages = (
+    with pkgs;
+    [
+
+      # inputs.comfyui-nix.packages.x86_64-linux.cuda
+
       # media
       mpv
       obs-studio
@@ -15,7 +20,6 @@
 
       # network
       v2rayn
-      mullvad-browser
       telegram-desktop
 
       # productivity
@@ -23,24 +27,39 @@
       super-productivity
       obsidian
 
+      brave
+      brave-origin
+
       # editors
       zed-editor
       vscode
+      #
+      opencode-desktop
+      opencode
 
       godot
       blender
 
+      protonup-rs
+
       qbittorrent
 
-      quantframe
+      vesktop
+      onlyoffice-desktopeditors
+
+      amnezia-vpn
+
+      r2modman
+      # bottles
+      lutris
 
       # KDE
-      kdePackages.karousel
-    ])
+      # kdePackages.karousel
+    ]
     ++ (with pkgs-stable; [
       # стабильные версии
-      vesktop
       activitywatch
-      onlyoffice-desktopeditors
-    ]);
+      audacity
+    ])
+  );
 }

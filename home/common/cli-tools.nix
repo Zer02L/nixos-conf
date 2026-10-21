@@ -6,6 +6,10 @@
 }:
 {
   home.packages = with pkgs; [
+
+    aria2
+
+    atuin
     eza
     fzf
     btop
@@ -13,12 +17,14 @@
     starship
     zoxide
 
-    bitwarden-cli
     zapret
     zrok
 
     herdr
 
     nps
+
+    unzip
+
   ];
 }

@@ -1,0 +1,6 @@
+--dpi-desync=fake
+--dpi-desync-ttl=8
+--dpi-desync-repeats=10
+--dpi-desync-fake-tls-mod=sni=www.yandex.ru
+--dpi-desync-cutoff=n2
+--dpi-desync-any-protocol=1

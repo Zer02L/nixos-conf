@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 {
@@ -17,6 +18,7 @@
 
     # C++
     gcc
+    gnumake
 
     # Python
     python3
@@ -27,13 +29,14 @@
     # Rust
     rust-analyzer
     cargo-tauri
+    obscura
 
     # Go
     go
     gopls
 
     # JavaScript / TypeScript runtimes & package managers
-    nodejs_24
+    nodejs_26
     pnpm
     bun
 
@@ -54,6 +57,9 @@
     git
     lazygit
 
+    coreutils
+    uesave
+
     jujutsu
     lazyjj
 
@@ -64,11 +70,11 @@
 
     # Ai Dev tooling
     openspec
-    antigravity-cli
-    antigravity-ide
     pi-coding-agent
     codex
     codebuff
+    # antigravity
+    # antigravity-cli
 
     # Dev environments
     devenv
@@ -77,5 +83,6 @@
     docker-language-server
 
     turso-cli # вместо sql
+
   ];
 }

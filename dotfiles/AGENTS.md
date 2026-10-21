@@ -14,6 +14,7 @@ All files here are user-level dotfiles owned by zerg. Managed as part of the Nix
 - The symlink mapping is defined in `home/common/dotfiles.nix` — changes to symlink targets MUST be reflected there
 - Files here are NOT in the Nix store — edits take effect immediately on the running system without rebuild
 - The `.omp/` directory contains Oh My Posh agent data (skills, plugins, logs, databases) and is NOT dotfiles for deployment
+- `skills/` contains agent skills (e.g. `creative-design-engineer`)
 
 ## Work Guidance
 

@@ -31,21 +31,30 @@ let
     steam = import ../modules/programs/steam.nix;
     admin-tools = import ../modules/programs/admin-tools.nix;
     nsjail = import ../modules/programs/nsjail.nix;
+    flclash = import ../modules/programs/flclash;
+    wfhelper = import ../modules/programs/wfhelper;
+    programs-common = import ../modules/programs/common.nix;
     nvidia = import ../modules/hardware/nvidia.nix;
     pipewire = import ../modules/services/pipewire.nix;
     zram = import ../modules/services/zram.nix;
-    zapret = import ../modules/services/zapret.nix;
+    # zapret = import ../modules/services/zapret.nix;
     # zapret2 = import ../modules/services/zapret2.nix;
-    # cloudflare-warp = import ../modules/services/cloudflare-warp.nix;
+    cloudflare-warp = import ../modules/services/cloudflare-warp.nix;
+    amneziawg = import ../modules/services/amneziawg.nix;
     power = import ../modules/services/power.nix;
     postgresql = import ../modules/services/postgresql.nix;
-    comfyui = import ../modules/services/comfyui.nix;
-    omniroute = import ../modules/services/omniroute.nix;
+    podman = import ../modules/services/podman.nix;
+    # comfyui = import ../modules/services/comfyui.nix;
+    # omniroute = import ../modules/services/omniroute.nix;
     secrets = import ../modules/services/secrets.nix;
     networking = import ../modules/networking/base.nix;
+    cloudflared = import ../modules/services/cloudflared.nix;
     desktop = import ../modules/desktop/foundation.nix;
     plasma = import ../modules/desktop/plasma.nix;
     users-zerg = import ../modules/users/zerg.nix;
+    flatpak = import ../modules/services/flatpak.nix;
+
+    happ = import ../modules/happ/happ-module.nix;
     #     firefox-librewolf-like = import ../home/common/firefox-librewolf-like.nix;
   };
 in

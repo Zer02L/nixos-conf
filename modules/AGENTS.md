@@ -16,13 +16,14 @@ All `.nix` files under this directory are system-level NixOS configuration owned
 ## Work Guidance
 
 - Add new services to `services/`, following existing patterns (see `omniroute.nix` for Docker containers, `pipewire.nix` for minimal service imports)
-*19:- Add new programs to `programs/`; use `programs/common.nix` for shared packages, dedicated files for complex configs (`steam.nix`, `chromium.nix`, `dev-tools.nix`)
+- Add new programs to `programs/`; use `programs/common.nix` for shared packages, dedicated files/directories for complex configs (`steam.nix`, `chromium.nix`, `flclash/`, `wfhelper/`)
 - Add hardware-specific config to `hardware/` (one file per device/driver)
 - User definitions go in `users/`; one file per user
 - Desktop environment modules go in `desktop/`; `foundation.nix` provides common DE dependencies (XWayland), individual files (e.g. `plasma.nix`) add specific DEs
 - Keep module files focused — one concern per file; merge only when coupling is inherent
 - Use `lib.mkDefault`, `lib.mkIf`, and `lib.mkMerge` for option composition
 - Prefer upstream NixOS modules over manual `environment.systemPackages` when available
+- Heavy ML/AI сервисы (например, ComfyUI) запускаются через Podman в home-каталоге (см. `docs/COMFYUI.md`) во избежание многочасовой сборки PyTorch/CUDA в Nix
 - Перед SWAP/DEL из структурного summary — сначала прочитать целевой диапазон строк в :raw-режиме (напр. `read parts/home.nix:29-32`), чтобы убедиться в отсутствии свёрнутых строк
 
 ## Verification
@@ -36,7 +37,7 @@ If just validating syntax: `nix eval .#nixosConfigurations.zerg.config.system.bu
 ## Child DOX Index
 
 | Path | Covers |
-  | `services/` | Docker containers, PipeWire, zram, power, PostgreSQL, secrets |
+| `services/` | Podman, Docker containers, PipeWire, zram, power, PostgreSQL, secrets |
   | `hardware/` | GPU drivers (Nvidia), hardware-specific kernel modules |
 | `programs/` | System-wide program packages and program-specific options |
 | `networking/` | DNS, firewall, DHCP, hostname |

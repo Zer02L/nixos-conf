@@ -1,8 +1,14 @@
 { config, pkgs, ... }:
 {
-  services.cloudflare-warp.enable = true;
-  services.cloudflare-warp.openFirewall = true; # Важно для обхода блокировок портов
-  environment.systemPackages = [ pkgs.cloudflare-warp ];
+  services.cloudflare-warp = {
+    enable = true;
+    openFirewall = true; # Важно для обхода блокировок портов
+    # udpPort = [];
+
+    # services.cloudflare-warp.package
+    # services.cloudflare-warp.rootDir
+  };
+  # environment.systemPackages = [ pkgs.cloudflare-warp ];
 
   # Переопределяем только создание директории, не трогая внутренности демона
   systemd.services.cloudflare-warp = {
