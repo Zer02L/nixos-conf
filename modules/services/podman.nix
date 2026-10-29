@@ -2,7 +2,9 @@
 {
   virtualisation.podman = {
     enable = true;
+    # Эмуляция Docker: предоставляет команду `docker` и сокет /var/run/docker.sock
     dockerCompat = true;
+    dockerSocket.enable = true;
     defaultNetwork.settings.dns_enabled = true;
   };
 

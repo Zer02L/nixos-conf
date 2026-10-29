@@ -20,6 +20,9 @@
     gcc
     gnumake
 
+    # C# .NET
+    dotnet-sdk_11
+
     # Python
     python3
     uv
@@ -34,6 +37,8 @@
     # Go
     go
     gopls
+    gotools
+    golangci-lint
 
     # JavaScript / TypeScript runtimes & package managers
     nodejs_26
@@ -79,7 +84,8 @@
     # Dev environments
     devenv
 
-    docker
+    # Вместо Docker используется Podman (настроен в modules/services/podman.nix с dockerCompat и dockerSocket)
+    # docker
     docker-language-server
 
     turso-cli # вместо sql

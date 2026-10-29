@@ -28,6 +28,11 @@ dotfiles/.omp/agent/.env
 dotfiles/.omp/agent/secret-placeholder.key
 dotfiles/.omp/plugins/cache/marketplaces/claude-plugins-official/
 
+# Pi agent secrets
+auth.json
+**/auth.json
+dotfiles/.pi/agent/auth.json
+
 
 # sops backup files
 *.bak

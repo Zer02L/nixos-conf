@@ -12,16 +12,21 @@
     keybindings = { };
     models = {
       providers = {
-        # ollama: список моделей должен содержать явные id (схема не принимает пустую строку).
-        # Добавь сюда id своих локальных моделей, например { id = "llama3.1"; }.
-        # ollama = {
-        #   api = "openai-completions";
-        #   apikey = "ollama";
-        #   baseUrl = "http://localhost:11434/v1";
-        #   models = [
-        #     { id = "llama3.1"; }
-        #   ];
-        # };
+        anymodel = {
+          baseUrl = "https://anymodel.org/v1";
+          api = "openai-completions";
+          compat = {
+            supportsReasoningEffort = true;
+          };
+          models = [
+            {
+              id = "gpt-5.6-terra";
+              name = "GPT-5.6 Terra";
+              reasoning = true;
+              input = [ "text" ];
+            }
+          ];
+        };
       };
     };
     settings = {
@@ -33,9 +38,9 @@
       extensions = [
         "../../dotfiles/.pi/agent/extensions/omniroute.ts"
       ];
-      # defaultModel = "deepseek-v4";
-      # defaultProvider = "anymodel";
-      # defaultThinkingLevel = "auto";
+      defaultProvider = "anymodel";
+      defaultModel = "gpt-5.6-terra";
+      defaultThinkingLevel = "high";
       # enabledModels = [
       #   "claude-*"
       #   "gpt-4o"

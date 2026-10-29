@@ -37,6 +37,9 @@
       opencode-desktop
       opencode
 
+      # t3code (официальный релиз pingdotgg/t3code)
+      (pkgs.callPackage ./pkgs/t3code.nix { })
+
       godot
       blender
 
