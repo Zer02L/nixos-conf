@@ -6,6 +6,22 @@
   dockerTools,
 }:
 {
+  flclash = {
+    pname = "flclash";
+    version = "0.9.2";
+    src = fetchurl {
+      url = "https://github.com/chen08209/FlClash/releases/download/v0.9.2/FlClash-0.9.2-linux-amd64.deb";
+      sha256 = "sha256-xso3RG25K1cwnRxwn7piCfLGebbTPPx0j3O46xpZpug=";
+    };
+  };
+  happ-desktop = {
+    pname = "happ-desktop";
+    version = "4.6.1";
+    src = fetchurl {
+      url = "https://github.com/Happ-proxy/happ-desktop/releases/download/4.6.1/Happ.linux.x64.deb";
+      sha256 = "sha256-NiU4+r2Xtrd3mKdPPmOjCmk6MwC8wFor7KfWeZSO29U=";
+    };
+  };
   t3code = {
     pname = "t3code";
     version = "0.1.6";

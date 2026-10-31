@@ -5,3 +5,12 @@
 src.github = "pingdotgg/t3code"
 src.prefix = "v"
 fetch.url = "https://github.com/pingdotgg/t3code/releases/download/v$ver/T3-Code-$ver-x86_64.AppImage"
+
+[flclash]
+src.github = "chen08209/FlClash"
+src.prefix = "v"
+fetch.url = "https://github.com/chen08209/FlClash/releases/download/v$ver/FlClash-$ver-linux-amd64.deb"
+
+[happ-desktop]
+src.github = "Happ-proxy/happ-desktop"
+fetch.url = "https://github.com/Happ-proxy/happ-desktop/releases/download/$ver/Happ.linux.x64.deb"
