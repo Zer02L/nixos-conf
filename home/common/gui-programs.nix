@@ -53,6 +53,8 @@
       amnezia-vpn
 
       r2modman
+      # amethyst-mod-manager (ChrisDKN/Amethyst-Mod-Manager via nvfetcher)
+      (pkgs.callPackage ./pkgs/amethyst-mod-manager.nix { })
       # bottles
       lutris
 

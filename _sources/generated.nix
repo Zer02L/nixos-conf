@@ -6,6 +6,14 @@
   dockerTools,
 }:
 {
+  amethyst-mod-manager = {
+    pname = "amethyst-mod-manager";
+    version = "2.6.0";
+    src = fetchurl {
+      url = "https://github.com/ChrisDKN/Amethyst-Mod-Manager/releases/download/v2.6.0/AmethystModManager-2.6.0-x86_64.AppImage";
+      sha256 = "sha256-+icz44QnliY7OtHn+AJH0djmmBsAr2Eq12G4SsNIgLQ=";
+    };
+  };
   flclash = {
     pname = "flclash";
     version = "0.9.2";
@@ -36,6 +44,14 @@
     src = fetchurl {
       url = "https://github.com/pingdotgg/t3code/releases/download/v0.1.6/T3-Code-0.1.6-x86_64.AppImage";
       sha256 = "sha256-CeJQcgjHeTCbOWvoRq6h2UUUS9eAYGiZwvSByW3fNNA=";
+    };
+  };
+  wfhelper = {
+    pname = "wfhelper";
+    version = "2.1.1";
+    src = fetchurl {
+      url = "https://github.com/WFHelper/WFHelper/releases/download/v2.1.1/WFHelper-2.1.1.AppImage";
+      sha256 = "sha256-04lf525fLcWC9yI6Bw4PZn0MUZNUfKrypvVqfoCvRdM=";
     };
   };
 }

@@ -1,4 +1,19 @@
 {
+    "amethyst-mod-manager": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "amethyst-mod-manager",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-+icz44QnliY7OtHn+AJH0djmmBsAr2Eq12G4SsNIgLQ=",
+            "type": "url",
+            "url": "https://github.com/ChrisDKN/Amethyst-Mod-Manager/releases/download/v2.6.0/AmethystModManager-2.6.0-x86_64.AppImage"
+        },
+        "version": "2.6.0"
+    },
     "flclash": {
         "cargoLock": null,
         "date": null,
@@ -58,5 +73,20 @@
             "url": "https://github.com/pingdotgg/t3code/releases/download/v0.1.6/T3-Code-0.1.6-x86_64.AppImage"
         },
         "version": "0.1.6"
+    },
+    "wfhelper": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "wfhelper",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-04lf525fLcWC9yI6Bw4PZn0MUZNUfKrypvVqfoCvRdM=",
+            "type": "url",
+            "url": "https://github.com/WFHelper/WFHelper/releases/download/v2.1.1/WFHelper-2.1.1.AppImage"
+        },
+        "version": "2.1.1"
     }
 }
