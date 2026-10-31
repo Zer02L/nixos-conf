@@ -22,6 +22,14 @@
       sha256 = "sha256-NiU4+r2Xtrd3mKdPPmOjCmk6MwC8wFor7KfWeZSO29U=";
     };
   };
+  t3-cli = {
+    pname = "t3-cli";
+    version = "0.1.6";
+    src = fetchurl {
+      url = "https://github.com/pingdotgg/t3code/releases/download/v0.1.6/t3-0.1.6-linux-x64.tar.gz";
+      sha256 = "sha256-fPMdqQ3uQfUk3VtnnrttQEY3yl2dxv2LwBlRHVe7d+Y=";
+    };
+  };
   t3code = {
     pname = "t3code";
     version = "0.1.6";

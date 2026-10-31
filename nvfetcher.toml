@@ -6,6 +6,11 @@ src.github = "pingdotgg/t3code"
 src.prefix = "v"
 fetch.url = "https://github.com/pingdotgg/t3code/releases/download/v$ver/T3-Code-$ver-x86_64.AppImage"
 
+[t3-cli]
+src.github = "pingdotgg/t3code"
+src.prefix = "v"
+fetch.url = "https://github.com/pingdotgg/t3code/releases/download/v$ver/t3-$ver-linux-x64.tar.gz"
+
 [flclash]
 src.github = "chen08209/FlClash"
 src.prefix = "v"
