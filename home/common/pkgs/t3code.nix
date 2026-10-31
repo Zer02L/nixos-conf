@@ -1,16 +1,14 @@
 { lib
-, fetchurl
 , appimageTools
+, fetchurl
+, fetchgit
+, fetchFromGitHub
+, dockerTools
+, sources ? import ../../../_sources/generated.nix { inherit fetchgit fetchurl fetchFromGitHub dockerTools; }
 }:
 
 let
-  pname = "t3code";
-  version = "0.1.5";
-
-  src = fetchurl {
-    url = "https://github.com/pingdotgg/t3code/releases/download/v${version}/T3-Code-${version}-x86_64.AppImage";
-    hash = "sha256-kz/53ExlCnWqQIfJjyrmxlQMIz8OL+sy6/+VCwm+hJ0=";
-  };
+  inherit (sources.t3code) pname version src;
 
   appimageContents = appimageTools.extract {
     inherit pname version src;

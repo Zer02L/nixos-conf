@@ -1,0 +1,7 @@
+# nvfetcher configuration for nixos-conf
+# Documentation: https://github.com/berberman/nvfetcher
+
+[t3code]
+src.github = "pingdotgg/t3code"
+src.prefix = "v"
+fetch.url = "https://github.com/pingdotgg/t3code/releases/download/v$ver/T3-Code-$ver-x86_64.AppImage"

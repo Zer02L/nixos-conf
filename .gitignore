@@ -36,3 +36,7 @@ dotfiles/.pi/agent/auth.json
 
 # sops backup files
 *.bak
+
+# nvfetcher build cache
+.nvfetcher/
+.shake/

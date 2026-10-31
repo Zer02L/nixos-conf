@@ -23,6 +23,11 @@ function hm --description 'Rebuild home-manager (git add + nh home switch)'
     nh home switch -b backup -c (whoami)@(hostname) ~/nixos-conf $argv
 end
 
+function nvup --description 'Update external packages via nvfetcher and rebuild home-manager'
+    nvfetcher -c ~/nixos-conf/nvfetcher.toml -o ~/nixos-conf/_sources $argv
+    and hm
+end
+
 function nc --description 'Clean old NixOS generations'
     nh clean all --keep 3 --keep-since 7d
 end

@@ -1,0 +1,17 @@
+{
+    "t3code": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "t3code",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-CeJQcgjHeTCbOWvoRq6h2UUUS9eAYGiZwvSByW3fNNA=",
+            "type": "url",
+            "url": "https://github.com/pingdotgg/t3code/releases/download/v0.1.6/T3-Code-0.1.6-x86_64.AppImage"
+        },
+        "version": "0.1.6"
+    }
+}

@@ -15,6 +15,7 @@
     nil
     nixd
     nixfmt
+    nvfetcher
 
     # C++
     gcc
