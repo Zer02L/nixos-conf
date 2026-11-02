@@ -13,10 +13,25 @@ let
   };
 
   mkNixos =
-    host:
+    args:
+    let
+      host = if builtins.isString args then args else args.host;
+      system = if builtins.isAttrs args && args ? system then args.system else "x86_64-linux";
+      hostPkgsStable = import nixpkgs-stable {
+        inherit system;
+        config = {
+          allowUnfree = true;
+        };
+      };
+    in
     nixpkgs.lib.nixosSystem {
-      specialArgs = { inherit inputs pkgs-stable; };
+      inherit system;
+      specialArgs = {
+        inherit inputs;
+        pkgs-stable = hostPkgsStable;
+      };
       modules = [
+        { nixpkgs.overlays = [ (import ../pkgs/default.nix) ]; }
         disko.nixosModules.disko
         ../hosts/${host}
       ];

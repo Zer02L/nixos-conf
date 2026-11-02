@@ -13,8 +13,11 @@ let
 
   mkHome =
     username:
+    let
+      pkgsCustom = nixpkgs.legacyPackages.${system}.extend (import ../pkgs/default.nix);
+    in
     home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = pkgsCustom;
       modules = [ ../home/${username} ];
       extraSpecialArgs = { inherit inputs pkgs-stable; };
     };

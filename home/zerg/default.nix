@@ -1,5 +1,5 @@
 { inputs, ... }: {
-  imports = [ inputs.self.homeManagerModules.default ];
+  imports = [ ../profiles/desktop.nix ];
 
   home.username = "zerg";
   home.homeDirectory = "/home/zerg";

@@ -47,9 +47,9 @@
       imports = [
         ./parts/nixos.nix
         ./parts/home.nix
+        ./parts/packages.nix
         ./parts/devshell.nix
         ./parts/formatter.nix
-
       ];
     };
 }

@@ -7,7 +7,7 @@
 }:
 {
   imports = [
-    inputs.self.nixosModules.default
+    ../../profiles/workstation.nix
     ./disko.nix
     ./hardware-configuration.nix
   ];

@@ -1,5 +1,5 @@
 { pkgs ? import <nixpkgs> {}
-, sources ? pkgs.callPackage ../../../_sources/generated.nix {}
+, sources ? pkgs.callPackage ../_sources/generated.nix {}
 }:
 
 let

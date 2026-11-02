@@ -2,7 +2,7 @@
 , stdenv
 , autoPatchelfHook
 , callPackage
-, sources ? callPackage ../../../_sources/generated.nix {}
+, sources ? callPackage ../_sources/generated.nix {}
 }:
 
 let

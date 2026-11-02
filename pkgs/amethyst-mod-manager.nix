@@ -6,7 +6,7 @@
 , dockerTools
 , dwarfs
 , makeWrapper
-, sources ? import ../../../_sources/generated.nix { inherit fetchgit fetchurl fetchFromGitHub dockerTools; }
+, sources ? import ../_sources/generated.nix { inherit fetchgit fetchurl fetchFromGitHub dockerTools; }
 }:
 
 let

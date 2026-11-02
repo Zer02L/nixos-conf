@@ -35,8 +35,8 @@
       opencode-desktop
       opencode
 
-      # t3code (официальный релиз pingdotgg/t3code)
-      (pkgs.callPackage ./pkgs/t3code.nix { })
+      # t3code (official release pingdotgg/t3code)
+      t3code
 
       godot
       blender
@@ -52,7 +52,7 @@
 
       r2modman
       # amethyst-mod-manager (ChrisDKN/Amethyst-Mod-Manager via nvfetcher)
-      (pkgs.callPackage ./pkgs/amethyst-mod-manager.nix { })
+      amethyst-mod-manager
       # bottles
       lutris
 
