@@ -8,6 +8,8 @@
     defaultNetwork.settings.dns_enabled = true;
   };
 
+  virtualisation.containers.enable = true;
+
   hardware.nvidia-container-toolkit.enable = true;
 
   environment.systemPackages = with pkgs; [

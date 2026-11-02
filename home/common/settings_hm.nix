@@ -55,4 +55,13 @@
     Timer.Persistent = true;
     Install.WantedBy = [ "timers.target" ];
   };
+
+  # Декларативная конфигурация Podman для rootless-контейнеров
+  xdg.configFile."containers/policy.json".text = builtins.toJSON {
+    default = [ { type = "insecureAcceptAnything"; } ];
+  };
+  xdg.configFile."containers/containers.conf".text = ''
+    [engine]
+    cdi_spec_dirs = ["${config.home.homeDirectory}/.config/cdi"]
+  '';
 }

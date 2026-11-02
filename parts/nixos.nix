@@ -44,7 +44,7 @@ let
     power = import ../modules/services/power.nix;
     postgresql = import ../modules/services/postgresql.nix;
     podman = import ../modules/services/podman.nix;
-    # comfyui = import ../modules/services/comfyui.nix;
+    comfyui = import ../modules/services/comfyui.nix;
     # omniroute = import ../modules/services/omniroute.nix;
     secrets = import ../modules/services/secrets.nix;
     networking = import ../modules/networking/base.nix;

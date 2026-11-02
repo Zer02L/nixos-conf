@@ -11,8 +11,6 @@
     with pkgs;
     [
 
-      # inputs.comfyui-nix.packages.x86_64-linux.cuda
-
       # media
       mpv
       obs-studio

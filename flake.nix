@@ -40,11 +40,6 @@
       url = "github:nix-community/bun2nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    antigravity-manager.url = "github:Draculabo/AntigravityManager";
-
-    comfyui-nix.url = "github:utensils/comfyui-nix";
-
   };
 
   outputs =
