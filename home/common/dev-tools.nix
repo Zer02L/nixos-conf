@@ -15,10 +15,14 @@
     nil
     nixd
     nixfmt
+    nvfetcher
 
     # C++
     gcc
     gnumake
+
+    # C# .NET
+    dotnet-sdk_11
 
     # Python
     python3
@@ -34,11 +38,18 @@
     # Go
     go
     gopls
+    gotools
+    golangci-lint
 
     # JavaScript / TypeScript runtimes & package managers
     nodejs_26
     pnpm
     bun
+
+    # DeepSeek Harness CLI (uses nodejs_24 where Cordis HMR works out of the box)
+    (writeShellScriptBin "dsh" ''
+      exec ${nodejs_24}/bin/npx -y @deepseek-ai/dsh@latest "$@"
+    '')
 
     typescript-language-server
     vue-language-server
@@ -56,12 +67,14 @@
 
     git
     lazygit
+    gh
+    jujutsu
+    lazyjj
+
+    wl-clipboard
 
     coreutils
     uesave
-
-    jujutsu
-    lazyjj
 
     # Code browsing
     bat
@@ -79,7 +92,8 @@
     # Dev environments
     devenv
 
-    docker
+    # Вместо Docker используется Podman (настроен в modules/services/podman.nix с dockerCompat и dockerSocket)
+    # docker
     docker-language-server
 
     turso-cli # вместо sql

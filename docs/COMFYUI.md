@@ -1,66 +1,68 @@
-# ComfyUI в NixOS через Podman
+# ComfyUI в NixOS (декларативный Podman / systemd)
 
-Руководство по запуску и управлению ComfyUI с аппаратным ускорением NVIDIA GPU через Podman.
-
----
-
-## 1. Архитектура и почему выбран Podman
-
-В репозитории есть модуль `modules/services/comfyui.nix` и flake `comfyui-nix`, однако нативным способом сборка PyTorch с поддержкой CUDA в NixOS может вызывать длительную компиляцию из исходников при отсутствии нужной ревизии в бинарном кэше.
-
-**Решение через Podman:**
-* Полностью готовый бинарный образ `docker.io/yanwk/comfyui-boot:cu126-slim` (PyTorch + CUDA 12.6 + ComfyUI).
-* Запуск без какой-либо компиляции.
-* Использование драйвера NVIDIA хоста через CDI (`--device nvidia.com/gpu=all`).
-* Постоянное хранение моделей, кастомных нод и результатов генерации в локальной папке `~/comfyui/storage/`.
+Руководство по запуску и управлению ComfyUI с аппаратным ускорением NVIDIA GPU через Podman в NixOS.
 
 ---
 
-## 2. Быстрые команды
+## 1. Архитектура и почему выбран rootless Podman
 
-Все операции выполняются из каталога `~/comfyui`:
+* **Декларативное управление:** сервис объявлен в NixOS модуле `modules/services/comfyui.nix` и подключен в `hosts/zerg/default.nix`.
+* **Rootless изоляция:** запускается через пользовательский `systemd.user.services.comfyui` от имени пользователя `zerg`. Все сгенерированные изображения, кэш, ноды и модели принадлежат пользователю `zerg:users` (без необходимости sudo и без конфликтов прав доступа).
+* **Готовый бинарный образ:** используется проверенный образ `docker.io/yanwk/comfyui-boot:cu126-slim` (PyTorch + CUDA 12.6 + ComfyUI) без многочасовой сборки из исходников.
+* **Аппаратное ускорение NVIDIA GPU:** проброс видеокарты через CDI (`--device nvidia.com/gpu=all`).
+* **Постоянное хранилище:** локальная папка `~/comfyui/storage/`.
+
+---
+
+## 2. Управление сервисом (быстрые команды)
+
+Для Fish настроена удобная функция-хелпер **`comfy`**:
 
 ```bash
-cd ~/comfyui
+# Запустить сервис ComfyUI в фоне
+comfy start
 
-# Запуск в фоне
-./start.sh
-# или напрямую: podman-compose up -d
+# Проверить статус работы
+comfy status
 
-# Просмотр логов в реальном времени
-./logs.sh
-# или: podman-compose logs -f
+# Смотреть логи в реальном времени
+comfy logs
 
-# Остановка контейнера
-./stop.sh
-# или: podman-compose down
+# Остановить сервис
+comfy stop
+
+# Перезапустить сервис
+comfy restart
+
+# Открыть веб-интерфейс в браузере
+comfy open
 ```
 
 Веб-интерфейс доступен в браузере:  
 👉 **http://127.0.0.1:8188**
 
+*(Также всегда доступны стандартные команды systemd: `systemctl --user start comfyui`, `systemctl --user stop comfyui`, `journalctl --user -u comfyui -f`)*
+
 ---
 
 ## 3. Структура директорий (`~/comfyui/`)
 
-- `compose.yaml` — декларативная конфигурация сервиса (образ, порты, CDI GPU, volumes с меткой `:Z`).
-- `start.sh`, `stop.sh`, `logs.sh` — скрипты управления.
-- `storage/` — директория данных (сохраняются между перезапусками):
+- `storage/` — данные, сохраняемые между перезапусками:
   - `storage/models/checkpoints/` — базовые модели (`.safetensors`, `.ckpt`)
   - `storage/models/loras/` — LoRA модели
   - `storage/models/vae/` — VAE
-  - `storage/custom_nodes/` — кастомные расширения и ComfyUI-Manager
-  - `storage/input/` — загружаемые изображения
+  - `storage/custom_nodes/` — кастомные ноды и ComfyUI-Manager
+  - `storage/input/` — входные изображения
   - `storage/output/` — результаты генерации
   - `storage/user/` — сохранённые воркфлоу и настройки интерфейса
+  - `storage/dot-cache/` и `storage/dot-local/` — pip/huggingface кэш
 
 ---
 
-## 4. Важные нюансы NixOS + Podman
+## 4. Конфигурация в NixOS (`modules/services/comfyui.nix`)
 
-1. **Полные имена образов (FQIN):**  
-   В NixOS в Podman по умолчанию выключен неявный поиск по Docker Hub. Всегда указывайте полный путь: `docker.io/yanwk/comfyui-boot:cu126-slim` (вместо `yanwk/...`).
-2. **Проброс GPU через CDI:**  
-   В `modules/services/podman.nix` включён `hardware.nvidia-container-toolkit.enable = true`. Podman автоматически генерирует `/var/run/cdi/nvidia-container-toolkit.json`. Проброс выполняется директивой `devices: ["nvidia.com/gpu=all"]`.
-3. **Метка `:Z` для томов:**  
-   Все тома монтируются с флагом `:Z`, чтобы корректно выставлялись права доступа внутри rootless-контейнера.
+Опции модуля:
+* `services.comfyui.enable = true;` — активация сервиса (в `hosts/zerg/default.nix`).
+* `services.comfyui.autoStart = false;` — `false` по умолчанию, чтобы ComfyUI не занимал видеопамять (VRAM) при старте ПК. Запуск происходит мгновенно по команде `comfy start`. Если нужен автозапуск вместе с системой — установите `true`.
+* `services.comfyui.port = 8188;` — порт веб-интерфейса.
+* `services.comfyui.storageDir = "/home/zerg/comfyui/storage";` — путь к данным.

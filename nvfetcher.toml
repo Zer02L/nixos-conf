@@ -1,0 +1,38 @@
+# nvfetcher configuration for nixos-conf
+# Documentation: https://github.com/berberman/nvfetcher
+
+[t3code]
+src.github = "pingdotgg/t3code"
+src.prefix = "v"
+fetch.url = "https://github.com/pingdotgg/t3code/releases/download/v$ver/T3-Code-$ver-x86_64.AppImage"
+
+[t3-cli]
+src.github = "pingdotgg/t3code"
+src.prefix = "v"
+fetch.url = "https://github.com/pingdotgg/t3code/releases/download/v$ver/t3-$ver-linux-x64.tar.gz"
+
+[flclash]
+src.github = "chen08209/FlClash"
+src.prefix = "v"
+fetch.url = "https://github.com/chen08209/FlClash/releases/download/v$ver/FlClash-$ver-linux-amd64.deb"
+
+[happ-desktop]
+src.github = "Happ-proxy/happ-desktop"
+fetch.url = "https://github.com/Happ-proxy/happ-desktop/releases/download/$ver/Happ.linux.x64.deb"
+
+[amethyst-mod-manager]
+src.github = "ChrisDKN/Amethyst-Mod-Manager"
+src.prefix = "v"
+fetch.url = "https://github.com/ChrisDKN/Amethyst-Mod-Manager/releases/download/v$ver/AmethystModManager-$ver-x86_64.AppImage"
+
+[wfhelper]
+src.github = "WFHelper/WFHelper"
+src.prefix = "v"
+fetch.url = "https://github.com/WFHelper/WFHelper/releases/download/v$ver/WFHelper-$ver.AppImage"
+
+[omp]
+src.github = "can1357/oh-my-pi"
+src.prefix = "v"
+fetch.url = "https://github.com/can1357/oh-my-pi/releases/download/v$ver/omp-linux-x64"
+
+

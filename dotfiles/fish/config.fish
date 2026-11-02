@@ -23,6 +23,11 @@ function hm --description 'Rebuild home-manager (git add + nh home switch)'
     nh home switch -b backup -c (whoami)@(hostname) ~/nixos-conf $argv
 end
 
+function nvup --description 'Update external packages via nvfetcher and rebuild home-manager'
+    nvfetcher -c ~/nixos-conf/nvfetcher.toml -o ~/nixos-conf/_sources $argv
+    and hm
+end
+
 function nc --description 'Clean old NixOS generations'
     nh clean all --keep 3 --keep-since 7d
 end
@@ -32,6 +37,29 @@ function upall --description 'Update home-manager then system (git add + hm + up
     nh home switch -b backup -c (whoami)@(hostname) ~/nixos-conf
     and nh os switch ~/nixos-conf#zerg $argv
 end
+
+function comfy --description 'Manage declarative ComfyUI service'
+    switch $argv[1]
+        case start
+            systemctl --user start comfyui
+            echo "ComfyUI запускается... Веб-интерфейс: http://127.0.0.1:8188"
+        case stop
+            systemctl --user stop comfyui
+            echo "ComfyUI остановлен."
+        case restart
+            systemctl --user restart comfyui
+            echo "ComfyUI перезапущен."
+        case status
+            systemctl --user status comfyui
+        case logs
+            journalctl --user -u comfyui -f
+        case open
+            xdg-open "http://127.0.0.1:8188"
+        case '*'
+            echo "Использование: comfy [start|stop|restart|status|logs|open]"
+    end
+end
+
 alias g git
 
 # abbreviations

@@ -11,8 +11,6 @@
     with pkgs;
     [
 
-      # inputs.comfyui-nix.packages.x86_64-linux.cuda
-
       # media
       mpv
       obs-studio
@@ -37,6 +35,9 @@
       opencode-desktop
       opencode
 
+      # t3code (официальный релиз pingdotgg/t3code)
+      (pkgs.callPackage ./pkgs/t3code.nix { })
+
       godot
       blender
 
@@ -50,6 +51,8 @@
       amnezia-vpn
 
       r2modman
+      # amethyst-mod-manager (ChrisDKN/Amethyst-Mod-Manager via nvfetcher)
+      (pkgs.callPackage ./pkgs/amethyst-mod-manager.nix { })
       # bottles
       lutris
 

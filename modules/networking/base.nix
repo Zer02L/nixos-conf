@@ -44,4 +44,6 @@
     "::1"
   ];
 
+  # Порт для локального подключения к T3 Code с мобильных устройств
+  networking.firewall.allowedTCPPorts = [ 3773 ];
 }

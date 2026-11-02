@@ -1,19 +1,17 @@
 { lib
 , fetchurl
+, fetchgit
+, fetchFromGitHub
+, dockerTools
 , appimageTools
 , libsecret
 , libnotify
 , pipewire
+, sources ? import ../../../_sources/generated.nix { inherit fetchgit fetchurl fetchFromGitHub dockerTools; }
 }:
 
 let
-  pname = "wfhelper";
-  version = "2.1.1";
-
-  src = fetchurl {
-    url = "https://github.com/WFHelper/WFHelper/releases/download/v${version}/WFHelper-${version}.AppImage";
-    hash = "sha256-04lf525fLcWC9yI6Bw4PZn0MUZNUfKrypvVqfoCvRdM=";
-  };
+  inherit (sources.wfhelper) pname version src;
 
   appimageContents = appimageTools.extract {
     inherit pname version src;

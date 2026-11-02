@@ -8,3 +8,5 @@ cursor-style-blink = true
 shell-integration-features = no-cursor
 mouse-hide-while-typing = true
 copy-on-select = clipboard
+window-width = 80
+window-height = 24

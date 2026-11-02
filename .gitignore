@@ -15,7 +15,10 @@ dotfiles/.omp/agent/*.db-wal
 dotfiles/.omp/agent/*.db-shm
 dotfiles/.omp/agent/terminal-sessions/
 dotfiles/.omp/agent/sessions/
+dotfiles/.omp/agent/custom-session-files/
+dotfiles/.omp/agent/cache/
 dotfiles/.omp/agent/blobs/
+dotfiles/.omp/install-id
 dotfiles/.omp/run/
 dotfiles/.omp/gpu_cache.json
 dotfiles/.omp/logs/
@@ -28,6 +31,15 @@ dotfiles/.omp/agent/.env
 dotfiles/.omp/agent/secret-placeholder.key
 dotfiles/.omp/plugins/cache/marketplaces/claude-plugins-official/
 
+# Pi agent secrets
+auth.json
+**/auth.json
+dotfiles/.pi/agent/auth.json
+
 
 # sops backup files
 *.bak
+
+# nvfetcher build cache
+.nvfetcher/
+.shake/

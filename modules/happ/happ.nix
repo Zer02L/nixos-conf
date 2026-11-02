@@ -1,7 +1,14 @@
-{ pkgs ? import <nixpkgs> { }, forceXwayland ? false, forceSoftwareRendering ? false }:
+{ pkgs ? import <nixpkgs> { }
+, forceXwayland ? false
+, forceSoftwareRendering ? false
+, sources ? import ../../_sources/generated.nix {
+    inherit (pkgs) fetchgit fetchurl fetchFromGitHub dockerTools;
+  }
+}:
 
 let
   lib = pkgs.lib;
+  inherit (sources.happ-desktop) pname version src;
 
   # Happ's bundled Qt6 Wayland plugins crash the client silently on
   # wlroots-based compositors (Hyprland, Sway, ...) -- ABI mismatch or
@@ -35,13 +42,7 @@ let
   ];
 in
 pkgs.stdenv.mkDerivation rec {
-  pname = "happ-desktop";
-  version = "4.2.1";
-
-  src = pkgs.fetchurl {
-    url = "https://github.com/Happ-proxy/happ-desktop/releases/download/${version}/Happ.linux.x64.deb";
-    sha256 = "vIvAvWH4/ZblxYEXzthc2wrcPCinA+eWXs3/EIlUrnU=";
-  };
+  inherit pname version src;
 
   nativeBuildInputs = with pkgs; [
     dpkg

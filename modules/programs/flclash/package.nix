@@ -1,6 +1,5 @@
 { lib
 , stdenv
-, fetchurl
 , dpkg
 , autoPatchelfHook
 , makeWrapper
@@ -27,16 +26,18 @@
 , libxtst
 , libGL
 , udev
+, fetchurl
+, fetchgit
+, fetchFromGitHub
+, dockerTools
+, sources ? import ../../../_sources/generated.nix { inherit fetchgit fetchurl fetchFromGitHub dockerTools; }
 }:
 
+let
+  inherit (sources.flclash) pname version src;
+in
 stdenv.mkDerivation rec {
-  pname = "flclash";
-  version = "0.8.99";
-
-  src = fetchurl {
-    url = "https://github.com/chen08209/FlClash/releases/download/v${version}/FlClash-${version}-linux-amd64.deb";
-    hash = "sha256-3Vtg1oqvsPdiaS1JcFD9Lty913L0xTgioG6yg3y/iF8=";
-  };
+  inherit pname version src;
 
   nativeBuildInputs = [
     dpkg
