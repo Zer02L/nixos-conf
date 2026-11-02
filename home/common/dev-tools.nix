@@ -67,12 +67,14 @@
 
     git
     lazygit
+    gh
+    jujutsu
+    lazyjj
+
+    wl-clipboard
 
     coreutils
     uesave
-
-    jujutsu
-    lazyjj
 
     # Code browsing
     bat
