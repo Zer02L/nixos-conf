@@ -27,10 +27,10 @@
     unzip
 
     # T3 Code CLI & headless server
-    (pkgs.callPackage ./pkgs/t3-cli.nix { })
+    t3-cli
 
     # Oh My Pi (omp) AI coding agent
-    (pkgs.callPackage ./pkgs/omp.nix { })
+    omp
 
   ];
 }

@@ -1,9 +1,15 @@
 { config, lib, pkgs, ... }:
 let
-  dotfilesDir = "${config.home.homeDirectory}/nixos-conf/dotfiles";
+  dotfilesDir = config.custom.dotfiles.path;
   inherit (config.lib.file) mkOutOfStoreSymlink;
 in {
-  home.file = {
+  options.custom.dotfiles.path = lib.mkOption {
+    type = lib.types.str;
+    default = "${config.home.homeDirectory}/nixos-conf/dotfiles";
+    description = "Path to the dotfiles directory on the target machine";
+  };
+
+  config.home.file = {
     # starship
     ".config/starship/starship.toml".source = mkOutOfStoreSymlink "${dotfilesDir}/starship/starship.toml";
 

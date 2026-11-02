@@ -43,3 +43,6 @@ dotfiles/.pi/agent/auth.json
 # nvfetcher build cache
 .nvfetcher/
 .shake/
+
+# Game saves
+saves/
