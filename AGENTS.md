@@ -24,3 +24,14 @@ Designed for multi-host scalability (desktop workstations, servers/VPS, laptops)
 2. **Evaluation Purity**: Flake outputs must evaluate without side effects (`nix eval .#nixosConfigurations.<host>.config.system.build.toplevel`).
 3. **Secrets Management**: Sensitive data is encrypted with `sops-nix` in `secrets.yaml` and loaded via systemd units.
 4. **Package Updates**: External packages tracked via `nvfetcher.toml` and compiled in `_sources/`.
+
+## Interaction & Review Protocols
+
+1. **Spec-First on Structural Changes**:
+   - For non-trivial modifications (adding host profiles, modifying disk schemes via `disko`, redesigning network/firewall, changing `sops-nix` secret patterns, or major refactorings), do NOT jump directly into editing `.nix` files.
+   - Formulate and present a brief architectural plan (affected modules, trade-offs, rollback strategy) and obtain user confirmation before writing code.
+
+2. **Goldfish Documentation Verification**:
+   - When creating or significantly updating operational runbooks, guides, or troubleshooting procedures in `docs/`, spawn an isolated subagent with zero conversational context.
+   - Task the subagent with reviewing the guide strictly on its self-containment: identifying ambiguous commands, hidden prerequisites, missing failure recovery steps, or implicit assumptions.
+
