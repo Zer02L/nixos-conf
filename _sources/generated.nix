@@ -30,6 +30,14 @@
       sha256 = "sha256-NiU4+r2Xtrd3mKdPPmOjCmk6MwC8wFor7KfWeZSO29U=";
     };
   };
+  omp = {
+    pname = "omp";
+    version = "18.14.2";
+    src = fetchurl {
+      url = "https://github.com/can1357/oh-my-pi/releases/download/v18.14.2/omp-linux-x64";
+      sha256 = "sha256-zeC8SsjsMzxIgAOaUkL/M9v8ZUR0fWeuuZuwd4dK7sE=";
+    };
+  };
   t3-cli = {
     pname = "t3-cli";
     version = "0.1.6";

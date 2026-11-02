@@ -30,4 +30,9 @@ src.github = "WFHelper/WFHelper"
 src.prefix = "v"
 fetch.url = "https://github.com/WFHelper/WFHelper/releases/download/v$ver/WFHelper-$ver.AppImage"
 
+[omp]
+src.github = "can1357/oh-my-pi"
+src.prefix = "v"
+fetch.url = "https://github.com/can1357/oh-my-pi/releases/download/v$ver/omp-linux-x64"
+
 

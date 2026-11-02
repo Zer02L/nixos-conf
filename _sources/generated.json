@@ -44,6 +44,21 @@
         },
         "version": "4.6.1"
     },
+    "omp": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "omp",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-zeC8SsjsMzxIgAOaUkL/M9v8ZUR0fWeuuZuwd4dK7sE=",
+            "type": "url",
+            "url": "https://github.com/can1357/oh-my-pi/releases/download/v18.14.2/omp-linux-x64"
+        },
+        "version": "18.14.2"
+    },
     "t3-cli": {
         "cargoLock": null,
         "date": null,
