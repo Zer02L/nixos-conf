@@ -347,22 +347,6 @@
         "type": "github"
       }
     },
-    "nixpkgs_3": {
-      "locked": {
-        "lastModified": 1793110635,
-        "narHash": "sha256-dhoW6VgFWlaodSY5jrBn+CF2FLmaUvDVgM7+C7T2+NM=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "31ecbaca1bdefa45dffc409f0250bd8039ea0010",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nur": {
       "inputs": {
         "flake-parts": "flake-parts_3",
@@ -439,8 +423,7 @@
         "nur": "nur",
         "plasma-manager": "plasma-manager",
         "sops-nix": "sops-nix",
-        "stylix": "stylix",
-        "zapret-discord-youtube": "zapret-discord-youtube"
+        "stylix": "stylix"
       }
     },
     "sops-nix": {
@@ -609,41 +592,6 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
-        "type": "github"
-      }
-    },
-    "zapret-discord-youtube": {
-      "inputs": {
-        "nixpkgs": "nixpkgs_3",
-        "zapret-flowseal": "zapret-flowseal"
-      },
-      "locked": {
-        "lastModified": 1793040103,
-        "narHash": "sha256-fWBRT6fA/X9hHP1ZXq7uqk37qMoReWvvDetbVtzni9Y=",
-        "owner": "kartavkun",
-        "repo": "zapret-discord-youtube",
-        "rev": "9e61435c2c6242542e5c66a7ca39908560eabc54",
-        "type": "github"
-      },
-      "original": {
-        "owner": "kartavkun",
-        "repo": "zapret-discord-youtube",
-        "type": "github"
-      }
-    },
-    "zapret-flowseal": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1792471264,
-        "narHash": "sha256-5qKg2BvW4XcjY+Az9ocvwACcfsfBpG4I3Xh6SCPksIM=",
-        "owner": "Flowseal",
-        "repo": "zapret-discord-youtube",
-        "rev": "176f56dc3f11ce5915c26abcdde903f93d835b64",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Flowseal",
-        "repo": "zapret-discord-youtube",
         "type": "github"
       }
     }

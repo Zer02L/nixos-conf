@@ -49,7 +49,6 @@ in
     homeConfigurations = {
       "zerg@zerg" = mkHome "zerg";
       "zerg@nixos" = mkHome "zerg";
-      extraSpecialArgs = { inherit inputs pkgs-stable; };
     };
 
     # Individual + автогенерированный .default (импортирует всё)

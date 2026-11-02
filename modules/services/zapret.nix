@@ -1,164 +1,166 @@
 {
   config,
-  inputs,
-  pkgs,
   lib,
+  pkgs,
   ...
 }:
+
+let
+  lists = ../../dotfiles/zapret/lists;
+  blobs = ../../dotfiles/zapret/blobs;
+
+  # ---------- ИЗМЕНЕНИЕ: стратегия amazon_UDP (fake) ----------
+  strategyFile = ../../dotfiles/zapret/strategies/amazon_UDP.args;
+  strategyText = builtins.readFile strategyFile;
+
+  strategyLines = builtins.filter (line: line != "" && !(lib.hasPrefix "#" line)) (
+    lib.splitString "\n" strategyText
+  );
+
+  subst =
+    line: builtins.replaceStrings [ "@lists@" "@blobs@" ] [ (toString lists) (toString blobs) ] line;
+
+  params = map subst strategyLines;
+
+  qnum = "200";
+in
 {
-  imports = [
-    inputs.zapret-discord-youtube.nixosModules.withTestTools
+  # ---- модули ядра (добавлен xt_set для ipset) ----
+  boot.kernelModules = [
+    "xt_NFQUEUE"
+    "xt_connbytes"
+    "xt_multiport"
+    "xt_set" # <-- новый модуль
   ];
 
-  services.zapret-discord-youtube = {
-    enable = false;
+  # ---- направляем трафик на NFQUEUE с учётом ipset-исключений ----
+  networking.firewall.extraCommands = ''
+    # TCP: основные порты
+    iptables -t mangle -A POSTROUTING -p tcp -m multiport --dports 80,443,8443 \
+      -m connbytes --connbytes-dir=original --connbytes-mode=packets --connbytes 1:6 \
+      -m set ! --match-set nozapret dst \
+      -m mark ! --mark 0x40000000/0x40000000 \
+      -j NFQUEUE --queue-num ${qnum} --queue-bypass
+    ip6tables -t mangle -A POSTROUTING -p tcp -m multiport --dports 80,443,8443 \
+      -m connbytes --connbytes-dir=original --connbytes-mode=packets --connbytes 1:6 \
+      -m set ! --match-set nozapret dst \
+      -m mark ! --mark 0x40000000/0x40000000 \
+      -j NFQUEUE --queue-num ${qnum} --queue-bypass 2>/dev/null || true
 
-    # 1. Меняем стратегию на "general(ALT12)"
-    # ALT12 использует hostfakesplit + ts для Google/YouTube и двойной fake stun/quic для Discord
-    configName = "general(ALT9)";
+    # TCP: альтернативные порты
+    iptables -t mangle -A POSTROUTING -p tcp -m multiport --dports 2053,2083,2087,2096 \
+      -m connbytes --connbytes-dir=original --connbytes-mode=packets --connbytes 1:6 \
+      -m set ! --match-set nozapret dst \
+      -m mark ! --mark 0x40000000/0x40000000 \
+      -j NFQUEUE --queue-num ${qnum} --queue-bypass
+    ip6tables -t mangle -A POSTROUTING -p tcp -m multiport --dports 2053,2083,2087,2096 \
+      -m connbytes --connbytes-dir=original --connbytes-mode=packets --connbytes 1:6 \
+      -m set ! --match-set nozapret dst \
+      -m mark ! --mark 0x40000000/0x40000000 \
+      -j NFQUEUE --queue-num ${qnum} --queue-bypass 2>/dev/null || true
 
-    # 2. GameFilter — оставляем "all" (включает обработку UDP и TCP для списков)
-    gameFilter = "all";
+    # UDP: порт 443
+    iptables -t mangle -A POSTROUTING -p udp --dport 443 \
+      -m set ! --match-set nozapret dst \
+      -m mark ! --mark 0x40000000/0x40000000 \
+      -j NFQUEUE --queue-num ${qnum} --queue-bypass
+    ip6tables -t mangle -A POSTROUTING -p udp --dport 443 \
+      -m set ! --match-set nozapret dst \
+      -m mark ! --mark 0x40000000/0x40000000 \
+      -j NFQUEUE --queue-num ${qnum} --queue-bypass 2>/dev/null || true
 
-    # 3. Домены для обхода (list-general.txt)
-    listGeneral = [
-      "github.com"
-      "api.github.com"
-      "steamcommunity.com"
-      "store.steampowered.com"
-      "api.steampowered.com"
-      "steamcdn-a.akamaihd.net"
-      "steamuserimages-a.akamaihd.net"
-      "steamloopback.host"
+    # UDP: диапазон 19294-19344 (обычно для игр)
+    iptables -t mangle -A POSTROUTING -p udp --dport 19294:19344 \
+      -m set ! --match-set nozapret dst \
+      -m mark ! --mark 0x40000000/0x40000000 \
+      -j NFQUEUE --queue-num ${qnum} --queue-bypass
+    ip6tables -t mangle -A POSTROUTING -p udp --dport 19294:19344 \
+      -m set ! --match-set nozapret dst \
+      -m mark ! --mark 0x40000000/0x40000000 \
+      -j NFQUEUE --queue-num ${qnum} --queue-bypass 2>/dev/null || true
 
-      # --- ДОМЕНЫ ИГРЫ И AWS GAMELIFT (Критично для Darktide) ---
-      "atoma.cloud"
-      "bsp-auth-prod.atoma.cloud"
-      "bsp-td-prod.atoma.cloud"
-      "accounts.atoma.cloud"
-      "darktide.games"
-      "fatsharkgames.com"
-      "fatshark.se"
-      "playdarktide.com"
-      "amazonaws.com"
-      "awsstatic.com"
-      "cloudfront.net"
-      "s3.amazonaws.com"
-      "signin.aws.amazon.com"
-      "console.aws.a2z.com"
-      "awsapps.com"
-      "sso.amazonaws.com"
-      "gamelift.us-east-1.amazonaws.com"
-      "gamelift.eu-central-1.amazonaws.com"
+    # UDP: диапазон 50000-50100
+    iptables -t mangle -A POSTROUTING -p udp --dport 50000:50100 \
+      -m set ! --match-set nozapret dst \
+      -m mark ! --mark 0x40000000/0x40000000 \
+      -j NFQUEUE --queue-num ${qnum} --queue-bypass
+    ip6tables -t mangle -A POSTROUTING -p udp --dport 50000:50100 \
+      -m set ! --match-set nozapret dst \
+      -m mark ! --mark 0x40000000/0x40000000 \
+      -j NFQUEUE --queue-num ${qnum} --queue-bypass 2>/dev/null || true
 
-      # --- AMAZON ---
-      "amazon.com"
-      "media-amazon.com"
-      "ssl-images-amazon.com"
-      "a2z.com"
+    # ---------- ДОПОЛНИТЕЛЬНО: UDP для Steam (Darktide) ----------
+    iptables -t mangle -A POSTROUTING -p udp --dport 27000:27030 \
+      -m set ! --match-set nozapret dst \
+      -m mark ! --mark 0x40000000/0x40000000 \
+      -j NFQUEUE --queue-num ${qnum} --queue-bypass
+    ip6tables -t mangle -A POSTROUTING -p udp --dport 27000:27030 \
+      -m set ! --match-set nozapret dst \
+      -m mark ! --mark 0x40000000/0x40000000 \
+      -j NFQUEUE --queue-num ${qnum} --queue-bypass 2>/dev/null || true
+  '';
 
-      # --- CLOUDFLARE И WARP ---
-      "deadbydaylight.com"
-      "deadbydaylight.fandom.com"
-      "argotunnel.com"
-      "cfargotunnel.com"
-      "cfl.re"
-      "cloudflare-dns.com"
-      "cloudflare-ech.com"
-      "cloudflare-esni.com"
-      "cloudflare-gateway.com"
-      "cloudflare-quic.com"
-      "cloudflare.com"
-      "cloudflare.net"
-      "cloudflare.tv"
-      "cloudflareaccess.com"
-      "cloudflareapps.com"
-      "cloudflarebolt.com"
-      "cloudflareclient.com"
-      "cloudflareinsights.com"
-      "cloudflareok.com"
-      "cloudflarepartners.com"
-      "cloudflareportal.com"
-      "cloudflarepreview.com"
-      "cloudflareresolve.com"
-      "cloudflaressl.com"
-      "cloudflarestatus.com"
-      "cloudflarestorage.com"
-      "cloudflarestream.com"
-      "cloudflaretest.com"
-      "cloudflarewarp.com"
-      "every1dns.net"
-      "isbgpsafeyet.com"
-      "one.one.one.one"
-      "one.one.one"
-      "pacloudflare.com"
-      "pages.dev"
-      "trycloudflare.com"
-      "videodelivery.net"
-      "warp.plus"
-      "workers.dev"
-    ];
+  # ---- сервис: nfqws с правильной изоляцией ----
+  systemd.services.zapret = {
+    description = "DPI bypass service (nfqws)";
+    after = [ "network.target" ];
+    wantedBy = [ "multi-user.target" ];
 
-    # 4. IP-подсети Cloudflare (ipset-all.txt)
-    # Попадают в ipset-all для перехвата трафика по IP
-    ipsetAll = [
-      "103.21.244.0/22"
-      "103.22.200.0/22"
-      "103.31.4.0/22"
-      "104.16.0.0/13"
-      "104.24.0.0/14"
-      "108.162.192.0/18"
-      "131.0.72.0/22"
-      "141.101.64.0/18"
-      "162.158.0.0/15"
-      "172.64.0.0/13"
-      "173.245.48.0/20"
-      "188.114.96.0/20"
-      "190.93.240.0/20"
-      "197.234.240.0/22"
-      "198.41.128.0/17"
-    ];
+    preStart = ''
+      # Загружаем модули (включая xt_set)
+      ${pkgs.kmod}/bin/modprobe xt_NFQUEUE 2>/dev/null || true
+      ${pkgs.kmod}/bin/modprobe xt_connbytes 2>/dev/null || true
+      ${pkgs.kmod}/bin/modprobe xt_multiport 2>/dev/null || true
+      ${pkgs.kmod}/bin/modprobe xt_set 2>/dev/null || true
 
-    # Приватные IP-адреса VPS/прокси вынесены в sops/age (secrets.yaml -> zapret_exclude_ips)
-    # и динамически подгружаются в nozapret / iptables через postStart сервиса zapret-discord-youtube.
-    ipsetExclude = [ ];
-
-    listExclude = [ ];
-
-    # 5. Специфичные параметры (nfqwsAppend)
-    nfqwsAppend = [ ];
-
-    # Блок extraConfigs нам не нужен, удаляем его, чтобы избежать конфликтов.
-    extraConfigs = { };
-  };
-
-  # Исключаем виртуальные интерфейсы FlClash / Happ / sing-box и IP из sops/age из перехвата Zapret
-  systemd.services.zapret-discord-youtube = lib.mkIf config.services.zapret-discord-youtube.enable {
-    after = [ "sops-nix.service" ];
-    wants = [ "sops-nix.service" ];
-    postStart = ''
-      # Проверка существования правила перед добавлением (защита от дублирования при рестартах)
-      ${pkgs.iptables}/bin/iptables -C OUTPUT -o tun+ -j ACCEPT 2>/dev/null || ${pkgs.iptables}/bin/iptables -I OUTPUT 1 -o tun+ -j ACCEPT
-      ${pkgs.iptables}/bin/iptables -C OUTPUT -o clash+ -j ACCEPT 2>/dev/null || ${pkgs.iptables}/bin/iptables -I OUTPUT 1 -o clash+ -j ACCEPT
-      ${pkgs.iptables}/bin/iptables -C OUTPUT -o sing-box -j ACCEPT 2>/dev/null || ${pkgs.iptables}/bin/iptables -I OUTPUT 1 -o sing-box -j ACCEPT
-      ${pkgs.iptables}/bin/ip6tables -C OUTPUT -o tun+ -j ACCEPT 2>/dev/null || ${pkgs.iptables}/bin/ip6tables -I OUTPUT 1 -o tun+ -j ACCEPT 2>/dev/null || true
-      ${pkgs.iptables}/bin/ip6tables -C OUTPUT -o clash+ -j ACCEPT 2>/dev/null || ${pkgs.iptables}/bin/ip6tables -I OUTPUT 1 -o clash+ -j ACCEPT 2>/dev/null || true
-      ${pkgs.iptables}/bin/ip6tables -C OUTPUT -o sing-box -j ACCEPT 2>/dev/null || ${pkgs.iptables}/bin/ip6tables -I OUTPUT 1 -o sing-box -j ACCEPT 2>/dev/null || true
-
-      # Исключение приватных IP-адресов серверов/прокси из SOPS/age (secrets.yaml)
-      if [ -f "${config.sops.secrets.zapret_exclude_ips.path}" ]; then
-        while IFS= read -r ip || [ -n "$ip" ]; do
-          ip="$(echo "$ip" | sed -e 's/#.*//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
-          [ -z "$ip" ] && continue
-          if echo "$ip" | grep -q ':'; then
-            ${pkgs.ipset}/bin/ipset add nozapret6 "$ip" 2>/dev/null || true
-            ${pkgs.iptables}/bin/ip6tables -C OUTPUT -d "$ip" -j ACCEPT 2>/dev/null || ${pkgs.iptables}/bin/ip6tables -I OUTPUT 1 -d "$ip" -j ACCEPT 2>/dev/null || true
-          else
-            ${pkgs.ipset}/bin/ipset add nozapret "$ip" 2>/dev/null || true
-            ${pkgs.iptables}/bin/iptables -C OUTPUT -d "$ip" -j ACCEPT 2>/dev/null || ${pkgs.iptables}/bin/iptables -I OUTPUT 1 -d "$ip" -j ACCEPT 2>/dev/null || true
-          fi
-        done < "${config.sops.secrets.zapret_exclude_ips.path}"
+      # Создаём ipset, если его нет
+      if ! ${pkgs.ipset}/bin/ipset list nozapret >/dev/null 2>&1; then
+        ${pkgs.ipset}/bin/ipset create nozapret hash:net 2>/dev/null || true
       fi
+
+      # ---------- ИСКЛЮЧЕНИЯ ДЛЯ СЕРВЕРОВ DARKTIDE (AWS/CloudFront) ----------
+      # Добавляем известные подсети (при необходимости дополните/обновите)
+      ${pkgs.ipset}/bin/ipset add nozapret 51.20.0.0/16 2>/dev/null || true
+      ${pkgs.ipset}/bin/ipset add nozapret 13.53.0.0/16 2>/dev/null || true
+      ${pkgs.ipset}/bin/ipset add nozapret 13.248.0.0/16 2>/dev/null || true
+      ${pkgs.ipset}/bin/ipset add nozapret 99.86.0.0/16 2>/dev/null || true
+      ${pkgs.ipset}/bin/ipset add nozapret 108.157.0.0/16 2>/dev/null || true
+      ${pkgs.ipset}/bin/ipset add nozapret 143.204.0.0/16 2>/dev/null || true
     '';
+
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.zapret}/bin/nfqws --pidfile=/run/nfqws.pid ${lib.concatStringsSep " " params} --qnum=${qnum}";
+      NoNewPrivileges = true;
+      PIDFile = "/run/nfqws.pid";
+      Restart = "always";
+
+      User = "root";
+      Group = "root";
+
+      AmbientCapabilities = [
+        "CAP_NET_ADMIN"
+        "CAP_NET_RAW"
+      ];
+      CapabilityBoundingSet = [
+        "CAP_NET_ADMIN"
+        "CAP_NET_RAW"
+      ];
+      DevicePolicy = "closed";
+      KeyringMode = "private";
+      PrivateTmp = true;
+      PrivateMounts = true;
+      ProtectHome = true;
+      ProtectHostname = true;
+      ProtectKernelModules = true;
+      ProtectKernelTunables = true;
+      ProtectSystem = "strict";
+      ProtectProc = "invisible";
+      RemoveIPC = true;
+      RestrictNamespaces = true;
+      RestrictRealtime = true;
+      RestrictSUIDSGID = true;
+      SystemCallArchitectures = "native";
+    };
   };
 }

@@ -19,8 +19,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    zapret-discord-youtube.url = "github:kartavkun/zapret-discord-youtube"; # удалён с GitHub (404)
-
     stylix = {
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
