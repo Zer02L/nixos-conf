@@ -46,6 +46,11 @@
     pnpm
     bun
 
+    # DeepSeek Harness CLI (uses nodejs_24 where Cordis HMR works out of the box)
+    (writeShellScriptBin "dsh" ''
+      exec ${nodejs_24}/bin/npx -y @deepseek-ai/dsh@latest "$@"
+    '')
+
     typescript-language-server
     vue-language-server
     tailwindcss-language-server
