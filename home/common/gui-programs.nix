@@ -38,6 +38,9 @@
       # t3code (official release pingdotgg/t3code)
       t3code
 
+      # artcraft-launcher (storytold/craft-launcher via nvfetcher)
+      artcraft-launcher
+
       godot
       blender
 
@@ -46,7 +49,6 @@
       qbittorrent
 
       vesktop
-      onlyoffice-desktopeditors
 
       amnezia-vpn
 

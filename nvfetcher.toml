@@ -35,4 +35,9 @@ src.github = "can1357/oh-my-pi"
 src.prefix = "v"
 fetch.url = "https://github.com/can1357/oh-my-pi/releases/download/v$ver/omp-linux-x64"
 
+[artcraft-launcher]
+src.github = "storytold/craft-launcher"
+src.prefix = "v"
+fetch.url = "https://github.com/storytold/craft-launcher/releases/download/v$ver/artcraft-launcher-$ver-linux-x86_64.AppImage"
+
 

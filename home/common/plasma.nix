@@ -6,7 +6,7 @@
 #   2 — Браузер (librewolf, mullvad-browser)
 #   3 — IDE (zed, vscode)
 #   4 — Коммуникация (vesktop, telegram-desktop)
-#   5 — Прочее (obsidian, super-productivity, blender, onlyoffice)
+#   5 — Прочее (obsidian, super-productivity, blender)
 #
 # WMClass определяется через: xprop | grep WM_CLASS
 # Режим: Apply Initially — можно перетащить вручную.
@@ -64,7 +64,6 @@ in
       (mkDesktopRule { name = "Obsidian";         wmclass = "obsidian";              desktop = 5; })
       (mkDesktopRule { name = "Super Productivity"; wmclass = "super-productivity";  desktop = 5; })
       (mkDesktopRule { name = "Blender";          wmclass = "blender";               desktop = 5; })
-      (mkDesktopRule { name = "OnlyOffice";       wmclass = "onlyoffice-desktopeditors"; desktop = 5; })
       (mkDesktopRule { name = "OBS Studio";       wmclass = "com.obsproject.Studio"; desktop = 5; })
       (mkDesktopRule { name = "mpv";              wmclass = "mpv";                   desktop = 5; })
     ];

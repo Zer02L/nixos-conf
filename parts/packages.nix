@@ -17,6 +17,7 @@ in
         t3-cli = pkgsWithCustom.t3-cli;
         omp = pkgsWithCustom.omp;
         amethyst-mod-manager = pkgsWithCustom.amethyst-mod-manager;
+        artcraft-launcher = pkgsWithCustom.artcraft-launcher;
       };
     };
 }

@@ -8,4 +8,5 @@ in
   t3-cli = final.callPackage ./t3-cli.nix { inherit sources; };
   omp = final.callPackage ./omp.nix { inherit sources; };
   amethyst-mod-manager = final.callPackage ./amethyst-mod-manager.nix { inherit sources; };
+  artcraft-launcher = final.callPackage ./artcraft-launcher.nix { inherit sources; };
 }
