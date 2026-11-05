@@ -56,6 +56,7 @@ let
     # zapret2 = import ../modules/services/zapret2.nix;
     cloudflare-warp = import ../modules/services/cloudflare-warp.nix;
     amneziawg = import ../modules/services/amneziawg.nix;
+    vpn-timezone = import ../modules/services/vpn-timezone.nix;
     power = import ../modules/services/power.nix;
     postgresql = import ../modules/services/postgresql.nix;
     podman = import ../modules/services/podman.nix;

@@ -8,50 +8,58 @@
 {
   amethyst-mod-manager = {
     pname = "amethyst-mod-manager";
-    version = "2.6.0";
+    version = "2.6.1";
     src = fetchurl {
-      url = "https://github.com/ChrisDKN/Amethyst-Mod-Manager/releases/download/v2.6.0/AmethystModManager-2.6.0-x86_64.AppImage";
-      sha256 = "sha256-+icz44QnliY7OtHn+AJH0djmmBsAr2Eq12G4SsNIgLQ=";
+      url = "https://github.com/ChrisDKN/Amethyst-Mod-Manager/releases/download/v2.6.1/AmethystModManager-2.6.1-x86_64.AppImage";
+      sha256 = "sha256-LzNf45FCBgBJ+cPtzNcqKaZcXXNKGa9r2N96n7+Zv+c=";
+    };
+  };
+  artcraft-launcher = {
+    pname = "artcraft-launcher";
+    version = "0.14.1";
+    src = fetchurl {
+      url = "https://github.com/storytold/craft-launcher/releases/download/v0.14.1/artcraft-launcher-0.14.1-linux-x86_64.AppImage";
+      sha256 = "sha256-QsHOhWQ5GbyH2qPiRB0DuQ8AShaCo18luVy7mOXwdds=";
     };
   };
   flclash = {
     pname = "flclash";
-    version = "0.9.2";
+    version = "0.9.3";
     src = fetchurl {
-      url = "https://github.com/chen08209/FlClash/releases/download/v0.9.2/FlClash-0.9.2-linux-amd64.deb";
-      sha256 = "sha256-xso3RG25K1cwnRxwn7piCfLGebbTPPx0j3O46xpZpug=";
+      url = "https://github.com/chen08209/FlClash/releases/download/v0.9.3/FlClash-0.9.3-linux-amd64.deb";
+      sha256 = "sha256-QGQlQym7OcYonHQ+FuVyauVrWFPobZ+I4BReKvAyNRs=";
     };
   };
   happ-desktop = {
     pname = "happ-desktop";
-    version = "4.6.1";
+    version = "4.7.2";
     src = fetchurl {
-      url = "https://github.com/Happ-proxy/happ-desktop/releases/download/4.6.1/Happ.linux.x64.deb";
-      sha256 = "sha256-NiU4+r2Xtrd3mKdPPmOjCmk6MwC8wFor7KfWeZSO29U=";
+      url = "https://github.com/Happ-proxy/happ-desktop/releases/download/4.7.2/Happ.linux.x64.deb";
+      sha256 = "sha256-hRQPLKB98Lol0C1IKkj2UjdQkxxH/CS6O+bclwK5KfQ=";
     };
   };
   omp = {
     pname = "omp";
-    version = "18.14.2";
+    version = "18.16.0";
     src = fetchurl {
-      url = "https://github.com/can1357/oh-my-pi/releases/download/v18.14.2/omp-linux-x64";
-      sha256 = "sha256-zeC8SsjsMzxIgAOaUkL/M9v8ZUR0fWeuuZuwd4dK7sE=";
+      url = "https://github.com/can1357/oh-my-pi/releases/download/v18.16.0/omp-linux-x64";
+      sha256 = "sha256-ZJjteFurANKSbgOH4OwCNi1tRfHD0NG1fBYYt/lckmQ=";
     };
   };
   t3-cli = {
     pname = "t3-cli";
-    version = "0.1.6";
+    version = "0.1.7";
     src = fetchurl {
-      url = "https://github.com/pingdotgg/t3code/releases/download/v0.1.6/t3-0.1.6-linux-x64.tar.gz";
-      sha256 = "sha256-fPMdqQ3uQfUk3VtnnrttQEY3yl2dxv2LwBlRHVe7d+Y=";
+      url = "https://github.com/pingdotgg/t3code/releases/download/v0.1.7/t3-0.1.7-linux-x64.tar.gz";
+      sha256 = "sha256-wImJK/eSLi5zxvRKXR6hJcmfcON4wYNhy77S+6GSDmw=";
     };
   };
   t3code = {
     pname = "t3code";
-    version = "0.1.6";
+    version = "0.1.7";
     src = fetchurl {
-      url = "https://github.com/pingdotgg/t3code/releases/download/v0.1.6/T3-Code-0.1.6-x86_64.AppImage";
-      sha256 = "sha256-CeJQcgjHeTCbOWvoRq6h2UUUS9eAYGiZwvSByW3fNNA=";
+      url = "https://github.com/pingdotgg/t3code/releases/download/v0.1.7/T3-Code-0.1.7-x86_64.AppImage";
+      sha256 = "sha256-+q7kCU3KEnYFeEChpFprLQDXQYr79XNfdadQO3dOY9E=";
     };
   };
   wfhelper = {

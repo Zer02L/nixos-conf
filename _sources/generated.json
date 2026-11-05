@@ -8,11 +8,26 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-+icz44QnliY7OtHn+AJH0djmmBsAr2Eq12G4SsNIgLQ=",
+            "sha256": "sha256-LzNf45FCBgBJ+cPtzNcqKaZcXXNKGa9r2N96n7+Zv+c=",
             "type": "url",
-            "url": "https://github.com/ChrisDKN/Amethyst-Mod-Manager/releases/download/v2.6.0/AmethystModManager-2.6.0-x86_64.AppImage"
+            "url": "https://github.com/ChrisDKN/Amethyst-Mod-Manager/releases/download/v2.6.1/AmethystModManager-2.6.1-x86_64.AppImage"
         },
-        "version": "2.6.0"
+        "version": "2.6.1"
+    },
+    "artcraft-launcher": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "artcraft-launcher",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-QsHOhWQ5GbyH2qPiRB0DuQ8AShaCo18luVy7mOXwdds=",
+            "type": "url",
+            "url": "https://github.com/storytold/craft-launcher/releases/download/v0.14.1/artcraft-launcher-0.14.1-linux-x86_64.AppImage"
+        },
+        "version": "0.14.1"
     },
     "flclash": {
         "cargoLock": null,
@@ -23,11 +38,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-xso3RG25K1cwnRxwn7piCfLGebbTPPx0j3O46xpZpug=",
+            "sha256": "sha256-QGQlQym7OcYonHQ+FuVyauVrWFPobZ+I4BReKvAyNRs=",
             "type": "url",
-            "url": "https://github.com/chen08209/FlClash/releases/download/v0.9.2/FlClash-0.9.2-linux-amd64.deb"
+            "url": "https://github.com/chen08209/FlClash/releases/download/v0.9.3/FlClash-0.9.3-linux-amd64.deb"
         },
-        "version": "0.9.2"
+        "version": "0.9.3"
     },
     "happ-desktop": {
         "cargoLock": null,
@@ -38,11 +53,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-NiU4+r2Xtrd3mKdPPmOjCmk6MwC8wFor7KfWeZSO29U=",
+            "sha256": "sha256-hRQPLKB98Lol0C1IKkj2UjdQkxxH/CS6O+bclwK5KfQ=",
             "type": "url",
-            "url": "https://github.com/Happ-proxy/happ-desktop/releases/download/4.6.1/Happ.linux.x64.deb"
+            "url": "https://github.com/Happ-proxy/happ-desktop/releases/download/4.7.2/Happ.linux.x64.deb"
         },
-        "version": "4.6.1"
+        "version": "4.7.2"
     },
     "omp": {
         "cargoLock": null,
@@ -53,11 +68,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-zeC8SsjsMzxIgAOaUkL/M9v8ZUR0fWeuuZuwd4dK7sE=",
+            "sha256": "sha256-ZJjteFurANKSbgOH4OwCNi1tRfHD0NG1fBYYt/lckmQ=",
             "type": "url",
-            "url": "https://github.com/can1357/oh-my-pi/releases/download/v18.14.2/omp-linux-x64"
+            "url": "https://github.com/can1357/oh-my-pi/releases/download/v18.16.0/omp-linux-x64"
         },
-        "version": "18.14.2"
+        "version": "18.16.0"
     },
     "t3-cli": {
         "cargoLock": null,
@@ -68,11 +83,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-fPMdqQ3uQfUk3VtnnrttQEY3yl2dxv2LwBlRHVe7d+Y=",
+            "sha256": "sha256-wImJK/eSLi5zxvRKXR6hJcmfcON4wYNhy77S+6GSDmw=",
             "type": "url",
-            "url": "https://github.com/pingdotgg/t3code/releases/download/v0.1.6/t3-0.1.6-linux-x64.tar.gz"
+            "url": "https://github.com/pingdotgg/t3code/releases/download/v0.1.7/t3-0.1.7-linux-x64.tar.gz"
         },
-        "version": "0.1.6"
+        "version": "0.1.7"
     },
     "t3code": {
         "cargoLock": null,
@@ -83,11 +98,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-CeJQcgjHeTCbOWvoRq6h2UUUS9eAYGiZwvSByW3fNNA=",
+            "sha256": "sha256-+q7kCU3KEnYFeEChpFprLQDXQYr79XNfdadQO3dOY9E=",
             "type": "url",
-            "url": "https://github.com/pingdotgg/t3code/releases/download/v0.1.6/T3-Code-0.1.6-x86_64.AppImage"
+            "url": "https://github.com/pingdotgg/t3code/releases/download/v0.1.7/T3-Code-0.1.7-x86_64.AppImage"
         },
-        "version": "0.1.6"
+        "version": "0.1.7"
     },
     "wfhelper": {
         "cargoLock": null,

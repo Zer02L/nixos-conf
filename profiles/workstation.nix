@@ -22,5 +22,11 @@
     ../modules/services/cloudflared.nix
     ../modules/services/cloudflare-warp.nix
     ../modules/services/amneziawg.nix
+    ../modules/services/vpn-timezone.nix
   ];
+
+  services.vpnTimezone = {
+    enable = true;
+    defaultTimeZone = "Europe/Moscow";
+  };
 }
