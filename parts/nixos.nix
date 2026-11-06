@@ -65,6 +65,10 @@ let
     secrets = import ../modules/services/secrets.nix;
     networking = import ../modules/networking/base.nix;
     cloudflared = import ../modules/services/cloudflared.nix;
+    tailscale = import ../modules/services/tailscale.nix;
+    t3-server = import ../modules/services/t3-server.nix;
+    caddy = import ../modules/services/caddy.nix;
+    sitecraft = import ../modules/services/sitecraft.nix;
     desktop = import ../modules/desktop/foundation.nix;
     plasma = import ../modules/desktop/plasma.nix;
     users-zerg = import ../modules/users/zerg.nix;
@@ -78,6 +82,9 @@ in
   flake = {
     nixosConfigurations = {
       zerg = mkNixos "zerg";
+      server-template = mkNixos "server-template";
+      server-eu = mkNixos "server-eu";
+      server-ru = mkNixos "server-ru";
     };
     # Individual + автогенерированный .default (импортирует всё)
     nixosModules = modules // {

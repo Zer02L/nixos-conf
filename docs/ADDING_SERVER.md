@@ -1,6 +1,9 @@
 # Руководство по добавлению серверного хоста
 
-В этой инструкции описан процесс добавления нового сервера (VPS или локальной физической машины) в общую конфигурацию NixOS.
+В этой инструкции описан базовый процесс добавления нового сервера (VPS или локальной физической машины) в общую конфигурацию NixOS.
+
+> [!TIP]
+> Подробное руководство по развертыванию серверов в **Европе** и **России**, многосайтовому веб-хостингу (Caddy), удаленной разработке в **T3 Code** и запуску конструктора сайтов **SiteCreator (Fleet)** смотрите в [SERVER_AND_WEB_DEPLOYMENT.md](file:///home/zerg/nixos-conf/docs/SERVER_AND_WEB_DEPLOYMENT.md).
 
 ---
 
@@ -11,7 +14,10 @@
 ```
 profiles/
 ├── core.nix         # База для ВСЕХ машин (Nix, сеть, zram, fstrim, admin-tools, zerg)
-├── server.nix       # Headless сервер: SSH, fail2ban, TCP BBR, отключение GUI/звука
+├── server.nix       # Базовый headless сервер: SSH, fail2ban, TCP BBR, sops-host-key
+├── server/
+│   ├── eu.nix       # Европейский сервер (Hetzner, Aeza EU): прямой AI, UTC, DoT
+│   └── ru.nix       # Российский сервер (Selectel, Timeweb RU): DoT, AI-прокси, Caddy, SiteCraft
 ├── desktop.nix      # Графическая подсистема: Plasma 6, SDDM, PipeWire, шрифты, Flatpak
 └── workstation.nix  # Полная рабочая станция: Nvidia, Steam, ComfyUI, Podman, VPN/прокси
 ```

@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   services.resolved = {
@@ -9,7 +9,7 @@
         # Основные DNS-серверы (xbox-dns.ru) — указываем IP-адреса, а не домен,
         # чтобы избежать циклической зависимости при разрешении имён.
         # К каждому IP добавляем TLS-имя хоста (для проверки сертификата при DoT).
-        DNS = [
+        DNS = lib.mkDefault [
           "111.88.96.50#xbox-dns.ru"
           "111.88.96.51#xbox-dns.ru"
         ];
@@ -45,5 +45,5 @@
   ];
 
   # Порт для локального подключения к T3 Code с мобильных устройств
-  networking.firewall.allowedTCPPorts = [ 3773 ];
+  networking.firewall.allowedTCPPorts = lib.mkDefault [ 3773 ];
 }
