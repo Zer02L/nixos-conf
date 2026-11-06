@@ -8,10 +8,10 @@
 {
   amethyst-mod-manager = {
     pname = "amethyst-mod-manager";
-    version = "2.6.1";
+    version = "2.6.2";
     src = fetchurl {
-      url = "https://github.com/ChrisDKN/Amethyst-Mod-Manager/releases/download/v2.6.1/AmethystModManager-2.6.1-x86_64.AppImage";
-      sha256 = "sha256-LzNf45FCBgBJ+cPtzNcqKaZcXXNKGa9r2N96n7+Zv+c=";
+      url = "https://github.com/ChrisDKN/Amethyst-Mod-Manager/releases/download/v2.6.2/AmethystModManager-2.6.2-x86_64.AppImage";
+      sha256 = "sha256-JpqzooCI1dijg280ofIfqUE2qk8PpB7Iukn180xIeoo=";
     };
   };
   artcraft-launcher = {
@@ -40,10 +40,10 @@
   };
   omp = {
     pname = "omp";
-    version = "18.16.0";
+    version = "18.17.0";
     src = fetchurl {
-      url = "https://github.com/can1357/oh-my-pi/releases/download/v18.16.0/omp-linux-x64";
-      sha256 = "sha256-ZJjteFurANKSbgOH4OwCNi1tRfHD0NG1fBYYt/lckmQ=";
+      url = "https://github.com/can1357/oh-my-pi/releases/download/v18.17.0/omp-linux-x64";
+      sha256 = "sha256-pM5gAasQEsqDX0GE1nVDdTG9GsR3p7qEJO0LVHbp5Ms=";
     };
   };
   t3-cli = {
