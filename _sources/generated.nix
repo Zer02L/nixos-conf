@@ -16,10 +16,10 @@
   };
   artcraft-launcher = {
     pname = "artcraft-launcher";
-    version = "0.14.1";
+    version = "0.15.0";
     src = fetchurl {
-      url = "https://github.com/storytold/craft-launcher/releases/download/v0.14.1/artcraft-launcher-0.14.1-linux-x86_64.AppImage";
-      sha256 = "sha256-QsHOhWQ5GbyH2qPiRB0DuQ8AShaCo18luVy7mOXwdds=";
+      url = "https://github.com/storytold/craft-launcher/releases/download/v0.15.0/artcraft-launcher-0.15.0-linux-x86_64.AppImage";
+      sha256 = "sha256-sFD+zH/B9MSGs4bjJIr+E5MrWpeHZzsdumihZZA1I0c=";
     };
   };
   flclash = {

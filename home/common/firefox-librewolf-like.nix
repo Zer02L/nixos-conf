@@ -67,11 +67,13 @@
 
       # ─── DNS-over-HTTPS (DoH) ─────────────────────────────────────────────
       # Шифрует DNS-запросы через HTTPS. Предотвращает перехват DNS.
-      # Cloudflare chosen: быстрый, без логирования (по их заявлению).
+      # Quad9 chosen: нероссийский (Швейцария), DNSSEC + блокировка вредоносов,
+      # DoH стабильно работает в РФ (Cloudflare DoH с августа 2026 режется
+      # ТСПУ по SNI — mozilla.cloudflare-dns.com был нерабочим).
       # Locked = false → пользователь может сменить провайдера в настройках.
       DNSOverHTTPS = {
         Enabled = true;
-        ProviderURL = "https://mozilla.cloudflare-dns.com/dns-query";
+        ProviderURL = "https://dns.quad9.net/dns-query";
         Locked = false;
       };
 
