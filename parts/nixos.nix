@@ -71,6 +71,7 @@ let
     sitecraft = import ../modules/services/sitecraft.nix;
     desktop = import ../modules/desktop/foundation.nix;
     plasma = import ../modules/desktop/plasma.nix;
+    umbriel = import ../modules/desktop/umbriel.nix;
     users-zerg = import ../modules/users/zerg.nix;
     flatpak = import ../modules/services/flatpak.nix;
 

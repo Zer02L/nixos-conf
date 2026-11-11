@@ -1,5 +1,10 @@
 # Home-Manager profile: Terminal/CLI environment (shared across desktop & server)
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   imports = [
     ../common/shell.nix
@@ -11,7 +16,7 @@
     ../common/git-hooks.nix
     ../common/tmux.nix
     ../common/yazi.nix
-    ../common/pi-coding-agent.nix
+    # ../common/pi-coding-agent.nix
     ../common/distrobox.nix
   ];
 }

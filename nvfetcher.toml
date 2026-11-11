@@ -40,4 +40,22 @@ src.github = "storytold/craft-launcher"
 src.prefix = "v"
 fetch.url = "https://github.com/storytold/craft-launcher/releases/download/v$ver/artcraft-launcher-$ver-linux-x86_64.AppImage"
 
+[brave]
+src.webpage = "https://versions.brave.com/latest/release-linux-x64.version"
+src.regex = "([0-9.]+)"
+fetch.url = "https://github.com/brave/brave-browser/releases/download/v$ver/brave-browser_$ver_amd64.deb"
 
+[brave-origin]
+src.webpage = "https://versions.brave.com/latest/origin-release-linux-x64.version"
+src.regex = "([0-9.]+)"
+fetch.url = "https://github.com/brave/brave-browser/releases/download/v$ver/brave-origin_$ver_amd64.deb"
+
+[pi-coding-agent]
+src.github = "earendil-works/pi"
+src.prefix = "v"
+fetch.url = "https://github.com/earendil-works/pi/releases/download/v$ver/pi-linux-x64.tar.gz"
+
+[creabim]
+src.webpage = "https://api.github.com/repos/chopinregis/CreaBIM/releases/latest"
+src.regex = 'https://github\.com/chopinregis/CreaBIM/releases/download/(v[0-9.]+/CreaBIM-[^"]+-linux-x64\.tar\.gz)'
+fetch.url = "https://github.com/chopinregis/CreaBIM/releases/download/$ver"

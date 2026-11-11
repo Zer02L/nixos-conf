@@ -6,6 +6,7 @@
     ../modules/fonts.nix
     ../modules/desktop/foundation.nix
     ../modules/desktop/plasma.nix
+    ../modules/desktop/umbriel.nix
     ../modules/services/pipewire.nix
     ../modules/programs/common.nix
     ../modules/services/flatpak.nix

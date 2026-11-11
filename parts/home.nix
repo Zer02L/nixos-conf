@@ -41,9 +41,10 @@ let
     # karousel = import ../home/common/karousel.nix;
     mangohud = import ../home/common/mangohud.nix;
     plasma = import ../home/common/plasma.nix;
+    noctalia = import ../home/common/noctalia.nix;
     stylix = import ../home/common/stylix.nix;
     # karing = import ../home/common/karing.nix;
-    pi-coding-agent = import ../home/common/pi-coding-agent.nix;
+    # pi-coding-agent = import ../home/common/pi-coding-agent.nix;
     distrobox = import ../home/common/distrobox.nix;
   };
 in

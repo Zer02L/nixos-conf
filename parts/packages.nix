@@ -18,6 +18,10 @@ in
         omp = pkgsWithCustom.omp;
         amethyst-mod-manager = pkgsWithCustom.amethyst-mod-manager;
         artcraft-launcher = pkgsWithCustom.artcraft-launcher;
+        brave = pkgsWithCustom.brave;
+        brave-origin = pkgsWithCustom.brave-origin;
+        pi-coding-agent = pkgsWithCustom.pi-coding-agent;
+        creabim = pkgsWithCustom.creabim;
       };
     };
 }

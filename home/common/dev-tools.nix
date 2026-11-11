@@ -66,8 +66,8 @@
     neovim
 
     git
-    lazygit
     gh
+    lazygit
     jujutsu
     lazyjj
 
@@ -83,7 +83,6 @@
 
     # Ai Dev tooling
     openspec
-    pi-coding-agent
     codex
     codebuff
     # antigravity

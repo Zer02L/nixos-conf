@@ -8,18 +8,42 @@
 {
   amethyst-mod-manager = {
     pname = "amethyst-mod-manager";
-    version = "2.6.2";
+    version = "2.6.3";
     src = fetchurl {
-      url = "https://github.com/ChrisDKN/Amethyst-Mod-Manager/releases/download/v2.6.2/AmethystModManager-2.6.2-x86_64.AppImage";
-      sha256 = "sha256-JpqzooCI1dijg280ofIfqUE2qk8PpB7Iukn180xIeoo=";
+      url = "https://github.com/ChrisDKN/Amethyst-Mod-Manager/releases/download/v2.6.3/AmethystModManager-2.6.3-x86_64.AppImage";
+      sha256 = "sha256-8XSCg8S2T+shCHLJVjuoaEpHlTarZahlYAE0BCskcV4=";
     };
   };
   artcraft-launcher = {
     pname = "artcraft-launcher";
-    version = "0.15.0";
+    version = "0.19.0";
     src = fetchurl {
-      url = "https://github.com/storytold/craft-launcher/releases/download/v0.15.0/artcraft-launcher-0.15.0-linux-x86_64.AppImage";
-      sha256 = "sha256-sFD+zH/B9MSGs4bjJIr+E5MrWpeHZzsdumihZZA1I0c=";
+      url = "https://github.com/storytold/craft-launcher/releases/download/v0.19.0/artcraft-launcher-0.19.0-linux-x86_64.AppImage";
+      sha256 = "sha256-ZBl4WNFV9EeuMj+QUBURbYSPE3VnXXMesI1XCPhyLps=";
+    };
+  };
+  brave = {
+    pname = "brave";
+    version = "1.99.56";
+    src = fetchurl {
+      url = "https://github.com/brave/brave-browser/releases/download/v1.99.56/brave-browser_1.99.56_amd64.deb";
+      sha256 = "sha256-W1r00Qh1j+XoK3yxGa8gOXepD8s0ubBzGTF/hj84vHI=";
+    };
+  };
+  brave-origin = {
+    pname = "brave-origin";
+    version = "1.99.56";
+    src = fetchurl {
+      url = "https://github.com/brave/brave-browser/releases/download/v1.99.56/brave-origin_1.99.56_amd64.deb";
+      sha256 = "sha256-tamLNby63nb9MrOzIkHdKGzGXvRSrlnczx8NrAJne68=";
+    };
+  };
+  creabim = {
+    pname = "creabim";
+    version = "v1.1.0/CreaBIM-1.1.0-2026-11-10-linux-x64.tar.gz";
+    src = fetchurl {
+      url = "https://github.com/chopinregis/CreaBIM/releases/download/v1.1.0/CreaBIM-1.1.0-2026-11-10-linux-x64.tar.gz";
+      sha256 = "sha256-yeTNFLww9wmsh0kKspNUXWJ35wDDfcsXdsKU4iG3lns=";
     };
   };
   flclash = {
@@ -40,26 +64,34 @@
   };
   omp = {
     pname = "omp";
-    version = "18.17.0";
+    version = "18.18.8";
     src = fetchurl {
-      url = "https://github.com/can1357/oh-my-pi/releases/download/v18.17.0/omp-linux-x64";
-      sha256 = "sha256-pM5gAasQEsqDX0GE1nVDdTG9GsR3p7qEJO0LVHbp5Ms=";
+      url = "https://github.com/can1357/oh-my-pi/releases/download/v18.18.8/omp-linux-x64";
+      sha256 = "sha256-v7eoXM6t5uVYD61Z/4dXC03lADmwQo7TAznPQoa9BS8=";
+    };
+  };
+  pi-coding-agent = {
+    pname = "pi-coding-agent";
+    version = "1.5.2";
+    src = fetchurl {
+      url = "https://github.com/earendil-works/pi/releases/download/v1.5.2/pi-linux-x64.tar.gz";
+      sha256 = "sha256-gRxvLJ56ruJStUBCUuVW+3E6ognB9/kkImqnfU73DLU=";
     };
   };
   t3-cli = {
     pname = "t3-cli";
-    version = "0.1.7";
+    version = "0.1.8";
     src = fetchurl {
-      url = "https://github.com/pingdotgg/t3code/releases/download/v0.1.7/t3-0.1.7-linux-x64.tar.gz";
-      sha256 = "sha256-wImJK/eSLi5zxvRKXR6hJcmfcON4wYNhy77S+6GSDmw=";
+      url = "https://github.com/pingdotgg/t3code/releases/download/v0.1.8/t3-0.1.8-linux-x64.tar.gz";
+      sha256 = "sha256-ucSdwAwj+7xZYb2v8tiOVW2WyNvWOMRQHik3xwZQqeU=";
     };
   };
   t3code = {
     pname = "t3code";
-    version = "0.1.7";
+    version = "0.1.8";
     src = fetchurl {
-      url = "https://github.com/pingdotgg/t3code/releases/download/v0.1.7/T3-Code-0.1.7-x86_64.AppImage";
-      sha256 = "sha256-+q7kCU3KEnYFeEChpFprLQDXQYr79XNfdadQO3dOY9E=";
+      url = "https://github.com/pingdotgg/t3code/releases/download/v0.1.8/T3-Code-0.1.8-x86_64.AppImage";
+      sha256 = "sha256-4Rdpi+TMWeXsFBbFHf1EKlPvoxQZd7wgy9DYH9P9WCQ=";
     };
   };
   wfhelper = {

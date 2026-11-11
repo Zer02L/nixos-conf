@@ -8,6 +8,7 @@
     ../common/links.nix
     ../common/mangohud.nix
     ../common/plasma.nix
+    ../common/noctalia.nix
     ../common/stylix.nix
     ../common/zapret-custom.nix
   ];

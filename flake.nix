@@ -38,6 +38,8 @@
       url = "github:nix-community/bun2nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    umbriel.url = "github:noctalia-dev/umbriel/cachix";
   };
 
   outputs =

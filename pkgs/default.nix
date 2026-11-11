@@ -9,4 +9,16 @@ in
   omp = final.callPackage ./omp.nix { inherit sources; };
   amethyst-mod-manager = final.callPackage ./amethyst-mod-manager.nix { inherit sources; };
   artcraft-launcher = final.callPackage ./artcraft-launcher.nix { inherit sources; };
+  brave = final.callPackage ./brave.nix {
+    inherit sources;
+    brave = prev.brave;
+  };
+  brave-origin = final.callPackage ./brave-origin.nix {
+    inherit sources;
+    brave-origin = prev.brave-origin;
+  };
+  brave-browser = final.brave;
+  pi-coding-agent = final.callPackage ./pi-coding-agent.nix { inherit sources; };
+  pi = final.pi-coding-agent;
+  creabim = final.callPackage ./creabim.nix { inherit sources; };
 }

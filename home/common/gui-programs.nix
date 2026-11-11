@@ -25,6 +25,7 @@
       super-productivity
       obsidian
 
+      # browsers (nvfetcher)
       brave
       brave-origin
 
@@ -43,6 +44,7 @@
 
       godot
       blender
+      creabim
 
       protonup-rs
 
