@@ -36,8 +36,8 @@ let
     OpenSSH Private Key	-----BEGIN OPENSSH PRIVATE KEY-----
     PGP Private Key	-----BEGIN PGP PRIVATE KEY BLOCK-----
     Generic Private Key	-----BEGIN PRIVATE KEY-----
-    Password Assignment	(?i)(password|passwd|pwd)\s*[:=]\s*['"][^'"]+['"]
-    API Key Assignment	(?i)(api_key|apikey)\s*[:=]\s*['"][^'"]+['"]
+    Password Assignment	(password|passwd|pwd)\s*[:=]\s*['"][^'"]+['"]
+    API Key Assignment	(api_key|apikey)\s*[:=]\s*['"][^'"]+['"]
   '';
 
   # ═══════════════════════════════════════════════════════════════
@@ -53,12 +53,12 @@ let
     }:$PATH"
 
     # 1. Собираем только измененные строки текстовых файлов (учитывает .gitignore)
-    STAGED_CHANGES=$(git diff --cached --unified=0 --text | \
+    STAGED_CHANGES=$(git diff --no-color --no-ext-diff --src-prefix=a/ --dst-prefix=b/ --cached --unified=0 --text | \
       awk '
         /^---/ {next}
-        /^\+\+\+/ {file=substr($0,6); next}
-        /@@/ {split($3,a,","); line=a; next}
-        /^\+/ {print file ":" line ":" substr($0,2); line++}
+        /^\+\+\+/ {sub(/^\+\+\+ (b\/)?/, ""); file=$0; next}
+        /^@@/ {split(substr($3, 2), a, ","); line=a[1]; next}
+        /^\+/ {print file ":" line ":" substr($0, 2); line++}
       ')
 
     if [ -z "$STAGED_CHANGES" ]; then
@@ -74,7 +74,7 @@ let
       [[ -z "$name" || -z "$pattern" ]] && continue
 
       # Ищем совпадения в staged изменениях
-      MATCHES=$(echo "$STAGED_CHANGES" | grep -E -i "$pattern" || true)
+      MATCHES=$(echo "$STAGED_CHANGES" | grep -E -i -e "$pattern" || true)
 
       if [ -n "$MATCHES" ]; then
         # Читаем совпадения построчно, чтобы проверить правила исключений (.secretsignore)
