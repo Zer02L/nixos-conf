@@ -14,6 +14,21 @@
         },
         "version": "2.6.3"
     },
+    "antigravity-manager": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "antigravity-manager",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-mlMInJc3XmNuQmofauubBHoJ5Dsgucmkc2tnubNrB28=",
+            "type": "url",
+            "url": "https://github.com/lbjlaq/Antigravity-Manager/releases/download/v5.0.3/Antigravity.Tools_5.0.3_amd64.AppImage"
+        },
+        "version": "5.0.3"
+    },
     "artcraft-launcher": {
         "cargoLock": null,
         "date": null,
@@ -23,11 +38,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-ZBl4WNFV9EeuMj+QUBURbYSPE3VnXXMesI1XCPhyLps=",
+            "sha256": "sha256-AhgImRbWC00oiCXRVC8Tyyyl+2kUGPQQIgH0OoTRvns=",
             "type": "url",
-            "url": "https://github.com/storytold/craft-launcher/releases/download/v0.19.0/artcraft-launcher-0.19.0-linux-x86_64.AppImage"
+            "url": "https://github.com/storytold/craft-launcher/releases/download/v0.19.2/artcraft-launcher-0.19.2-linux-x86_64.AppImage"
         },
-        "version": "0.19.0"
+        "version": "0.19.2"
     },
     "brave": {
         "cargoLock": null,
@@ -68,11 +83,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-yeTNFLww9wmsh0kKspNUXWJ35wDDfcsXdsKU4iG3lns=",
+            "sha256": "sha256-VXGQAtIS8AxGfyUxiQHdDYcrRtyzVJlSYKzV+iBW3Xw=",
             "type": "url",
-            "url": "https://github.com/chopinregis/CreaBIM/releases/download/v1.1.0/CreaBIM-1.1.0-2026-11-10-linux-x64.tar.gz"
+            "url": "https://github.com/chopinregis/CreaBIM/releases/download/v1.1.1/CreaBIM-1.1.1-2026-11-11-linux-x64.tar.gz"
         },
-        "version": "v1.1.0/CreaBIM-1.1.0-2026-11-10-linux-x64.tar.gz"
+        "version": "v1.1.1/CreaBIM-1.1.1-2026-11-11-linux-x64.tar.gz"
     },
     "flclash": {
         "cargoLock": null,
@@ -104,6 +119,21 @@
         },
         "version": "4.7.2"
     },
+    "obscura": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "obscura",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-rIBXN07Btcq7eOotCLLtiQ0h0VakKxrCM1f9BJ7cCMU=",
+            "type": "url",
+            "url": "https://github.com/h4ckf0r0day/obscura/releases/download/v0.2.6/obscura-x86_64-linux-stealth.tar.gz"
+        },
+        "version": "0.2.6"
+    },
     "omp": {
         "cargoLock": null,
         "date": null,
@@ -113,11 +143,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-v7eoXM6t5uVYD61Z/4dXC03lADmwQo7TAznPQoa9BS8=",
+            "sha256": "sha256-tE/aKuXJzOK74STRZyy6UyoTbZ4e72hZmxbvzTvFxiY=",
             "type": "url",
-            "url": "https://github.com/can1357/oh-my-pi/releases/download/v18.18.8/omp-linux-x64"
+            "url": "https://github.com/can1357/oh-my-pi/releases/download/v18.19.0/omp-linux-x64"
         },
-        "version": "18.18.8"
+        "version": "18.19.0"
     },
     "pi-coding-agent": {
         "cargoLock": null,
@@ -134,6 +164,21 @@
         },
         "version": "1.5.2"
     },
+    "protonup-rs": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "protonup-rs",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-z5WEUPmqFevydoTWL+3LPx4y6oWZwwZvEmezRnw0yPo=",
+            "type": "url",
+            "url": "https://github.com/auyer/Protonup-rs/releases/download/v0.16.0/protonup-rs-linux-amd64.tar.gz"
+        },
+        "version": "0.16.0"
+    },
     "t3-cli": {
         "cargoLock": null,
         "date": null,
@@ -143,11 +188,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-ucSdwAwj+7xZYb2v8tiOVW2WyNvWOMRQHik3xwZQqeU=",
+            "sha256": "sha256-AUECUzXaM0dZzs2Ns0g+CXcvNgDKA2dGmFJOfZQpE2I=",
             "type": "url",
-            "url": "https://github.com/pingdotgg/t3code/releases/download/v0.1.8/t3-0.1.8-linux-x64.tar.gz"
+            "url": "https://github.com/pingdotgg/t3code/releases/download/v0.1.9/t3-0.1.9-linux-x64.tar.gz"
         },
-        "version": "0.1.8"
+        "version": "0.1.9"
     },
     "t3code": {
         "cargoLock": null,
@@ -158,11 +203,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-4Rdpi+TMWeXsFBbFHf1EKlPvoxQZd7wgy9DYH9P9WCQ=",
+            "sha256": "sha256-0KtW3z4zjyQoSENWISl/2WOjNxWw2CCNvwg5lllXLYE=",
             "type": "url",
-            "url": "https://github.com/pingdotgg/t3code/releases/download/v0.1.8/T3-Code-0.1.8-x86_64.AppImage"
+            "url": "https://github.com/pingdotgg/t3code/releases/download/v0.1.9/T3-Code-0.1.9-x86_64.AppImage"
         },
-        "version": "0.1.8"
+        "version": "0.1.9"
     },
     "wfhelper": {
         "cargoLock": null,

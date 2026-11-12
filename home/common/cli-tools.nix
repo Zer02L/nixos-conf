@@ -17,6 +17,11 @@
     starship
     zoxide
 
+    # Цветной вывод команд. Нужен бинарник `grc` — fish-плагин
+    # pkgs.fishPlugins.grc (см. common/shell.nix) ставит только
+    # обёртки-функции и сам grc не содержит.
+    grc
+
     zapret
     zrok
 

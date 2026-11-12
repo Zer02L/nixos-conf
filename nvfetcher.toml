@@ -25,6 +25,16 @@ src.github = "ChrisDKN/Amethyst-Mod-Manager"
 src.prefix = "v"
 fetch.url = "https://github.com/ChrisDKN/Amethyst-Mod-Manager/releases/download/v$ver/AmethystModManager-$ver-x86_64.AppImage"
 
+[protonup-rs]
+src.github = "auyer/Protonup-rs"
+src.prefix = "v"
+fetch.url = "https://github.com/auyer/Protonup-rs/releases/download/v$ver/protonup-rs-linux-amd64.tar.gz"
+
+[obscura]
+src.github = "h4ckf0r0day/obscura"
+src.prefix = "v"
+fetch.url = "https://github.com/h4ckf0r0day/obscura/releases/download/v$ver/obscura-x86_64-linux-stealth.tar.gz"
+
 [wfhelper]
 src.github = "WFHelper/WFHelper"
 src.prefix = "v"
@@ -59,3 +69,8 @@ fetch.url = "https://github.com/earendil-works/pi/releases/download/v$ver/pi-lin
 src.webpage = "https://api.github.com/repos/chopinregis/CreaBIM/releases/latest"
 src.regex = 'https://github\.com/chopinregis/CreaBIM/releases/download/(v[0-9.]+/CreaBIM-[^"]+-linux-x64\.tar\.gz)'
 fetch.url = "https://github.com/chopinregis/CreaBIM/releases/download/$ver"
+
+[antigravity-manager]
+src.github = "lbjlaq/Antigravity-Manager"
+src.prefix = "v"
+fetch.url = "https://github.com/lbjlaq/Antigravity-Manager/releases/download/v$ver/Antigravity.Tools_$ver_amd64.AppImage"

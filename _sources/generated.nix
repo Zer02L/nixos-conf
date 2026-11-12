@@ -14,12 +14,20 @@
       sha256 = "sha256-8XSCg8S2T+shCHLJVjuoaEpHlTarZahlYAE0BCskcV4=";
     };
   };
+  antigravity-manager = {
+    pname = "antigravity-manager";
+    version = "5.0.3";
+    src = fetchurl {
+      url = "https://github.com/lbjlaq/Antigravity-Manager/releases/download/v5.0.3/Antigravity.Tools_5.0.3_amd64.AppImage";
+      sha256 = "sha256-mlMInJc3XmNuQmofauubBHoJ5Dsgucmkc2tnubNrB28=";
+    };
+  };
   artcraft-launcher = {
     pname = "artcraft-launcher";
-    version = "0.19.0";
+    version = "0.19.2";
     src = fetchurl {
-      url = "https://github.com/storytold/craft-launcher/releases/download/v0.19.0/artcraft-launcher-0.19.0-linux-x86_64.AppImage";
-      sha256 = "sha256-ZBl4WNFV9EeuMj+QUBURbYSPE3VnXXMesI1XCPhyLps=";
+      url = "https://github.com/storytold/craft-launcher/releases/download/v0.19.2/artcraft-launcher-0.19.2-linux-x86_64.AppImage";
+      sha256 = "sha256-AhgImRbWC00oiCXRVC8Tyyyl+2kUGPQQIgH0OoTRvns=";
     };
   };
   brave = {
@@ -40,10 +48,10 @@
   };
   creabim = {
     pname = "creabim";
-    version = "v1.1.0/CreaBIM-1.1.0-2026-11-10-linux-x64.tar.gz";
+    version = "v1.1.1/CreaBIM-1.1.1-2026-11-11-linux-x64.tar.gz";
     src = fetchurl {
-      url = "https://github.com/chopinregis/CreaBIM/releases/download/v1.1.0/CreaBIM-1.1.0-2026-11-10-linux-x64.tar.gz";
-      sha256 = "sha256-yeTNFLww9wmsh0kKspNUXWJ35wDDfcsXdsKU4iG3lns=";
+      url = "https://github.com/chopinregis/CreaBIM/releases/download/v1.1.1/CreaBIM-1.1.1-2026-11-11-linux-x64.tar.gz";
+      sha256 = "sha256-VXGQAtIS8AxGfyUxiQHdDYcrRtyzVJlSYKzV+iBW3Xw=";
     };
   };
   flclash = {
@@ -62,12 +70,20 @@
       sha256 = "sha256-hRQPLKB98Lol0C1IKkj2UjdQkxxH/CS6O+bclwK5KfQ=";
     };
   };
+  obscura = {
+    pname = "obscura";
+    version = "0.2.6";
+    src = fetchurl {
+      url = "https://github.com/h4ckf0r0day/obscura/releases/download/v0.2.6/obscura-x86_64-linux-stealth.tar.gz";
+      sha256 = "sha256-rIBXN07Btcq7eOotCLLtiQ0h0VakKxrCM1f9BJ7cCMU=";
+    };
+  };
   omp = {
     pname = "omp";
-    version = "18.18.8";
+    version = "18.19.0";
     src = fetchurl {
-      url = "https://github.com/can1357/oh-my-pi/releases/download/v18.18.8/omp-linux-x64";
-      sha256 = "sha256-v7eoXM6t5uVYD61Z/4dXC03lADmwQo7TAznPQoa9BS8=";
+      url = "https://github.com/can1357/oh-my-pi/releases/download/v18.19.0/omp-linux-x64";
+      sha256 = "sha256-tE/aKuXJzOK74STRZyy6UyoTbZ4e72hZmxbvzTvFxiY=";
     };
   };
   pi-coding-agent = {
@@ -78,20 +94,28 @@
       sha256 = "sha256-gRxvLJ56ruJStUBCUuVW+3E6ognB9/kkImqnfU73DLU=";
     };
   };
+  protonup-rs = {
+    pname = "protonup-rs";
+    version = "0.16.0";
+    src = fetchurl {
+      url = "https://github.com/auyer/Protonup-rs/releases/download/v0.16.0/protonup-rs-linux-amd64.tar.gz";
+      sha256 = "sha256-z5WEUPmqFevydoTWL+3LPx4y6oWZwwZvEmezRnw0yPo=";
+    };
+  };
   t3-cli = {
     pname = "t3-cli";
-    version = "0.1.8";
+    version = "0.1.9";
     src = fetchurl {
-      url = "https://github.com/pingdotgg/t3code/releases/download/v0.1.8/t3-0.1.8-linux-x64.tar.gz";
-      sha256 = "sha256-ucSdwAwj+7xZYb2v8tiOVW2WyNvWOMRQHik3xwZQqeU=";
+      url = "https://github.com/pingdotgg/t3code/releases/download/v0.1.9/t3-0.1.9-linux-x64.tar.gz";
+      sha256 = "sha256-AUECUzXaM0dZzs2Ns0g+CXcvNgDKA2dGmFJOfZQpE2I=";
     };
   };
   t3code = {
     pname = "t3code";
-    version = "0.1.8";
+    version = "0.1.9";
     src = fetchurl {
-      url = "https://github.com/pingdotgg/t3code/releases/download/v0.1.8/T3-Code-0.1.8-x86_64.AppImage";
-      sha256 = "sha256-4Rdpi+TMWeXsFBbFHf1EKlPvoxQZd7wgy9DYH9P9WCQ=";
+      url = "https://github.com/pingdotgg/t3code/releases/download/v0.1.9/T3-Code-0.1.9-x86_64.AppImage";
+      sha256 = "sha256-0KtW3z4zjyQoSENWISl/2WOjNxWw2CCNvwg5lllXLYE=";
     };
   };
   wfhelper = {

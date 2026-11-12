@@ -33,8 +33,8 @@
       zed-editor
       vscode
       #
-      opencode-desktop
-      opencode
+      # opencode-desktop
+      # opencode
 
       # t3code (official release pingdotgg/t3code)
       t3code
@@ -57,6 +57,8 @@
       r2modman
       # amethyst-mod-manager (ChrisDKN/Amethyst-Mod-Manager via nvfetcher)
       amethyst-mod-manager
+      # antigravity-manager (lbjlaq/Antigravity-Manager via nvfetcher)
+      antigravity-manager
       # bottles
       lutris
 

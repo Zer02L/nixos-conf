@@ -4,19 +4,25 @@
 , fetchgit
 , fetchFromGitHub
 , dockerTools
-, dwarfs
 , makeWrapper
 , sources ? import ../_sources/generated.nix { inherit fetchgit fetchurl fetchFromGitHub dockerTools; }
 }:
 
 let
   inherit (sources.amethyst-mod-manager) pname version src;
+
+  # Prebuilt static dwarfs tools — provides `dwarfsextract` for unpacking the
+  # DwarFS-based AppImage without compiling the whole dwarfs package.
+  dwarfsTools = fetchurl {
+    url = "https://github.com/mhx/dwarfs/releases/download/v0.15.8/dwarfs-universal-0.15.8-Linux-x86_64";
+    sha256 = "sha256-PqL9K4HTgpB0sByWbwuSFCp6/zQQT/hzBZqmhfY1/YQ=";
+    executable = true;
+  };
 in
 stdenv.mkDerivation {
   inherit pname version src;
 
   nativeBuildInputs = [
-    dwarfs
     makeWrapper
   ];
 
@@ -28,7 +34,7 @@ stdenv.mkDerivation {
     runHook preInstall
 
     mkdir -p $out/opt/amethyst-mod-manager
-    dwarfsextract -i $src -o $out/opt/amethyst-mod-manager
+    ${dwarfsTools} --tool=dwarfsextract -i $src -o $out/opt/amethyst-mod-manager
 
     mkdir -p $out/bin $out/share/applications $out/share/icons/hicolor/256x256/apps $out/share/pixmaps
 
