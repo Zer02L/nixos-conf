@@ -59,6 +59,8 @@
       amethyst-mod-manager
       # antigravity-manager (lbjlaq/Antigravity-Manager via nvfetcher)
       antigravity-manager
+      # kiri container runtime (libracoder/kiri via nvfetcher)
+      kiri
       # bottles
       lutris
 

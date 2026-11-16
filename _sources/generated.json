@@ -53,11 +53,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-W1r00Qh1j+XoK3yxGa8gOXepD8s0ubBzGTF/hj84vHI=",
+            "sha256": "sha256-jNFMV/f9bXnf2aJUUBdbVDihsRtWX/XQitmRtwLen9U=",
             "type": "url",
-            "url": "https://github.com/brave/brave-browser/releases/download/v1.99.56/brave-browser_1.99.56_amd64.deb"
+            "url": "https://github.com/brave/brave-browser/releases/download/v1.99.57/brave-browser_1.99.57_amd64.deb"
         },
-        "version": "1.99.56"
+        "version": "1.99.57"
     },
     "brave-origin": {
         "cargoLock": null,
@@ -68,11 +68,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-tamLNby63nb9MrOzIkHdKGzGXvRSrlnczx8NrAJne68=",
+            "sha256": "sha256-TLGtTqDl+lK0/d1ZNi56nZQnZlf+FqYgPQwdJb2Pcw4=",
             "type": "url",
-            "url": "https://github.com/brave/brave-browser/releases/download/v1.99.56/brave-origin_1.99.56_amd64.deb"
+            "url": "https://github.com/brave/brave-browser/releases/download/v1.99.57/brave-origin_1.99.57_amd64.deb"
         },
-        "version": "1.99.56"
+        "version": "1.99.57"
     },
     "creabim": {
         "cargoLock": null,
@@ -119,6 +119,21 @@
         },
         "version": "4.7.2"
     },
+    "kiri": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "kiri",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-ezaLxvoMsK6fM+Q3ggGAPt51sPaL1YwHxlQmLFPRZrU=",
+            "type": "url",
+            "url": "https://github.com/libracoder/kiri/releases/download/v0.2.0/kiri_0.2.0_amd64.deb"
+        },
+        "version": "0.2.0"
+    },
     "obscura": {
         "cargoLock": null,
         "date": null,
@@ -128,11 +143,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-rIBXN07Btcq7eOotCLLtiQ0h0VakKxrCM1f9BJ7cCMU=",
+            "sha256": "sha256-HWUUvqzvn+dWcfS/embTp7zu+b3jn4FW0cpKcB6x4hY=",
             "type": "url",
-            "url": "https://github.com/h4ckf0r0day/obscura/releases/download/v0.2.6/obscura-x86_64-linux-stealth.tar.gz"
+            "url": "https://github.com/h4ckf0r0day/obscura/releases/download/v0.2.7/obscura-x86_64-linux-stealth.tar.gz"
         },
-        "version": "0.2.6"
+        "version": "0.2.7"
     },
     "omp": {
         "cargoLock": null,
@@ -143,11 +158,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-tE/aKuXJzOK74STRZyy6UyoTbZ4e72hZmxbvzTvFxiY=",
+            "sha256": "sha256-JL71pE1tsNj26PZ3QEuafx3ePF5QDENSkKO+cbtN7Co=",
             "type": "url",
-            "url": "https://github.com/can1357/oh-my-pi/releases/download/v18.19.0/omp-linux-x64"
+            "url": "https://github.com/can1357/oh-my-pi/releases/download/v18.20.1/omp-linux-x64"
         },
-        "version": "18.19.0"
+        "version": "18.20.1"
     },
     "pi-coding-agent": {
         "cargoLock": null,

@@ -32,18 +32,18 @@
   };
   brave = {
     pname = "brave";
-    version = "1.99.56";
+    version = "1.99.57";
     src = fetchurl {
-      url = "https://github.com/brave/brave-browser/releases/download/v1.99.56/brave-browser_1.99.56_amd64.deb";
-      sha256 = "sha256-W1r00Qh1j+XoK3yxGa8gOXepD8s0ubBzGTF/hj84vHI=";
+      url = "https://github.com/brave/brave-browser/releases/download/v1.99.57/brave-browser_1.99.57_amd64.deb";
+      sha256 = "sha256-jNFMV/f9bXnf2aJUUBdbVDihsRtWX/XQitmRtwLen9U=";
     };
   };
   brave-origin = {
     pname = "brave-origin";
-    version = "1.99.56";
+    version = "1.99.57";
     src = fetchurl {
-      url = "https://github.com/brave/brave-browser/releases/download/v1.99.56/brave-origin_1.99.56_amd64.deb";
-      sha256 = "sha256-tamLNby63nb9MrOzIkHdKGzGXvRSrlnczx8NrAJne68=";
+      url = "https://github.com/brave/brave-browser/releases/download/v1.99.57/brave-origin_1.99.57_amd64.deb";
+      sha256 = "sha256-TLGtTqDl+lK0/d1ZNi56nZQnZlf+FqYgPQwdJb2Pcw4=";
     };
   };
   creabim = {
@@ -70,20 +70,28 @@
       sha256 = "sha256-hRQPLKB98Lol0C1IKkj2UjdQkxxH/CS6O+bclwK5KfQ=";
     };
   };
+  kiri = {
+    pname = "kiri";
+    version = "0.2.0";
+    src = fetchurl {
+      url = "https://github.com/libracoder/kiri/releases/download/v0.2.0/kiri_0.2.0_amd64.deb";
+      sha256 = "sha256-ezaLxvoMsK6fM+Q3ggGAPt51sPaL1YwHxlQmLFPRZrU=";
+    };
+  };
   obscura = {
     pname = "obscura";
-    version = "0.2.6";
+    version = "0.2.7";
     src = fetchurl {
-      url = "https://github.com/h4ckf0r0day/obscura/releases/download/v0.2.6/obscura-x86_64-linux-stealth.tar.gz";
-      sha256 = "sha256-rIBXN07Btcq7eOotCLLtiQ0h0VakKxrCM1f9BJ7cCMU=";
+      url = "https://github.com/h4ckf0r0day/obscura/releases/download/v0.2.7/obscura-x86_64-linux-stealth.tar.gz";
+      sha256 = "sha256-HWUUvqzvn+dWcfS/embTp7zu+b3jn4FW0cpKcB6x4hY=";
     };
   };
   omp = {
     pname = "omp";
-    version = "18.19.0";
+    version = "18.20.1";
     src = fetchurl {
-      url = "https://github.com/can1357/oh-my-pi/releases/download/v18.19.0/omp-linux-x64";
-      sha256 = "sha256-tE/aKuXJzOK74STRZyy6UyoTbZ4e72hZmxbvzTvFxiY=";
+      url = "https://github.com/can1357/oh-my-pi/releases/download/v18.20.1/omp-linux-x64";
+      sha256 = "sha256-JL71pE1tsNj26PZ3QEuafx3ePF5QDENSkKO+cbtN7Co=";
     };
   };
   pi-coding-agent = {

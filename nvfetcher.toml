@@ -74,3 +74,8 @@ fetch.url = "https://github.com/chopinregis/CreaBIM/releases/download/$ver"
 src.github = "lbjlaq/Antigravity-Manager"
 src.prefix = "v"
 fetch.url = "https://github.com/lbjlaq/Antigravity-Manager/releases/download/v$ver/Antigravity.Tools_$ver_amd64.AppImage"
+
+[kiri]
+src.github = "libracoder/kiri"
+src.prefix = "v"
+fetch.url = "https://github.com/libracoder/kiri/releases/download/v$ver/kiri_$ver_amd64.deb"

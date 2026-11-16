@@ -34,6 +34,7 @@ in
         brave-origin = pkgsWithCustom.brave-origin;
         pi-coding-agent = pkgsWithCustom.pi-coding-agent;
         creabim = pkgsWithCustom.creabim;
+        kiri = pkgsWithCustom.kiri;
       };
     };
 }
