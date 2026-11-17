@@ -72,10 +72,10 @@
   };
   kiri = {
     pname = "kiri";
-    version = "0.2.0";
+    version = "0.2.1";
     src = fetchurl {
-      url = "https://github.com/libracoder/kiri/releases/download/v0.2.0/kiri_0.2.0_amd64.deb";
-      sha256 = "sha256-ezaLxvoMsK6fM+Q3ggGAPt51sPaL1YwHxlQmLFPRZrU=";
+      url = "https://download.runkiri.com/kiri_0.2.1_amd64.deb";
+      sha256 = "sha256-nOFmi4WbZLGQ15mWp62cVOD5q5qJBDqeoOE8RYlOOHI=";
     };
   };
   obscura = {
@@ -88,10 +88,10 @@
   };
   omp = {
     pname = "omp";
-    version = "18.20.1";
+    version = "18.22.0";
     src = fetchurl {
-      url = "https://github.com/can1357/oh-my-pi/releases/download/v18.20.1/omp-linux-x64";
-      sha256 = "sha256-JL71pE1tsNj26PZ3QEuafx3ePF5QDENSkKO+cbtN7Co=";
+      url = "https://github.com/can1357/oh-my-pi/releases/download/v18.22.0/omp-linux-x64";
+      sha256 = "sha256-9waye6hFg02Pg2BwWi6boVNPNZP6JEEdQTWCct4zZCs=";
     };
   };
   pi-coding-agent = {
@@ -112,18 +112,18 @@
   };
   t3-cli = {
     pname = "t3-cli";
-    version = "0.1.9";
+    version = "0.1.10";
     src = fetchurl {
-      url = "https://github.com/pingdotgg/t3code/releases/download/v0.1.9/t3-0.1.9-linux-x64.tar.gz";
-      sha256 = "sha256-AUECUzXaM0dZzs2Ns0g+CXcvNgDKA2dGmFJOfZQpE2I=";
+      url = "https://github.com/pingdotgg/t3code/releases/download/v0.1.10/t3-0.1.10-linux-x64.tar.gz";
+      sha256 = "sha256-m+qdNqIXKZoK+IDow0e1Nu1qmi9b8yimldF01jYoxeg=";
     };
   };
   t3code = {
     pname = "t3code";
-    version = "0.1.9";
+    version = "0.1.10";
     src = fetchurl {
-      url = "https://github.com/pingdotgg/t3code/releases/download/v0.1.9/T3-Code-0.1.9-x86_64.AppImage";
-      sha256 = "sha256-0KtW3z4zjyQoSENWISl/2WOjNxWw2CCNvwg5lllXLYE=";
+      url = "https://github.com/pingdotgg/t3code/releases/download/v0.1.10/T3-Code-x86_64.AppImage";
+      sha256 = "sha256-fN7RPBB1cVOQHt3ayaJgixVvF0Rd5Qbvn/33PAFSjXk=";
     };
   };
   wfhelper = {

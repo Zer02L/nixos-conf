@@ -4,7 +4,7 @@
 [t3code]
 src.github = "pingdotgg/t3code"
 src.prefix = "v"
-fetch.url = "https://github.com/pingdotgg/t3code/releases/download/v$ver/T3-Code-$ver-x86_64.AppImage"
+fetch.url = "https://github.com/pingdotgg/t3code/releases/download/v$ver/T3-Code-x86_64.AppImage"
 
 [t3-cli]
 src.github = "pingdotgg/t3code"
@@ -78,4 +78,4 @@ fetch.url = "https://github.com/lbjlaq/Antigravity-Manager/releases/download/v$v
 [kiri]
 src.github = "libracoder/kiri"
 src.prefix = "v"
-fetch.url = "https://github.com/libracoder/kiri/releases/download/v$ver/kiri_$ver_amd64.deb"
+fetch.url = "https://download.runkiri.com/kiri_$ver_amd64.deb"
