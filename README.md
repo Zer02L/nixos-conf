@@ -11,7 +11,7 @@ hosts/
 ├── server-eu/          — European VPS (Hetzner / Aeza EU, direct AI access, Tailscale)
 ├── server-ru/          — Russian VPS (Selectel / Timeweb RU, Multi-Site Caddy, SiteCreator Fleet)
 └── server-template/    — base template for new servers
-profiles/               — role profiles (core, server, server/eu, server/ru, workstation)
+profiles/               — system roles (core, server, workstation), hardware profiles, and mixins (gaming, ai, vpn-suite)
 modules/                — system-level NixOS modules (services, programs, hardware, networking)
 home/                   — home-manager user configs
 dotfiles/               — symlinked dotfiles (nvim, fish, tmux, ghostty, etc.)

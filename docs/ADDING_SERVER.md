@@ -19,10 +19,17 @@ profiles/
 │   ├── eu.nix       # Европейский сервер (Hetzner, Aeza EU): прямой AI, UTC, DoT
 │   └── ru.nix       # Российский сервер (Selectel, Timeweb RU): DoT, AI-прокси, Caddy, SiteCraft
 ├── desktop.nix      # Графическая подсистема: Plasma 6, SDDM, PipeWire, шрифты, Flatpak
-└── workstation.nix  # Полная рабочая станция: Nvidia, Steam, ComfyUI, Podman, VPN/прокси
+├── workstation.nix  # Рабочая станция: desktop, браузер, containers, vpn-suite
+├── hardware/
+│   └── nvidia.nix   # Аппаратный профиль GPU Nvidia
+└── mixins/
+    ├── ai.nix       # ComfyUI + PostgreSQL
+    ├── gaming.nix   # Steam + wfhelper
+    ├── containers.nix # Podman
+    └── vpn-suite.nix  # AmneziaWG + WARP + FlClash + dynamic timezone
 ```
 
-Сервер использует профиль `profiles/server.nix`, который исключает установку графических драйверов, дисплейных менеджеров, аудио-стека и пользовательских GUI-приложений.
+Сервер использует профиль `profiles/server.nix` (или региональные `profiles/server/eu.nix` / `profiles/server/ru.nix`), который исключает установку графических драйверов, дисплейных менеджеров, аудио-стека и пользовательских GUI-приложений.
 
 ---
 

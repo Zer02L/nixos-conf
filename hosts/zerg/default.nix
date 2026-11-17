@@ -7,7 +7,17 @@
 }:
 {
   imports = [
+    # System role
     ../../profiles/workstation.nix
+
+    # Hardware drivers
+    ../../profiles/hardware/nvidia.nix
+
+    # Workload mixins
+    ../../profiles/mixins/gaming.nix
+    ../../profiles/mixins/ai.nix
+
+    # Storage & hardware configuration
     ./disko.nix
     ./hardware-configuration.nix
   ];
@@ -15,9 +25,6 @@
   # временно
   documentation.enable = false;
   documentation.man.enable = false;
-
-  services.fstrim.enable = true;
-  services.fstrim.interval = "weekly";
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 

@@ -9,7 +9,7 @@ Designed for multi-host scalability (desktop workstations, servers/VPS, laptops)
 
 - **`flake.nix`**: Flake entrypoint using `flake-parts`.
 - **`parts/`**: Flake modular components (`nixos.nix`, `home.nix`, `devshell.nix`, `formatter.nix`).
-- **`profiles/`**: System roles and suites (`core.nix`, `server.nix`, `desktop.nix`, `workstation.nix`).
+- **`profiles/`**: System roles (core, server, desktop, workstation), hardware profiles (`hardware/`), and workload mixins (`mixins/`).
 - **`hosts/`**: Host-specific definitions (hardware configuration, disk layouts via disko, host-specific services).
 - **`modules/`**: Discrete system-level NixOS modules (services, programs, hardware, networking, desktop, users).
 - **`home/`**: Home Manager configuration and user profiles.

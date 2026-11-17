@@ -6,7 +6,7 @@
 
 ## 1. Архитектура и почему выбран rootless Podman
 
-* **Декларативное управление:** сервис объявлен в NixOS модуле `modules/services/comfyui.nix` и подключен в `hosts/zerg/default.nix`.
+* **Декларативное управление:** сервис объявлен в NixOS модуле `modules/services/comfyui.nix`, включен в миксине `profiles/mixins/ai.nix` и подключен к хосту `hosts/zerg/default.nix`.
 * **Rootless изоляция:** запускается через пользовательский `systemd.user.services.comfyui` от имени пользователя `zerg`. Все сгенерированные изображения, кэш, ноды и модели принадлежат пользователю `zerg:users` (без необходимости sudo и без конфликтов прав доступа).
 * **Готовый бинарный образ:** используется проверенный образ `docker.io/yanwk/comfyui-boot:cu126-slim` (PyTorch + CUDA 12.6 + ComfyUI) без многочасовой сборки из исходников.
 * **Аппаратное ускорение NVIDIA GPU:** проброс видеокарты через CDI (`--device nvidia.com/gpu=all`).

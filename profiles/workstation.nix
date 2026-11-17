@@ -1,32 +1,16 @@
-# Workstation profile — full desktop suite with gaming, containers, networking tools
-{ config, lib, pkgs, ... }:
+# Workstation profile — full productivity suite (desktop, browser, containers, networking/VPN)
+# Hardware drivers (e.g. Nvidia) and specialized mixins (gaming, AI) are layered on top per-host.
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   imports = [
     ./desktop.nix
-
-    # Hardware (GPU)
-    ../modules/hardware/nvidia.nix
-
-    # Programs & Gaming
-    ../modules/programs/steam.nix
+    ./mixins/containers.nix
+    ./mixins/vpn-suite.nix
     ../modules/programs/chromium.nix
-    ../modules/programs/nsjail.nix
-    ../modules/programs/flclash
-    ../modules/programs/wfhelper
-    ../modules/happ/happ-module.nix
-
-    # Services
-    ../modules/services/podman.nix
-    ../modules/services/postgresql.nix
-    ../modules/services/comfyui.nix
-    ../modules/services/cloudflared.nix
-    ../modules/services/cloudflare-warp.nix
-    ../modules/services/amneziawg.nix
-    ../modules/services/vpn-timezone.nix
   ];
-
-  services.vpnTimezone = {
-    enable = true;
-    defaultTimeZone = "Europe/Moscow";
-  };
 }
