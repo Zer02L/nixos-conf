@@ -23,7 +23,26 @@ let
     [ "ru" ] ++ (readListFile (listsDir + "/list-exclude.txt"))
   );
 
-  defaultIncludeDomains = lib.unique (
+  defaultNofakeDomains = lib.unique (
+    [
+      "fatsharkgames.se"
+      "auth.fatsharkgames.se"
+      "darktide-backend.fatsharkgames.se"
+      "mission-board.fatsharkgames.se"
+      "hub.fatsharkgames.se"
+      "atoma.cloud"
+      "bsp-auth-prod.atoma.cloud"
+      "bsp-td-prod.atoma.cloud"
+      "bsp-im-prod.atoma.cloud"
+      "bsp-cdn-prod.atoma.cloud"
+      "playdarktide.com"
+      "amazonaws.com"
+      "cloudfront.net"
+    ]
+    ++ (readListFile (listsDir + "/list-nofake.txt"))
+  );
+
+  allIncludeDomains = lib.unique (
     [
       "youtube.com"
       "googlevideo.com"
@@ -42,6 +61,9 @@ let
     ++ (readListFile (listsDir + "/list-google.txt"))
     ++ (readListFile (listsDir + "/list-general.txt"))
   );
+
+  # Exclude nofake domains (AWS, CloudFront, Darktide/Atoma) from fake-based desync profile
+  defaultIncludeDomains = lib.filter (d: !(builtins.elem d defaultNofakeDomains)) allIncludeDomains;
 
   privateExcludePath = "/var/lib/zapret2/private-exclude.txt";
   privateIncludePath = "/var/lib/zapret2/private-include.txt";
@@ -75,6 +97,12 @@ in
       description = "List of critical domains to always subject to DPI bypass immediately.";
     };
 
+    nofakeDomains = lib.mkOption {
+      type = lib.types.listOf lib.types.nonEmptyStr;
+      default = defaultNofakeDomains;
+      description = "List of critical domains to subject to DPI bypass using soft desync (split) without fake packets (e.g. AWS, CloudFront, Darktide/Atoma).";
+    };
+
     tcpPorts = lib.mkOption {
       type = lib.types.listOf lib.types.port;
       default = [
@@ -91,37 +119,159 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    # Systemd preStart hook to initialize private hostlists & SOPS sync
+    # Expose package Lua scripts in /etc/zapret2/lua for stable, accessible system path
+    environment.etc."zapret2/lua".source = "${config.services.zapret2.package}/share/zapret2/lua";
+
+    # Systemd preStart hook to initialize dotfiles sync & validation
     systemd.services."nfqws2@default" = {
       preStart = ''
-        mkdir -p /var/lib/zapret2
-        touch ${privateExcludePath}
-        touch ${privateIncludePath}
+        # Remove legacy symlink to /var/lib/private/zapret2 if leftover from DynamicUser
+        if [ -L /var/lib/zapret2 ]; then
+          rm -f /var/lib/zapret2
+        fi
 
-        # Sync local uncommitted files if present
+        mkdir -p /var/lib/zapret2/lists
+        mkdir -p /var/lib/zapret2/lua
+        chmod 755 /var/lib/zapret2 /var/lib/zapret2/lists /var/lib/zapret2/lua
+
+        # Link package Lua scripts
+        ln -sfn ${config.services.zapret2.package}/share/zapret2/lua/* /var/lib/zapret2/lua/
+
+        # Ensure all expected list files exist
+        touch /var/lib/zapret2/lists/list-general.txt
+        touch /var/lib/zapret2/lists/list-google.txt
+        touch /var/lib/zapret2/lists/list-nofake.txt
+        touch /var/lib/zapret2/lists/list-exclude.txt
+        touch /var/lib/zapret2/lists/private-exclude.txt
+        touch /var/lib/zapret2/lists/private-include.txt
+        touch /var/lib/zapret2/http-hosts.txt
+        touch /var/lib/zapret2/https-general-hosts.txt
+
+        # Sync dotfiles/zapret/lists/ to /var/lib/zapret2/lists/ (with fallback to store)
+        if [ -d /home/zerg/nixos-conf/dotfiles/zapret/lists ]; then
+          cp -rf /home/zerg/nixos-conf/dotfiles/zapret/lists/* /var/lib/zapret2/lists/
+        elif [ -d ${listsDir} ]; then
+          cp -rf ${listsDir}/* /var/lib/zapret2/lists/
+        fi
+
+        # Sync local uncommitted private files if present
         for f in /home/zerg/nixos-conf/dotfiles/zapret/lists/private-exclude.txt /home/zerg/.config/zapret2/private-exclude.txt; do
           if [ -f "$f" ]; then
-            cat "$f" >> ${privateExcludePath}
+            cat "$f" >> /var/lib/zapret2/lists/private-exclude.txt
           fi
         done
 
         for f in /home/zerg/nixos-conf/dotfiles/zapret/lists/private-include.txt /home/zerg/.config/zapret2/private-include.txt; do
           if [ -f "$f" ]; then
-            cat "$f" >> ${privateIncludePath}
+            cat "$f" >> /var/lib/zapret2/lists/private-include.txt
           fi
         done
 
         # Sync SOPS secret if decrypted
         if [ -f /run/secrets/zapret_private_hosts ]; then
-          cat /run/secrets/zapret_private_hosts >> ${privateIncludePath}
+          cat /run/secrets/zapret_private_hosts >> /var/lib/zapret2/lists/private-include.txt
+        fi
+        if [ -f /run/secrets/zapret_private_exclude ]; then
+          cat /run/secrets/zapret_private_exclude >> /var/lib/zapret2/lists/private-exclude.txt
         fi
 
         # Deduplicate
-        sort -u ${privateExcludePath} -o ${privateExcludePath}
-        sort -u ${privateIncludePath} -o ${privateIncludePath}
-        chmod 644 ${privateExcludePath} ${privateIncludePath} 2>/dev/null || true
+        sort -u /var/lib/zapret2/lists/private-exclude.txt -o /var/lib/zapret2/lists/private-exclude.txt
+        sort -u /var/lib/zapret2/lists/private-include.txt -o /var/lib/zapret2/lists/private-include.txt
+
+        # Prepare and validate zapret2.conf from dotfiles (with fallback to store and last-good)
+        CONF_SRC=""
+        if [ -f /home/zerg/nixos-conf/dotfiles/zapret/zapret2.conf ]; then
+          CONF_SRC="/home/zerg/nixos-conf/dotfiles/zapret/zapret2.conf"
+        elif [ -f ${../../dotfiles/zapret/zapret2.conf} ]; then
+          CONF_SRC="${../../dotfiles/zapret/zapret2.conf}"
+        fi
+
+        if [ -n "$CONF_SRC" ]; then
+          TMP_CANDIDATE=$(mktemp)
+          TMP_TEST=$(mktemp)
+          grep -v '^[[:space:]]*#' "$CONF_SRC" | grep -v '^[[:space:]]*$' > "$TMP_CANDIDATE"
+
+          echo "--dry-run" > "$TMP_TEST"
+          cat "$TMP_CANDIDATE" >> "$TMP_TEST"
+
+          VALIDATION_OUT=$(${config.services.zapret2.package}/bin/nfqws2 "@$TMP_TEST" 2>&1)
+          if [ $? -eq 0 ]; then
+            cp -f "$TMP_CANDIDATE" /var/lib/zapret2/zapret2.conf
+            cp -f "$TMP_CANDIDATE" /var/lib/zapret2/zapret2.conf.last-good
+          else
+            echo "WARNING: $CONF_SRC has invalid syntax! Validation output:" >&2
+            echo "$VALIDATION_OUT" >&2
+            if [ -f /var/lib/zapret2/zapret2.conf.last-good ]; then
+              echo "Keeping last known good configuration." >&2
+              cp -f /var/lib/zapret2/zapret2.conf.last-good /var/lib/zapret2/zapret2.conf
+            else
+              echo "No last-good configuration found. Deploying candidate anyway to attempt startup." >&2
+              cp -f "$TMP_CANDIDATE" /var/lib/zapret2/zapret2.conf
+            fi
+          fi
+          rm -f "$TMP_CANDIDATE" "$TMP_TEST"
+        fi
+
+        # Ensure readable permissions for user CLI tools (zapret-test, zapret-tool)
+        chmod -R 644 /var/lib/zapret2/lists/* /var/lib/zapret2/zapret2.conf /var/lib/zapret2/*-hosts.txt 2>/dev/null || true
+        chmod 755 /var/lib/zapret2 /var/lib/zapret2/lists /var/lib/zapret2/lua 2>/dev/null || true
       '';
+
+      serviceConfig = {
+        DynamicUser = lib.mkForce false;
+        User = lib.mkForce "root";
+        Group = lib.mkForce "root";
+        ProtectHome = lib.mkForce "read-only";
+        StateDirectory = "zapret2";
+        StateDirectoryMode = "0755";
+        ExecStart = lib.mkForce [
+          ""
+          "${config.services.zapret2.package}/bin/nfqws2 @/var/lib/zapret2/zapret2.conf"
+        ];
+        ExecReload = [
+          ""
+          "${pkgs.writeShellScript "zapret2-reload" ''
+            if [ -d /home/zerg/nixos-conf/dotfiles/zapret/lists ]; then
+              cp -rf /home/zerg/nixos-conf/dotfiles/zapret/lists/* /var/lib/zapret2/lists/
+            fi
+            chmod -R 644 /var/lib/zapret2/lists/* 2>/dev/null || true
+            kill -HUP $MAINPID
+          ''}"
+        ];
+      };
     };
+
+    # Convenience CLI tools for managing Zapret2 without rebuilding
+    environment.systemPackages = [
+      (pkgs.writeShellScriptBin "zapret-reload" ''
+        echo "Syncing lists and reloading Zapret2..."
+        sudo systemctl reload nfqws2@default
+        echo "Done! (Check status with zapret-status)"
+      '')
+      (pkgs.writeShellScriptBin "zapret-restart" ''
+        if ! zapret-test >/dev/null 2>&1; then
+          echo "ERROR: dotfiles/zapret/zapret2.conf has syntax errors! Run 'zapret-test' to inspect." >&2
+          zapret-test
+          exit 1
+        fi
+        echo "Configuration verified. Syncing config & restarting Zapret2..."
+        sudo systemctl restart nfqws2@default
+        echo "Done! (Check status with zapret-status)"
+      '')
+      (pkgs.writeShellScriptBin "zapret-status" ''
+        systemctl status nfqws2@default
+      '')
+      (pkgs.writeShellScriptBin "zapret-test" ''
+        TMPCONF=$(mktemp)
+        echo "--dry-run" > "$TMPCONF"
+        grep -v '^[[:space:]]*#' /home/zerg/nixos-conf/dotfiles/zapret/zapret2.conf | grep -v '^[[:space:]]*$' >> "$TMPCONF"
+        ${config.services.zapret2.package}/bin/nfqws2 "@$TMPCONF"
+        STATUS=$?
+        rm -f "$TMPCONF"
+        exit $STATUS
+      '')
+    ];
 
     # Official NixOS Zapret2 service
     services.zapret2 = {
@@ -151,11 +301,26 @@ in
           };
         };
 
+        # Profile 1.5: Soft HTTPS desync (pure split without fake) for AWS CloudFront, Atoma Cloud, Darktide
+        https-nofake = {
+          priority = 150;
+          hosts = {
+            include = cfg.nofakeDomains;
+            exclude = cfg.excludeDomains;
+          };
+          parameters = [
+            "--filter-tcp=443,8443,2053,2083,2087,2096"
+            "--payload=tls_client_hello"
+            "--hostlist-exclude=${privateExcludePath}"
+            "--lua-desync=multisplit:pos=1,midsld"
+          ];
+        };
+
         # Profile 2: Critical HTTPS (YouTube, Discord, etc.)
         https-critical = {
           priority = 200;
           hosts = {
-            include = cfg.includeDomains;
+            include = lib.filter (d: !(builtins.elem d cfg.nofakeDomains)) cfg.includeDomains;
             exclude = cfg.excludeDomains;
           };
           parameters = [

@@ -29,6 +29,11 @@
 
   networking.hostName = "zerg";
 
+  services.custom-zapret.interfaces = [
+    "enp6s0"
+    "wlp5s0"
+  ];
+
   services.comfyui-podman = {
     enable = true;
     autoStart = false; # запуск по требованию через comfy start (или systemctl --user start comfyui)

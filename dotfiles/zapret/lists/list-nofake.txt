@@ -1,0 +1,14 @@
+# Domains that reset TCP connections when receiving fake packets (AWS CloudFront, Atoma Cloud, Darktide)
+fatsharkgames.se
+auth.fatsharkgames.se
+darktide-backend.fatsharkgames.se
+mission-board.fatsharkgames.se
+hub.fatsharkgames.se
+atoma.cloud
+bsp-auth-prod.atoma.cloud
+bsp-td-prod.atoma.cloud
+bsp-im-prod.atoma.cloud
+bsp-cdn-prod.atoma.cloud
+playdarktide.com
+amazonaws.com
+cloudfront.net

@@ -73,6 +73,7 @@ in
           export FLCLASH_HELPER_OWNER_GID="$(${pkgs.coreutils}/bin/id -g ${cfg.user})"
           exec ${cfg.package}/opt/FlClash/FlClashHelperService
         '';
+        Group = config.users.users.${cfg.user}.group;
         RuntimeDirectory = "flclash";
         RuntimeDirectoryMode = "0755";
         Restart = "on-failure";

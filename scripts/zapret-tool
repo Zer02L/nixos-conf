@@ -123,6 +123,28 @@ case "$cmd" in
     fi
     ;;
 
+  exclude-sops)
+    domain="${2:-}"
+    if [ -z "$domain" ]; then
+      read -rp "Enter private domain/IP to encrypt in SOPS under zapret_private_exclude: " domain
+    fi
+    if [ -n "$domain" ]; then
+      SECRETS_FILE="$REPO_DIR/secrets.yaml"
+      if command -v sops >/dev/null 2>&1; then
+        existing=$(sops get "$SECRETS_FILE" '["zapret_private_exclude"]' 2>/dev/null || echo "")
+        updated=$(printf "%s\n%s" "$existing" "$domain" | grep -v '^\s*$' | sort -u)
+        TMP_VAL=$(mktemp)
+        echo "$updated" > "$TMP_VAL"
+        sops set "$SECRETS_FILE" '["zapret_private_exclude"]' "\"$(cat "$TMP_VAL")\""
+        rm -f "$TMP_VAL"
+        echo "Successfully encrypted '$domain' into $SECRETS_FILE (zapret_private_exclude)."
+      else
+        echo "Error: sops command not found."
+        exit 1
+      fi
+    fi
+    ;;
+
   *)
     echo "Usage: $(basename "$0") <command>"
     echo ""
@@ -131,6 +153,7 @@ case "$cmd" in
     echo "  promote       - Interactively select detected hosts via fzf to add to public list-general.txt"
     echo "  backup-sops   - Save and encrypt all detected hosts into secrets.yaml using SOPS"
     echo "  add-private   - Add a private domain to local private-exclude.txt (never committed to git)"
+    echo "  exclude-sops  - Add and encrypt private domain/IP in secrets.yaml via SOPS"
     exit 0
     ;;
 esac

@@ -23,6 +23,7 @@ All files here are user-level dotfiles owned by zerg. Managed as part of the Nix
 - Sensitive data (API keys, tokens) should NOT be committed; use `.gitignore`
 - `nvim/` contains Neovim config with lazy.nvim; plugin versions tracked in `lazy-lock.json`
 - `git/config` is the non-personal git config loaded via `include.path` from the real `~/.config/git/config`
+- `zapret/` contains live-editable Zapret2 DPI bypass configuration (`zapret2.conf`) and domain lists (`lists/`), synced directly to the `nfqws2` service without rebuild
 
 ## Verification
 
