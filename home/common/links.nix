@@ -1,8 +1,7 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 {
   # home.file."Downloads".source = config.lib.file.mkOutOfStoreSymlink "/mnt/downloads";

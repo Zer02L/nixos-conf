@@ -1,11 +1,10 @@
 # Caddy web server module
 # Provides multi-site hosting, automatic HTTPS (Let's Encrypt / ZeroSSL),
 # HTTP/2, HTTP/3 (QUIC), firewall integration, and On-Demand TLS for customer domains.
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 let
   cfg = config.custom.caddy;

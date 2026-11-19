@@ -1,10 +1,9 @@
 # Workstation profile — full productivity suite (desktop, browser, containers, networking/VPN)
 # Hardware drivers (e.g. Nvidia) and specialized mixins (gaming, AI) are layered on top per-host.
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 {
   imports = [

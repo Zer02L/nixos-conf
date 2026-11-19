@@ -1,9 +1,8 @@
 # Hardware profile: Nvidia proprietary GPU drivers and graphics acceleration
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 {
   imports = [

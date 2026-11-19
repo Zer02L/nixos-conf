@@ -18,25 +18,29 @@
 
 let
   # Helper: создаёт правило для назначения окна на виртуальный стол
-  mkDesktopRule = {
-    name,           # описание правила
-    wmclass,        # WM_CLASS (exact match)
-    desktop,        # номер виртуального стола
-    force ? false,  # Force или Apply Initially
-  }: {
-    description = name;
-    match = {
-      window-class = {
-        value = wmclass;
-        type = "exact";
-        match-whole = true;
+  mkDesktopRule =
+    { name
+    , # описание правила
+      wmclass
+    , # WM_CLASS (exact match)
+      desktop
+    , # номер виртуального стола
+      force ? false
+    , # Force или Apply Initially
+    }: {
+      description = name;
+      match = {
+        window-class = {
+          value = wmclass;
+          type = "exact";
+          match-whole = true;
+        };
+      };
+      apply.desktop = {
+        value = desktop;
+        apply = if force then "force" else "initially";
       };
     };
-    apply.desktop = {
-      value = desktop;
-      apply = if force then "force" else "initially";
-    };
-  };
 in
 {
   imports = [ inputs.plasma-manager.homeModules.plasma-manager ];
@@ -46,26 +50,26 @@ in
 
     # === Window Rules ===
     window-rules = [
-      (mkDesktopRule { name = "Ghostty";          wmclass = "ghostty";               desktop = 1; })
-      (mkDesktopRule { name = "Kitty";            wmclass = "kitty";                 desktop = 1; })
+      (mkDesktopRule { name = "Ghostty"; wmclass = "ghostty"; desktop = 1; })
+      (mkDesktopRule { name = "Kitty"; wmclass = "kitty"; desktop = 1; })
 
-      (mkDesktopRule { name = "Librewolf";        wmclass = "librewolf";             desktop = 2; })
-      (mkDesktopRule { name = "Firefox";          wmclass = "firefox";               desktop = 2; })
-      (mkDesktopRule { name = "Mullvad Browser";  wmclass = "mullvad-browser";       desktop = 2; })
+      (mkDesktopRule { name = "Librewolf"; wmclass = "librewolf"; desktop = 2; })
+      (mkDesktopRule { name = "Firefox"; wmclass = "firefox"; desktop = 2; })
+      (mkDesktopRule { name = "Mullvad Browser"; wmclass = "mullvad-browser"; desktop = 2; })
 
-      (mkDesktopRule { name = "Zed";              wmclass = "zed";                   desktop = 3; })
-      (mkDesktopRule { name = "VS Code";          wmclass = "Code";                  desktop = 3; })
-      (mkDesktopRule { name = "JetBrains";        wmclass = "jetbrains-*";           desktop = 3; })
+      (mkDesktopRule { name = "Zed"; wmclass = "zed"; desktop = 3; })
+      (mkDesktopRule { name = "VS Code"; wmclass = "Code"; desktop = 3; })
+      (mkDesktopRule { name = "JetBrains"; wmclass = "jetbrains-*"; desktop = 3; })
 
-      (mkDesktopRule { name = "Vesktop";          wmclass = "vesktop";               desktop = 4; })
-      (mkDesktopRule { name = "Telegram Desktop"; wmclass = "org.telegram.desktop";  desktop = 4; })
-      (mkDesktopRule { name = "Bitwarden";        wmclass = "bitwarden";             desktop = 4; })
+      (mkDesktopRule { name = "Vesktop"; wmclass = "vesktop"; desktop = 4; })
+      (mkDesktopRule { name = "Telegram Desktop"; wmclass = "org.telegram.desktop"; desktop = 4; })
+      (mkDesktopRule { name = "Bitwarden"; wmclass = "bitwarden"; desktop = 4; })
 
-      (mkDesktopRule { name = "Obsidian";         wmclass = "obsidian";              desktop = 5; })
-      (mkDesktopRule { name = "Super Productivity"; wmclass = "super-productivity";  desktop = 5; })
-      (mkDesktopRule { name = "Blender";          wmclass = "blender";               desktop = 5; })
-      (mkDesktopRule { name = "OBS Studio";       wmclass = "com.obsproject.Studio"; desktop = 5; })
-      (mkDesktopRule { name = "mpv";              wmclass = "mpv";                   desktop = 5; })
+      (mkDesktopRule { name = "Obsidian"; wmclass = "obsidian"; desktop = 5; })
+      (mkDesktopRule { name = "Super Productivity"; wmclass = "super-productivity"; desktop = 5; })
+      (mkDesktopRule { name = "Blender"; wmclass = "blender"; desktop = 5; })
+      (mkDesktopRule { name = "OBS Studio"; wmclass = "com.obsproject.Studio"; desktop = 5; })
+      (mkDesktopRule { name = "mpv"; wmclass = "mpv"; desktop = 5; })
     ];
 
     # === KWin ===

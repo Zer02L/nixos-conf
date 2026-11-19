@@ -46,3 +46,6 @@ dotfiles/.pi/agent/auth.json
 
 # Game saves
 saves/
+
+# Zapret private/local uncommitted lists
+dotfiles/zapret/lists/private-*.txt

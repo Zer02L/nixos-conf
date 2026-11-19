@@ -3,7 +3,7 @@
 , autoPatchelfHook
 , callPackage
 , versionCheckHook
-, sources ? callPackage ../_sources/generated.nix {}
+, sources ? callPackage ../_sources/generated.nix { }
 }:
 
 stdenv.mkDerivation {

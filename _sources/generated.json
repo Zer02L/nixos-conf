@@ -8,11 +8,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-8XSCg8S2T+shCHLJVjuoaEpHlTarZahlYAE0BCskcV4=",
+            "sha256": "sha256-YM2aSr6mJNOLiP2dovbWLFb7V6tcuNl1eDKGWUOp/Io=",
             "type": "url",
-            "url": "https://github.com/ChrisDKN/Amethyst-Mod-Manager/releases/download/v2.6.3/AmethystModManager-2.6.3-x86_64.AppImage"
+            "url": "https://github.com/ChrisDKN/Amethyst-Mod-Manager/releases/download/v2.6.4/AmethystModManager-2.6.4-x86_64.AppImage"
         },
-        "version": "2.6.3"
+        "version": "2.6.4"
     },
     "antigravity-manager": {
         "cargoLock": null,
@@ -53,11 +53,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-jNFMV/f9bXnf2aJUUBdbVDihsRtWX/XQitmRtwLen9U=",
+            "sha256": "sha256-LZ0eZk79YDQ8dzJMg2vkAsvlfOElSZdVhN+n0HPxVqU=",
             "type": "url",
-            "url": "https://github.com/brave/brave-browser/releases/download/v1.99.57/brave-browser_1.99.57_amd64.deb"
+            "url": "https://github.com/brave/brave-browser/releases/download/v1.100.58/brave-browser_1.100.58_amd64.deb"
         },
-        "version": "1.99.57"
+        "version": "1.100.58"
     },
     "brave-origin": {
         "cargoLock": null,
@@ -68,11 +68,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-TLGtTqDl+lK0/d1ZNi56nZQnZlf+FqYgPQwdJb2Pcw4=",
+            "sha256": "sha256-TM7BTRt8Nkh+HYShyrQkq5TpO5S0F2IG5MEaMiE9xh0=",
             "type": "url",
-            "url": "https://github.com/brave/brave-browser/releases/download/v1.99.57/brave-origin_1.99.57_amd64.deb"
+            "url": "https://github.com/brave/brave-browser/releases/download/v1.100.58/brave-origin_1.100.58_amd64.deb"
         },
-        "version": "1.99.57"
+        "version": "1.100.58"
     },
     "creabim": {
         "cargoLock": null,
@@ -158,11 +158,26 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-9waye6hFg02Pg2BwWi6boVNPNZP6JEEdQTWCct4zZCs=",
+            "sha256": "sha256-x8xcjVBQU8j/rxgEF+XVx4EjW52TbyhoEFYBURIBCb8=",
             "type": "url",
-            "url": "https://github.com/can1357/oh-my-pi/releases/download/v18.22.0/omp-linux-x64"
+            "url": "https://github.com/can1357/oh-my-pi/releases/download/v19.0.0/omp-linux-x64"
         },
-        "version": "18.22.0"
+        "version": "19.0.0"
+    },
+    "opencode": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "opencode",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-R3NOCJaLMMwioL/7bZ/u7XatSqdDIToSEiBAOS0JoFc=",
+            "type": "url",
+            "url": "https://github.com/anomalyco/opencode/releases/download/v1.19.6/opencode-linux-x64.tar.gz"
+        },
+        "version": "1.19.6"
     },
     "pi-coding-agent": {
         "cargoLock": null,

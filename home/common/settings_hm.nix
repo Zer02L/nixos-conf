@@ -1,8 +1,7 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 {
   # KDE/Plasma устанавливает GIT_ASKPASS=ksshaskpass, который не работает
@@ -21,14 +20,14 @@
   # kwinrulesrc управлялся через home.file. Теперь plasma-manager пишет
   # его через activation-скрипт, который падает с EROFS, следуя за
   # симлинком в read-only store. Удаляем перед активацией.
-  home.activation.removeKwinrulesrc = config.lib.dag.entryBefore ["checkLinkTargets"] ''
+  home.activation.removeKwinrulesrc = config.lib.dag.entryBefore [ "checkLinkTargets" ] ''
     rm -f /home/zerg/.config/kwinrulesrc
   '';
 
   # KDE Plasma перезаписывает .gtkrc-2.0 после того, как home-manager
   # создаёт симлинк. При следующей активации HM видит обычный файл и
   # отказывается работать. Удаляем перед проверкой коллизий.
-  home.activation.removeGtkrc2 = config.lib.dag.entryBefore ["checkLinkTargets"] ''
+  home.activation.removeGtkrc2 = config.lib.dag.entryBefore [ "checkLinkTargets" ] ''
     rm -f /home/zerg/.gtkrc-2.0
   '';
 
@@ -58,7 +57,7 @@
 
   # Декларативная конфигурация Podman для rootless-контейнеров
   xdg.configFile."containers/policy.json".text = builtins.toJSON {
-    default = [ { type = "insecureAcceptAnything"; } ];
+    default = [{ type = "insecureAcceptAnything"; }];
   };
   xdg.configFile."containers/containers.conf".text = ''
     [engine]

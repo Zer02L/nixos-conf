@@ -26,4 +26,5 @@ in
   pi = final.pi-coding-agent;
   creabim = final.callPackage ./creabim.nix { inherit sources; };
   kiri = final.callPackage ./kiri.nix { inherit sources; };
+  opencode = final.callPackage ./opencode.nix { inherit sources; };
 }

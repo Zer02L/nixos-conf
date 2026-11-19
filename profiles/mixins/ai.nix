@@ -1,9 +1,8 @@
 # AI / Machine Learning mixin: ComfyUI and local AI pipeline services
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 {
   imports = [

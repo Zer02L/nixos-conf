@@ -35,6 +35,7 @@ in
         pi-coding-agent = pkgsWithCustom.pi-coding-agent;
         creabim = pkgsWithCustom.creabim;
         kiri = pkgsWithCustom.kiri;
+        opencode = pkgsWithCustom.opencode;
       };
     };
 }

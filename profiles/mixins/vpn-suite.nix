@@ -1,9 +1,8 @@
 # Network & VPN suite: AmneziaWG, Cloudflare WARP/Tunnel, FlClash, Happ, and dynamic VPN timezone
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 {
   imports = [
@@ -14,7 +13,10 @@
     ../../modules/programs/flclash
     ../../modules/programs/nsjail.nix
     ../../modules/happ/happ-module.nix
+    ../../modules/services/zapret2.nix
   ];
+
+  services.custom-zapret.enable = lib.mkDefault true;
 
   services.vpnTimezone = {
     enable = lib.mkDefault true;

@@ -1,6 +1,6 @@
-{
-  brave,
-  sources,
+{ brave
+, sources
+,
 }:
 brave.overrideAttrs (oldAttrs: {
   version = sources.brave.version;

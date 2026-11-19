@@ -1,9 +1,8 @@
 # Server profile — headless, security-hardened, zero-open-port capable
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 let
   cfg = config.custom.server;

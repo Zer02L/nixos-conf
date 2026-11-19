@@ -37,7 +37,6 @@ let
     tmux = import ../home/common/tmux.nix;
     # secrets = import ../home/common/secrets.nix;
     yazi = import ../home/common/yazi.nix;
-    zapret-custom = import ../home/common/zapret-custom.nix;
     # karousel = import ../home/common/karousel.nix;
     mangohud = import ../home/common/mangohud.nix;
     plasma = import ../home/common/plasma.nix;

@@ -1,11 +1,10 @@
 # Server Host Template
 # Copy this directory to hosts/<your-server-name> when setting up a new server/VPS.
-{
-  config,
-  lib,
-  pkgs,
-  inputs,
-  ...
+{ config
+, lib
+, pkgs
+, inputs
+, ...
 }:
 {
   imports = [

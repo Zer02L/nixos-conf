@@ -79,3 +79,9 @@ fetch.url = "https://github.com/lbjlaq/Antigravity-Manager/releases/download/v$v
 src.github = "libracoder/kiri"
 src.prefix = "v"
 fetch.url = "https://download.runkiri.com/kiri_$ver_amd64.deb"
+
+[opencode]
+src.github = "anomalyco/opencode"
+src.prefix = "v"
+fetch.url = "https://github.com/anomalyco/opencode/releases/download/v$ver/opencode-linux-x64.tar.gz"
+

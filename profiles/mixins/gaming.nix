@@ -1,9 +1,8 @@
 # Gaming mixin: Steam, controllers, proton dependencies, and gaming helpers
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 {
   imports = [

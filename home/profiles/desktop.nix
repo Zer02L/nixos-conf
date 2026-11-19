@@ -10,6 +10,5 @@
     ../common/plasma.nix
     ../common/noctalia.nix
     ../common/stylix.nix
-    ../common/zapret-custom.nix
   ];
 }

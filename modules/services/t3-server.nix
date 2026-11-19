@@ -1,11 +1,10 @@
 # T3 Code Headless Server module
 # Runs t3-cli in background daemon mode under user zerg.
 # Supports optional outbound HTTP/SOCKS proxy for regions with AI geoblocking (e.g. Russia).
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 let
   cfg = config.custom.services.t3-server;

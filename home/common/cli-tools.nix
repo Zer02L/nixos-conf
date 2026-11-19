@@ -1,8 +1,7 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 {
   home.packages = with pkgs; [
@@ -37,5 +36,7 @@
     # Oh My Pi (omp) AI coding agent
     omp
 
+    # OpenCode CLI - AI coding agent for the terminal
+    opencode
   ];
 }

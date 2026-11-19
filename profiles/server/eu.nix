@@ -2,11 +2,10 @@
 # - Native direct connectivity to AI APIs (Anthropic, OpenAI, Gemini) without proxies
 # - Tailscale mesh networking as primary access
 # - Global DNS over TLS (Cloudflare, Google)
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 {
   imports = [

@@ -1,11 +1,10 @@
 # European VPS host configuration (e.g. Hetzner, Aeza EU, Timeweb EU)
 # Native AI API access, Tailscale zero-open-port security, T3 Code headless server.
-{
-  config,
-  lib,
-  pkgs,
-  inputs,
-  ...
+{ config
+, lib
+, pkgs
+, inputs
+, ...
 }:
 {
   imports = [

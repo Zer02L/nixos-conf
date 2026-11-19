@@ -1,9 +1,8 @@
 # Home-Manager profile: Terminal/CLI environment (shared across desktop & server)
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 {
   imports = [

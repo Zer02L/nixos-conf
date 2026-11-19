@@ -1,8 +1,7 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 {
   programs.chromium = {
@@ -30,10 +29,11 @@
   };
 
   environment.systemPackages = with pkgs; [
-    (pkgs.runCommand "brave" {
-      buildInputs = [ pkgs.makeWrapper ];
-      meta.mainProgram = "brave";
-    } ''
+    (pkgs.runCommand "brave"
+      {
+        buildInputs = [ pkgs.makeWrapper ];
+        meta.mainProgram = "brave";
+      } ''
       mkdir -p $out/bin
       makeWrapper ${pkgs.brave}/bin/brave $out/bin/brave \
         --add-flags "--password-store=basic --disable-features=UseOzonePlatform --ozone-platform=wayland"

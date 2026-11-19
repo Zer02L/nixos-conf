@@ -1,10 +1,9 @@
 # Cloudflare Tunnel service module
 # Exposes internal services securely to the internet without opening public inbound ports.
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 let
   cfg = config.custom.cloudflared;

@@ -1,8 +1,7 @@
-{
-  config,
-  lib,
-  inputs,
-  ...
+{ config
+, lib
+, inputs
+, ...
 }:
 {
   imports = [ inputs.sops-nix.nixosModules.sops ];
@@ -16,11 +15,7 @@
 
     secrets = lib.mkMerge [
       # Workstation-specific secrets
-      (lib.mkIf (config.networking.hostName == "zerg") {
-        "zapret_exclude_ips" = {
-          mode = "0440";
-        };
-      })
+      (lib.mkIf (config.networking.hostName == "zerg") { })
     ];
   };
 }

@@ -35,3 +35,8 @@ Designed for multi-host scalability (desktop workstations, servers/VPS, laptops)
    - When creating or significantly updating operational runbooks, guides, or troubleshooting procedures in `docs/`, spawn an isolated subagent with zero conversational context.
    - Task the subagent with reviewing the guide strictly on its self-containment: identifying ambiguous commands, hidden prerequisites, missing failure recovery steps, or implicit assumptions.
 
+3. **Nix Formatter Protocol (`nix fmt`)**:
+   - `nixpkgs-fmt` interprets zero arguments as an instruction to format `stdin`, causing bare `nix fmt` to hang indefinitely waiting for input.
+   - Always invoke formatting with explicit target paths: `nix fmt -- .` (or `nix run nixpkgs#nixpkgs-fmt <path>`).
+   - The formatter in `parts/formatter.nix` wraps `nixpkgs-fmt` to default to `.` if no arguments are passed, preventing accidental deadlocks.
+

@@ -1,10 +1,9 @@
 # Karousel — scrollable tiling KWin script for KDE Plasma 6
 # Niri-style vim keybindings, fully declarative via Nix
-{
-  config,
-  pkgs,
-  lib,
-  ...
+{ config
+, pkgs
+, lib
+, ...
 }:
 
 let
@@ -168,9 +167,11 @@ let
   # Build section text — no JSON with parens goes into bash directly
   karouselSectionText = lib.concatStringsSep "\n" (
     [ "[Script-karousel]" ]
-    ++ (lib.mapAttrsToList (
-      n: v: "${n}=${if lib.isString v then v else builtins.toJSON v}"
-    ) karouselConfig)
+    ++ (lib.mapAttrsToList
+      (
+        n: v: "${n}=${if lib.isString v then v else builtins.toJSON v}"
+      )
+      karouselConfig)
     ++ [
       "windowRules=${windowRulesJSON}"
       "tiledDesktops=.*"

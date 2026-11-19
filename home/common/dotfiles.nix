@@ -2,7 +2,8 @@
 let
   dotfilesDir = config.custom.dotfiles.path;
   inherit (config.lib.file) mkOutOfStoreSymlink;
-in {
+in
+{
   options.custom.dotfiles.path = lib.mkOption {
     type = lib.types.str;
     default = "${config.home.homeDirectory}/nixos-conf/dotfiles";

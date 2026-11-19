@@ -3,11 +3,10 @@
 # - Cloudflare Tunnel as recommended ingress (WireGuard/Tailscale may be throttled by TSPU)
 # - Anti-poisoning DNS-over-TLS
 # - Outbound proxy support for T3 Code to reach AI models
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 {
   imports = [

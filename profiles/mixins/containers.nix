@@ -1,9 +1,8 @@
 # Containers mixin: Podman container engine and toolset
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 {
   imports = [

@@ -1,10 +1,9 @@
-{
-  config,
-  lib,
-  pkgs,
-  pkgs-stable,
-  inputs,
-  ...
+{ config
+, lib
+, pkgs
+, pkgs-stable
+, inputs
+, ...
 }:
 {
   home.packages = (

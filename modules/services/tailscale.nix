@@ -1,11 +1,10 @@
 # Tailscale mesh networking module
 # Provides secure peer-to-peer connectivity, optional subnet/exit-node routing,
 # and integration with sops-nix for automatic authentication keys.
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 let
   cfg = config.custom.tailscale;

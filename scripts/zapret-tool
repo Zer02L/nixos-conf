@@ -1,0 +1,136 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ZAPRET_DIR="/var/lib/zapret2"
+REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+PUBLIC_LIST="$REPO_DIR/dotfiles/zapret/lists/list-general.txt"
+PRIVATE_EXCLUDE="$REPO_DIR/dotfiles/zapret/lists/private-exclude.txt"
+PRIVATE_INCLUDE="$REPO_DIR/dotfiles/zapret/lists/private-include.txt"
+
+cmd="${1:-help}"
+
+case "$cmd" in
+  show|list)
+    echo "=== Zapret2 Auto-detected Hosts ==="
+    if [ ! -d "$ZAPRET_DIR" ]; then
+      echo "Directory $ZAPRET_DIR does not exist yet."
+      exit 0
+    fi
+    found=0
+    for f in "$ZAPRET_DIR"/*-hosts.txt; do
+      if [ -f "$f" ]; then
+        found=1
+        count=$(grep -c . "$f" 2>/dev/null || echo 0)
+        echo "[$(basename "$f")] - $count hosts:"
+        cat "$f" | sed 's/^/  /'
+        echo ""
+      fi
+    done
+    if [ "$found" -eq 0 ]; then
+      echo "No host files found in $ZAPRET_DIR."
+    fi
+    ;;
+
+  promote)
+    echo "=== Promoting Auto-detected Hosts to Public List ==="
+    if [ ! -d "$ZAPRET_DIR" ]; then
+      echo "No detected hosts found in $ZAPRET_DIR."
+      exit 0
+    fi
+
+    # Collect all detected domains
+    all_detected=$(cat "$ZAPRET_DIR"/*-hosts.txt 2>/dev/null | grep -v '^\s*$' | grep -v '^\s*#' | sort -u || true)
+    if [ -z "$all_detected" ]; then
+      echo "Auto-detected hosts list is currently empty."
+      exit 0
+    fi
+
+    # Filter out existing domains from public list and .ru domains
+    existing=$(cat "$PUBLIC_LIST" 2>/dev/null || true)
+    candidates=""
+    while IFS= read -r domain; do
+      [ -z "$domain" ] && continue
+      # Skip .ru / .su / .рф
+      if [[ "$domain" =~ \.(ru|su|рф)$ ]]; then
+        continue
+      fi
+      if ! echo "$existing" | grep -qx "$domain"; then
+        candidates+="$domain"$'\n'
+      fi
+    done <<< "$all_detected"
+
+    candidates=$(echo -n "$candidates" | sed '/^$/d')
+    if [ -z "$candidates" ]; then
+      echo "All auto-detected domains are already in $PUBLIC_LIST (or excluded as .ru)."
+      exit 0
+    fi
+
+    echo "Select domains to add to $PUBLIC_LIST (TAB: multi-select, ENTER: confirm, ESC: cancel):"
+    if command -v fzf >/dev/null 2>&1; then
+      selected=$(echo "$candidates" | fzf -m --prompt="Add to public list > ")
+    else
+      echo "$candidates"
+      read -rp "Enter domains to add (space-separated): " -a selected_arr
+      selected=$(printf "%s\n" "${selected_arr[@]}")
+    fi
+
+    if [ -z "$selected" ]; then
+      echo "Nothing selected. Aborted."
+      exit 0
+    fi
+
+    echo "$selected" >> "$PUBLIC_LIST"
+    sort -u "$PUBLIC_LIST" -o "$PUBLIC_LIST"
+    added_count=$(echo "$selected" | grep -c .)
+    echo "Successfully added $added_count domain(s) to $PUBLIC_LIST!"
+    ;;
+
+  backup-sops)
+    echo "=== Encrypting Detected Hosts to SOPS secrets.yaml ==="
+    if [ ! -d "$ZAPRET_DIR" ]; then
+      echo "No detected hosts found in $ZAPRET_DIR."
+      exit 0
+    fi
+    all_detected=$(cat "$ZAPRET_DIR"/*-hosts.txt 2>/dev/null | grep -v '^\s*$' | grep -v '^\s*#' | sort -u || true)
+    if [ -z "$all_detected" ]; then
+      echo "Auto-detected hosts list is currently empty."
+      exit 0
+    fi
+
+    SECRETS_FILE="$REPO_DIR/secrets.yaml"
+    TMP_VAL=$(mktemp)
+    echo "$all_detected" > "$TMP_VAL"
+
+    if command -v sops >/dev/null 2>&1; then
+      sops set "$SECRETS_FILE" '["zapret_private_hosts"]' "\"$(cat "$TMP_VAL")\""
+      echo "Saved $(echo "$all_detected" | grep -c .) domain(s) to $SECRETS_FILE under key 'zapret_private_hosts'."
+    else
+      echo "Error: sops command not found."
+      exit 1
+    fi
+    rm -f "$TMP_VAL"
+    ;;
+
+  add-private)
+    domain="${2:-}"
+    if [ -z "$domain" ]; then
+      read -rp "Enter private domain to exclude from DPI bypass (e.g. my-vps.org): " domain
+    fi
+    if [ -n "$domain" ]; then
+      echo "$domain" >> "$PRIVATE_EXCLUDE"
+      sort -u "$PRIVATE_EXCLUDE" -o "$PRIVATE_EXCLUDE"
+      echo "Added '$domain' to local uncommitted $PRIVATE_EXCLUDE."
+    fi
+    ;;
+
+  *)
+    echo "Usage: $(basename "$0") <command>"
+    echo ""
+    echo "Commands:"
+    echo "  show          - Display auto-detected blocked hosts from /var/lib/zapret2/"
+    echo "  promote       - Interactively select detected hosts via fzf to add to public list-general.txt"
+    echo "  backup-sops   - Save and encrypt all detected hosts into secrets.yaml using SOPS"
+    echo "  add-private   - Add a private domain to local private-exclude.txt (never committed to git)"
+    exit 0
+    ;;
+esac

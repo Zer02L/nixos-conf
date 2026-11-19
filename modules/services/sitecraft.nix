@@ -4,11 +4,10 @@
 # 2. Fleet of Binaries (isolated instances for client websites with individual SQLite DBs & Telegram bots)
 # 3. Static Client Sites (exported SSG sites served directly by Caddy at 0 MB RAM)
 # 4. Multi-domain Caddy reverse proxy with automatic SSL and SSE flush_interval -1
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 let
   cfg = config.custom.services.sitecraft;
@@ -228,41 +227,43 @@ in
       }
 
       # Fleet Client Instances
-      (lib.mapAttrs' (
-        name: inst:
-        lib.nameValuePair "sitecraft-fleet-${name}" {
-          description = "SiteCraft Fleet Instance: ${name} (${inst.domain})";
-          wantedBy = [ "multi-user.target" ];
-          after = [ "network.target" ];
+      (lib.mapAttrs'
+        (
+          name: inst:
+            lib.nameValuePair "sitecraft-fleet-${name}" {
+              description = "SiteCraft Fleet Instance: ${name} (${inst.domain})";
+              wantedBy = [ "multi-user.target" ];
+              after = [ "network.target" ];
 
-          serviceConfig = {
-            Type = "simple";
-            User = "zerg";
-            Group = "users";
-            WorkingDirectory = cfg.workingDirectory;
-            ExecStart = "${cfg.executable} serve --http=127.0.0.1:${toString inst.port} --dir=${inst.dataDir}";
-            Restart = "always";
-            RestartSec = "5s";
+              serviceConfig = {
+                Type = "simple";
+                User = "zerg";
+                Group = "users";
+                WorkingDirectory = cfg.workingDirectory;
+                ExecStart = "${cfg.executable} serve --http=127.0.0.1:${toString inst.port} --dir=${inst.dataDir}";
+                Restart = "always";
+                RestartSec = "5s";
 
-            EnvironmentFile = lib.mkIf (inst.envSecret != null) [
-              config.sops.secrets.${inst.envSecret}.path
-            ];
+                EnvironmentFile = lib.mkIf (inst.envSecret != null) [
+                  config.sops.secrets.${inst.envSecret}.path
+                ];
 
-            StateDirectory = "sitecraft/fleet/${name}";
-            LimitNOFILE = 65535;
+                StateDirectory = "sitecraft/fleet/${name}";
+                LimitNOFILE = 65535;
 
-            ProtectSystem = "strict";
-            ProtectHome = false;
-            ReadWritePaths = [
-              "/var/lib/sitecraft/fleet/${name}"
-              cfg.workingDirectory
-              "/tmp"
-            ];
-            PrivateTmp = true;
-            NoNewPrivileges = true;
-          };
-        }
-      ) cfg.fleet)
+                ProtectSystem = "strict";
+                ProtectHome = false;
+                ReadWritePaths = [
+                  "/var/lib/sitecraft/fleet/${name}"
+                  cfg.workingDirectory
+                  "/tmp"
+                ];
+                PrivateTmp = true;
+                NoNewPrivileges = true;
+              };
+            }
+        )
+        cfg.fleet)
     ];
 
     sops.secrets = lib.mkIf (cfg.envSecret != null) {
@@ -302,24 +303,28 @@ in
         })
 
         # Dynamic client instances (Fleet)
-        (lib.mapAttrs' (
-          name: inst:
-          lib.nameValuePair inst.domain {
-            extraConfig = mkProxyConfig inst.port;
-          }
-        ) cfg.fleet)
+        (lib.mapAttrs'
+          (
+            name: inst:
+              lib.nameValuePair inst.domain {
+                extraConfig = mkProxyConfig inst.port;
+              }
+          )
+          cfg.fleet)
 
         # Static client sites (SSG, 0 MB RAM)
-        (lib.mapAttrs' (
-          name: site:
-          lib.nameValuePair site.domain {
-            extraConfig = ''
-              root * ${site.root}
-              file_server
-              encode zstd gzip
-            '';
-          }
-        ) cfg.staticSites)
+        (lib.mapAttrs'
+          (
+            name: site:
+              lib.nameValuePair site.domain {
+                extraConfig = ''
+                  root * ${site.root}
+                  file_server
+                  encode zstd gzip
+                '';
+              }
+          )
+          cfg.staticSites)
 
         # On-Demand TLS for arbitrary external domains
         (lib.mkIf cfg.customDomains {

@@ -52,8 +52,7 @@ let
     nvidia = import ../modules/hardware/nvidia.nix;
     pipewire = import ../modules/services/pipewire.nix;
     zram = import ../modules/services/zram.nix;
-    # zapret = import ../modules/services/zapret.nix;
-    # zapret2 = import ../modules/services/zapret2.nix;
+    zapret2 = import ../modules/services/zapret2.nix;
     cloudflare-warp = import ../modules/services/cloudflare-warp.nix;
     amneziawg = import ../modules/services/amneziawg.nix;
     vpn-timezone = import ../modules/services/vpn-timezone.nix;

@@ -4,12 +4,11 @@
 # 2. Fleet Client Websites (isolated dynamic instances: 8091, 8092... ~25 MB RAM each).
 # 3. Static Client Websites (SSG exported HTML/CSS, 0 MB RAM).
 # 4. Private Zone: T3 Code headless server with outbound AI proxy, SSH on Tailscale only.
-{
-  config,
-  lib,
-  pkgs,
-  inputs,
-  ...
+{ config
+, lib
+, pkgs
+, inputs
+, ...
 }:
 {
   imports = [
