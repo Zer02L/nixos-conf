@@ -12,6 +12,39 @@ let
 
   appimageContents = appimageTools.extract {
     inherit pname version src;
+    postExtract = ''
+      # Заменяем устаревший bundled xdg-open (1.1.3), который ломается на KDE 6,
+      # на вызов системного портала OpenURI (или хостового xdg-open), чтобы ссылки
+      # в браузере открывались надежно изнутри FHS-окружения.
+      cat << 'EOF' > $out/usr/bin/xdg-open
+#!/bin/sh
+target="$1"
+case "$target" in
+  http://*|https://*|file://*)
+    if command -v gdbus >/dev/null 2>&1; then
+      if gdbus call --session \
+        --dest org.freedesktop.portal.Desktop \
+        --object-path /org/freedesktop/portal/desktop \
+        --method org.freedesktop.portal.OpenURI.OpenURI \
+        "" "$target" "{}" >/dev/null 2>&1; then
+        exit 0
+      fi
+    fi
+    ;;
+esac
+
+if [ -x /run/current-system/sw/bin/xdg-open ]; then
+  exec /run/current-system/sw/bin/xdg-open "$@"
+fi
+
+if command -v gio >/dev/null 2>&1; then
+  exec gio open "$@"
+fi
+
+exit 1
+EOF
+      chmod +x $out/usr/bin/xdg-open
+    '';
   };
 in
 appimageTools.wrapType2 {
@@ -20,6 +53,7 @@ appimageTools.wrapType2 {
   extraPkgs = pkgs: with pkgs; [
     libgpg-error
     libayatana-appindicator
+    glib # gdbus для вызова xdg-desktop-portal OpenURI
   ];
 
   extraBwrapArgs = [ "--unsetenv" "GIO_EXTRA_MODULES" ];
