@@ -17,6 +17,13 @@ in
 appimageTools.wrapType2 {
   inherit pname version src;
 
+  extraPkgs = pkgs: with pkgs; [
+    libgpg-error
+    libayatana-appindicator
+  ];
+
+  extraBwrapArgs = [ "--unsetenv" "GIO_EXTRA_MODULES" ];
+
   extraInstallCommands = ''
     mkdir -p $out/share/applications $out/share/pixmaps $out/share/icons/hicolor/512x512/apps
 
