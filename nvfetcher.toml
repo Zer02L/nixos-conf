@@ -92,4 +92,9 @@ src.github = "stablyai/orca"
 src.prefix = "v"
 fetch.url = "https://github.com/stablyai/orca/releases/download/v$ver/orca-linux.AppImage"
 
+[skills-manager]
+src.github = "xingkongliang/skills-manager"
+src.prefix = "v"
+fetch.url = "https://github.com/xingkongliang/skills-manager/releases/download/v$ver/skills-manager_$ver_amd64.AppImage"
+
 

@@ -41,6 +41,9 @@
       # orca ai / orca-ide (stablyai/orca via nvfetcher)
       orca-ai
 
+      # skills-manager (xingkongliang/skills-manager via nvfetcher)
+      skills-manager
+
       # artcraft-launcher (storytold/craft-launcher via nvfetcher)
       artcraft-launcher
 

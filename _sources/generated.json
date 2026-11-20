@@ -224,6 +224,21 @@
         },
         "version": "0.16.0"
     },
+    "skills-manager": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "skills-manager",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-Si3dtNZ8Z0wMR0PTbkeDeImCbXcHSY8GdPGLTvAOaLI=",
+            "type": "url",
+            "url": "https://github.com/xingkongliang/skills-manager/releases/download/v1.44.0/skills-manager_1.44.0_amd64.AppImage"
+        },
+        "version": "1.44.0"
+    },
     "t3-cli": {
         "cargoLock": null,
         "date": null,

@@ -30,4 +30,5 @@ in
   orca = final.callPackage ./orca.nix { inherit sources; };
   orca-ai = final.orca;
   orca-ide = final.orca;
+  skills-manager = final.callPackage ./skills-manager.nix { inherit sources; };
 }

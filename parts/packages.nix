@@ -39,6 +39,7 @@ in
         orca = pkgsWithCustom.orca;
         orca-ai = pkgsWithCustom.orca-ai;
         orca-ide = pkgsWithCustom.orca-ide;
+        skills-manager = pkgsWithCustom.skills-manager;
       };
     };
 }
