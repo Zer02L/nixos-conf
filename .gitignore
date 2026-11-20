@@ -29,7 +29,7 @@ dotfiles/.omp/cache/
 # OMP agent secrets
 dotfiles/.omp/agent/.env
 dotfiles/.omp/agent/secret-placeholder.key
-dotfiles/.omp/plugins/cache/marketplaces/claude-plugins-official/
+dotfiles/.omp/plugins/cache/
 
 # Pi agent secrets
 auth.json

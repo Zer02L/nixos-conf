@@ -38,6 +38,12 @@ let
       "playdarktide.com"
       "amazonaws.com"
       "cloudfront.net"
+      "discord.com"
+      "discordapp.com"
+      "discord.gg"
+      "discord.media"
+      "discordapp.net"
+      "discordcdn.com"
     ]
     ++ (readListFile (listsDir + "/list-nofake.txt"))
   );
@@ -51,18 +57,12 @@ let
       "gvt1.com"
       "youtube-nocookie.com"
       "youtu.be"
-      "discord.com"
-      "discordapp.com"
-      "discord.gg"
-      "discord.media"
-      "discordapp.net"
-      "discordcdn.com"
     ]
     ++ (readListFile (listsDir + "/list-google.txt"))
     ++ (readListFile (listsDir + "/list-general.txt"))
   );
 
-  # Exclude nofake domains (AWS, CloudFront, Darktide/Atoma) from fake-based desync profile
+  # Exclude nofake domains (AWS, CloudFront, Darktide/Atoma, Discord/Cloudflare) from fake-based desync profile
   defaultIncludeDomains = lib.filter (d: !(builtins.elem d defaultNofakeDomains)) allIncludeDomains;
 
   privateExcludePath = "/var/lib/zapret2/private-exclude.txt";
@@ -214,8 +214,9 @@ in
         fi
 
         # Ensure readable permissions for user CLI tools (zapret-test, zapret-tool)
-        chmod -R 644 /var/lib/zapret2/lists/* /var/lib/zapret2/zapret2.conf /var/lib/zapret2/*-hosts.txt 2>/dev/null || true
-        chmod 755 /var/lib/zapret2 /var/lib/zapret2/lists /var/lib/zapret2/lua 2>/dev/null || true
+        chmod -R 644 /var/lib/zapret2/lists/* /var/lib/zapret2/zapret2.conf 2>/dev/null || true
+        chmod 666 /var/lib/zapret2/*-hosts.txt 2>/dev/null || true
+        chmod 777 /var/lib/zapret2 /var/lib/zapret2/lists /var/lib/zapret2/lua 2>/dev/null || true
       '';
 
       serviceConfig = {
@@ -250,13 +251,16 @@ in
         echo "Done! (Check status with zapret-status)"
       '')
       (pkgs.writeShellScriptBin "zapret-restart" ''
+        if [ "$EUID" -ne 0 ]; then
+          exec sudo "$0" "$@"
+        fi
         if ! zapret-test >/dev/null 2>&1; then
           echo "ERROR: dotfiles/zapret/zapret2.conf has syntax errors! Run 'zapret-test' to inspect." >&2
           zapret-test
           exit 1
         fi
         echo "Configuration verified. Syncing config & restarting Zapret2..."
-        sudo systemctl restart nfqws2@default
+        systemctl restart nfqws2@default
         echo "Done! (Check status with zapret-status)"
       '')
       (pkgs.writeShellScriptBin "zapret-status" ''
@@ -266,7 +270,11 @@ in
         TMPCONF=$(mktemp)
         echo "--dry-run" > "$TMPCONF"
         grep -v '^[[:space:]]*#' /home/zerg/nixos-conf/dotfiles/zapret/zapret2.conf | grep -v '^[[:space:]]*$' >> "$TMPCONF"
-        ${config.services.zapret2.package}/bin/nfqws2 "@$TMPCONF"
+        if [ "$EUID" -ne 0 ]; then
+          sudo ${config.services.zapret2.package}/bin/nfqws2 "@$TMPCONF"
+        else
+          ${config.services.zapret2.package}/bin/nfqws2 "@$TMPCONF"
+        fi
         STATUS=$?
         rm -f "$TMPCONF"
         exit $STATUS
@@ -301,7 +309,7 @@ in
           };
         };
 
-        # Profile 1.5: Soft HTTPS desync (pure split without fake) for AWS CloudFront, Atoma Cloud, Darktide
+        # Profile 1.5: Soft HTTPS desync (pure split without fake) for AWS CloudFront, Atoma Cloud, Darktide, Discord
         https-nofake = {
           priority = 150;
           hosts = {
@@ -316,7 +324,7 @@ in
           ];
         };
 
-        # Profile 2: Critical HTTPS (YouTube, Discord, etc.)
+        # Profile 2: Critical HTTPS (YouTube, etc.)
         https-critical = {
           priority = 200;
           hosts = {

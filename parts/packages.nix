@@ -36,6 +36,9 @@ in
         creabim = pkgsWithCustom.creabim;
         kiri = pkgsWithCustom.kiri;
         opencode = pkgsWithCustom.opencode;
+        orca = pkgsWithCustom.orca;
+        orca-ai = pkgsWithCustom.orca-ai;
+        orca-ide = pkgsWithCustom.orca-ide;
       };
     };
 }

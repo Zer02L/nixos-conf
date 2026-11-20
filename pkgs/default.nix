@@ -27,4 +27,7 @@ in
   creabim = final.callPackage ./creabim.nix { inherit sources; };
   kiri = final.callPackage ./kiri.nix { inherit sources; };
   opencode = final.callPackage ./opencode.nix { inherit sources; };
+  orca = final.callPackage ./orca.nix { inherit sources; };
+  orca-ai = final.orca;
+  orca-ide = final.orca;
 }

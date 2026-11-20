@@ -24,8 +24,20 @@ function hm --description 'Rebuild home-manager (git add + nh home switch)'
 end
 
 function nvup --description 'Update external packages via nvfetcher and rebuild home-manager'
-    nvfetcher -c ~/nixos-conf/nvfetcher.toml -o ~/nixos-conf/_sources $argv
+    set -l k_args
+    if test -f ~/.config/nvchecker/keyfile.toml
+        set k_args -k ~/.config/nvchecker/keyfile.toml
+    end
+    command nvfetcher $k_args -c ~/nixos-conf/nvfetcher.toml -o ~/nixos-conf/_sources $argv
     and hm
+end
+
+function nvfetcher --wraps nvfetcher --description 'Run nvfetcher with default keyfile if available'
+    if test -f ~/.config/nvchecker/keyfile.toml; and not contains -- -k $argv; and not contains -- --keyfile $argv
+        command nvfetcher -k ~/.config/nvchecker/keyfile.toml $argv
+    else
+        command nvfetcher $argv
+    end
 end
 
 function nc --description 'Clean old NixOS generations'

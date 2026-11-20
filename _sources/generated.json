@@ -80,7 +80,7 @@
         "extract": null,
         "name": "creabim",
         "passthru": null,
-        "pinned": false,
+        "pinned": true,
         "src": {
             "name": null,
             "sha256": "sha256-VXGQAtIS8AxGfyUxiQHdDYcrRtyzVJlSYKzV+iBW3Xw=",
@@ -95,7 +95,7 @@
         "extract": null,
         "name": "flclash",
         "passthru": null,
-        "pinned": false,
+        "pinned": true,
         "src": {
             "name": null,
             "sha256": "sha256-QGQlQym7OcYonHQ+FuVyauVrWFPobZ+I4BReKvAyNRs=",
@@ -128,11 +128,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-nOFmi4WbZLGQ15mWp62cVOD5q5qJBDqeoOE8RYlOOHI=",
+            "sha256": "sha256-Y59kq7fzvQY6gO0XROiRFWNRxWzyrVAmM8R1NsOXqWE=",
             "type": "url",
-            "url": "https://download.runkiri.com/kiri_0.2.1_amd64.deb"
+            "url": "https://download.runkiri.com/kiri_0.2.2_amd64.deb"
         },
-        "version": "0.2.1"
+        "version": "0.2.2"
     },
     "obscura": {
         "cargoLock": null,
@@ -158,11 +158,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-x8xcjVBQU8j/rxgEF+XVx4EjW52TbyhoEFYBURIBCb8=",
+            "sha256": "sha256-bO7wRDCFG7EFDG/aOvRnQS60ShHfCm/4Eh/mAQE8VBU=",
             "type": "url",
-            "url": "https://github.com/can1357/oh-my-pi/releases/download/v19.0.0/omp-linux-x64"
+            "url": "https://github.com/can1357/oh-my-pi/releases/download/v19.0.1/omp-linux-x64"
         },
-        "version": "19.0.0"
+        "version": "19.0.1"
     },
     "opencode": {
         "cargoLock": null,
@@ -173,11 +173,26 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-R3NOCJaLMMwioL/7bZ/u7XatSqdDIToSEiBAOS0JoFc=",
+            "sha256": "sha256-VjtdZjY3ImtuO7S7aAMoG8ObDSzYjbBtZ0tkIKqwCbA=",
             "type": "url",
-            "url": "https://github.com/anomalyco/opencode/releases/download/v1.19.6/opencode-linux-x64.tar.gz"
+            "url": "https://github.com/anomalyco/opencode/releases/download/v2.3.2/opencode-linux-x64.tar.gz"
         },
-        "version": "1.19.6"
+        "version": "2.3.2"
+    },
+    "orca": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "orca",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-ilGgjiQYmdhnda0z8686nhFLnLMAt53h52TJIqAzcCY=",
+            "type": "url",
+            "url": "https://github.com/stablyai/orca/releases/download/v1.4.265/orca-linux.AppImage"
+        },
+        "version": "1.4.265"
     },
     "pi-coding-agent": {
         "cargoLock": null,

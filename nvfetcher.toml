@@ -15,6 +15,7 @@ fetch.url = "https://github.com/pingdotgg/t3code/releases/download/v$ver/t3-$ver
 src.github = "chen08209/FlClash"
 src.prefix = "v"
 fetch.url = "https://github.com/chen08209/FlClash/releases/download/v$ver/FlClash-$ver-linux-amd64.deb"
+pinned = true
 
 [happ-desktop]
 src.github = "Happ-proxy/happ-desktop"
@@ -66,6 +67,7 @@ src.prefix = "v"
 fetch.url = "https://github.com/earendil-works/pi/releases/download/v$ver/pi-linux-x64.tar.gz"
 
 [creabim]
+pinned = true
 src.webpage = "https://api.github.com/repos/chopinregis/CreaBIM/releases/latest"
 src.regex = 'https://github\.com/chopinregis/CreaBIM/releases/download/(v[0-9.]+/CreaBIM-[^"]+-linux-x64\.tar\.gz)'
 fetch.url = "https://github.com/chopinregis/CreaBIM/releases/download/$ver"
@@ -81,7 +83,13 @@ src.prefix = "v"
 fetch.url = "https://download.runkiri.com/kiri_$ver_amd64.deb"
 
 [opencode]
-src.github = "anomalyco/opencode"
+src.github_tag = "anomalyco/opencode"
 src.prefix = "v"
 fetch.url = "https://github.com/anomalyco/opencode/releases/download/v$ver/opencode-linux-x64.tar.gz"
+
+[orca]
+src.github = "stablyai/orca"
+src.prefix = "v"
+fetch.url = "https://github.com/stablyai/orca/releases/download/v$ver/orca-linux.AppImage"
+
 

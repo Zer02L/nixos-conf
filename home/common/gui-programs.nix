@@ -38,6 +38,9 @@
       # t3code (official release pingdotgg/t3code)
       t3code
 
+      # orca ai / orca-ide (stablyai/orca via nvfetcher)
+      orca-ai
+
       # artcraft-launcher (storytold/craft-launcher via nvfetcher)
       artcraft-launcher
 
