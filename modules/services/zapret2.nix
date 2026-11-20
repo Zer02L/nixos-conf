@@ -38,12 +38,6 @@ let
       "playdarktide.com"
       "amazonaws.com"
       "cloudfront.net"
-      "discord.com"
-      "discordapp.com"
-      "discord.gg"
-      "discord.media"
-      "discordapp.net"
-      "discordcdn.com"
     ]
     ++ (readListFile (listsDir + "/list-nofake.txt"))
   );
@@ -57,12 +51,18 @@ let
       "gvt1.com"
       "youtube-nocookie.com"
       "youtu.be"
+      "discord.com"
+      "discordapp.com"
+      "discord.gg"
+      "discord.media"
+      "discordapp.net"
+      "discordcdn.com"
     ]
     ++ (readListFile (listsDir + "/list-google.txt"))
     ++ (readListFile (listsDir + "/list-general.txt"))
   );
 
-  # Exclude nofake domains (AWS, CloudFront, Darktide/Atoma, Discord/Cloudflare) from fake-based desync profile
+  # Exclude nofake domains (AWS, CloudFront, Darktide/Atoma) from fake-based desync profile
   defaultIncludeDomains = lib.filter (d: !(builtins.elem d defaultNofakeDomains)) allIncludeDomains;
 
   privateExcludePath = "/var/lib/zapret2/private-exclude.txt";

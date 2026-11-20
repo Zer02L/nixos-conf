@@ -13,28 +13,3 @@ playdarktide.com
 amazonaws.com
 cloudfront.net
 
-# Discord & CDN infrastructure (hosted behind Cloudflare; resets TCP connection on fake TLS packets)
-dis.gd
-discord-attachments-uploads-prd.storage.googleapis.com
-discord.app
-discord.co
-discord.com
-discord.design
-discord.dev
-discord.gift
-discord.gifts
-discord.gg
-discord.media
-discord.new
-discord.store
-discord.status
-discord-activities.com
-discordactivities.com
-discordapp.com
-discordapp.net
-discordcdn.com
-discordmerch.com
-discordpartygames.com
-discordsays.com
-discordsez.com
-discordstatus.com
