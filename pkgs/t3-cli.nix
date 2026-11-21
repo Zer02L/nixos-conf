@@ -1,9 +1,10 @@
 { pkgs ? import <nixpkgs> { }
 , sources ? pkgs.callPackage ../_sources/generated.nix { }
+, sourceKey ? "t3-cli"
 }:
 
 let
-  t3-src = sources."t3-cli";
+  t3-src = sources.${sourceKey};
   unpacked = pkgs.stdenv.mkDerivation {
     pname = "t3-unpacked";
     inherit (t3-src) version src;

@@ -13,6 +13,7 @@
     ../common/dotfiles.nix
     ../common/git.nix
     ../common/git-hooks.nix
+    ../common/t3code.nix
     ../common/tmux.nix
     ../common/yazi.nix
     # ../common/pi-coding-agent.nix

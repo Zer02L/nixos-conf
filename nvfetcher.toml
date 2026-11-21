@@ -6,9 +6,21 @@ src.github = "pingdotgg/t3code"
 src.prefix = "v"
 fetch.url = "https://github.com/pingdotgg/t3code/releases/download/v$ver/T3-Code-x86_64.AppImage"
 
+[t3code-nightly]
+src.github_tag = "pingdotgg/t3code"
+src.prefix = "v"
+src.include_regex = ".*nightly.*"
+fetch.url = "https://github.com/pingdotgg/t3code/releases/download/v$ver/T3-Code-Nightly-x86_64.AppImage"
+
 [t3-cli]
 src.github = "pingdotgg/t3code"
 src.prefix = "v"
+fetch.url = "https://github.com/pingdotgg/t3code/releases/download/v$ver/t3-$ver-linux-x64.tar.gz"
+
+[t3-cli-nightly]
+src.github_tag = "pingdotgg/t3code"
+src.prefix = "v"
+src.include_regex = ".*nightly.*"
 fetch.url = "https://github.com/pingdotgg/t3code/releases/download/v$ver/t3-$ver-linux-x64.tar.gz"
 
 [flclash]

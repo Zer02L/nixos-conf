@@ -11,4 +11,6 @@
     ../common/noctalia.nix
     ../common/stylix.nix
   ];
+
+  custom.t3code.gui = true;
 }

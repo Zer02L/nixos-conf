@@ -226,6 +226,13 @@ in
         ProtectHome = lib.mkForce "read-only";
         StateDirectory = "zapret2";
         StateDirectoryMode = "0755";
+        CapabilityBoundingSet = lib.mkForce [
+          "CAP_NET_ADMIN"
+          "CAP_NET_RAW"
+          "CAP_DAC_OVERRIDE"
+          "CAP_FOWNER"
+          "CAP_CHOWN"
+        ];
         ExecStart = lib.mkForce [
           ""
           "${config.services.zapret2.package}/bin/nfqws2 @/var/lib/zapret2/zapret2.conf"

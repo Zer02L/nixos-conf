@@ -9,34 +9,35 @@ let
   # 1. Паттерны секретов
   # ═══════════════════════════════════════════════════════════════
   secretsPatternsFile = pkgs.writeText "secret-patterns" ''
-    # format: name<tab>pattern (разделение строго знаком ТАБУЛЯЦИИ)
-    AWS Access Key	AKIA[0-9A-Z]{16}
-    GitHub Token	gh[ps]_[a-zA-Z0-9_]{36,255}
-    GitHub Fine-Grained	github_pat_[a-zA-Z0-9_]{82}
-    GitLab Token	glpat-[a-zA-Z0-9\-_]{20,}
-    OpenAI Key	sk-[a-zA-Z0-9]{48}
-    Anthropic Key	sk-ant-[a-zA-Z0-9\-_]{40,}
-    Google API	AIza[0-9A-Za-z\-_]{35}
-    Slack Token	xox[baprs]-[a-zA-Z0-9\-]{10,}
-    Slack Webhook	https://hooks\.slack\.com/services/T[A-Z0-9]{8}/B[A-Z0-9]{8}/[a-zA-Z0-9]{24}
-    Telegram Bot Token	[0-9]{9}:[a-zA-Z0-9_-]{35}
-    Discord Token	[mN][a-zA-Z0-9]{23,}\.[a-zA-Z0-9_-]{6}\.[a-zA-Z0-9_-]{27,}
-    Discord Webhook	https://discord(app)?\.com/api/webhooks/[0-9]+/[a-zA-Z0-9\-_]+
-    Exa API Key	exa-[a-zA-Z0-9]{32,}
-    Stripe Key	sk_live_[0-9a-zA-Z]{24,}
-    Stripe Publishable	pk_live_[0-9a-zA-Z]{24,}
-    Twilio Account SID	AC[0-9a-fA-F]{32}
-    SendGrid Key	SG\.[a-zA-Z0-9\-_]{22}\.[a-zA-Z0-9\-_]{43}
-    Mailgun Key	key-[0-9a-zA-Z]{32}
-    NPM Token	npm_[a-zA-Z0-9]{36}
-    RSA Private Key	-----BEGIN RSA PRIVATE KEY-----
-    DSA Private Key	-----BEGIN DSA PRIVATE KEY-----
-    EC Private Key	-----BEGIN EC PRIVATE KEY-----
-    OpenSSH Private Key	-----BEGIN OPENSSH PRIVATE KEY-----
-    PGP Private Key	-----BEGIN PGP PRIVATE KEY BLOCK-----
-    Generic Private Key	-----BEGIN PRIVATE KEY-----
-    Password Assignment	(password|passwd|pwd)\s*[:=]\s*['"][^'"]+['"]
-    API Key Assignment	(api_key|apikey)\s*[:=]\s*['"][^'"]+['"]
+    # format: name<tab>flags<tab>pattern (разделение строго знаком ТАБУЛЯЦИИ)
+    # flags: i = case-insensitive, - = case-sensitive
+    AWS Access Key	-	\bAKIA[0-9A-Z]{16}\b
+    GitHub Token	-	\bgh[ps]_[a-zA-Z0-9_]{36,255}\b
+    GitHub Fine-Grained	-	\bgithub_pat_[a-zA-Z0-9_]{82}\b
+    GitLab Token	-	\bglpat-[a-zA-Z0-9\-_]{20,}\b
+    OpenAI Key	-	\b(sk-[a-zA-Z0-9]{48}|sk-proj-[a-zA-Z0-9_\-]{48,})\b
+    Anthropic Key	-	\bsk-ant-[a-zA-Z0-9\-_]{32,}\b
+    Google API	-	\bAIza[0-9A-Za-z\-_]{35}\b
+    Slack Token	-	\bxox[baprs]-[a-zA-Z0-9\-]{10,}\b
+    Slack Webhook	-	https://hooks\.slack\.com/services/T[A-Z0-9]{8}/B[A-Z0-9]{8}/[a-zA-Z0-9]{24}
+    Telegram Bot Token	-	\b[0-9]{9,10}:[a-zA-Z0-9_-]{35}\b
+    Discord Token	-	\b[mN][a-zA-Z0-9]{23,}\.[a-zA-Z0-9_-]{6}\.[a-zA-Z0-9_-]{27,}\b
+    Discord Webhook	-	https://discord(app)?\.com/api/webhooks/[0-9]+/[a-zA-Z0-9\-_]+
+    Exa API Key	-	\bexa-[a-zA-Z0-9]{32,}\b
+    Stripe Key	-	\bsk_live_[0-9a-zA-Z]{24,}\b
+    Stripe Publishable	-	\bpk_live_[0-9a-zA-Z]{24,}\b
+    Twilio Account SID	-	\bAC[0-9a-fA-F]{32}\b
+    SendGrid Key	-	\bSG\.[a-zA-Z0-9\-_]{22}\.[a-zA-Z0-9\-_]{43}\b
+    Mailgun Key	-	\bkey-[0-9a-zA-Z]{32}\b
+    NPM Token	-	\bnpm_[a-zA-Z0-9]{36}\b
+    RSA Private Key	-	-----BEGIN RSA PRIVATE KEY-----
+    DSA Private Key	-	-----BEGIN DSA PRIVATE KEY-----
+    EC Private Key	-	-----BEGIN EC PRIVATE KEY-----
+    OpenSSH Private Key	-	-----BEGIN OPENSSH PRIVATE KEY-----
+    PGP Private Key	-	-----BEGIN PGP PRIVATE KEY BLOCK-----
+    Generic Private Key	-	-----BEGIN PRIVATE KEY-----
+    Password Assignment	i	(password|passwd|pwd)[[:space:]]*[:=][[:space:]]*['"][^'"]{4,}['"]
+    API Key Assignment	i	(api_key|apikey)[[:space:]]*[:=][[:space:]]*['"][^'"]{4,}['"]
   '';
 
   # ═══════════════════════════════════════════════════════════════
@@ -51,8 +52,18 @@ let
       ]
     }:$PATH"
 
-    # 1. Собираем только измененные строки текстовых файлов (учитывает .gitignore)
-    STAGED_CHANGES=$(git diff --no-color --no-ext-diff --src-prefix=a/ --dst-prefix=b/ --cached --unified=0 --text | \
+    # Возможность отключения проверки через переменную окружения или git config
+    if [ -n "$GIT_SECRETS_SKIP" ] || [ -n "$SKIP_SECRET_SCAN" ]; then
+      exit 0
+    fi
+    if [ "$(git config --bool --get hooks.secret-scan 2>/dev/null)" = "false" ]; then
+      exit 0
+    fi
+
+    export LC_ALL=C
+
+    # 1. Собираем только измененные строки текстовых файлов (без --text, исключая бинарные файлы)
+    STAGED_CHANGES=$(git diff --no-color --no-ext-diff --src-prefix=a/ --dst-prefix=b/ --cached --unified=0 | \
       awk '
         /^---/ {next}
         /^\+\+\+/ {sub(/^\+\+\+ (b\/)?/, ""); file=$0; next}
@@ -68,24 +79,34 @@ let
     REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo "")
 
     # 2. Построчно проверяем паттерны секретов
-    while IFS=$'\t' read -r name pattern || [ -n "$name" ]; do
+    while IFS=$'\t' read -r name flags pattern || [ -n "$name" ]; do
       [[ "$name" =~ ^# ]] && continue
       [[ -z "$name" || -z "$pattern" ]] && continue
 
-      # Ищем совпадения в staged изменениях
-      MATCHES=$(echo "$STAGED_CHANGES" | grep -E -i -e "$pattern" || true)
+      if [ "$flags" = "i" ]; then
+        MATCHES=$(echo "$STAGED_CHANGES" | grep -E -i -e "$pattern" || true)
+      else
+        MATCHES=$(echo "$STAGED_CHANGES" | grep -E -e "$pattern" || true)
+      fi
 
       if [ -n "$MATCHES" ]; then
-        # Читаем совпадения построчно, чтобы проверить правила исключений (.secretsignore)
         while IFS= read -r match_line; do
+          [ -z "$match_line" ] && continue
           FILE_PATH=$(echo "$match_line" | cut -d':' -f1)
           LINE_NUM=$(echo "$match_line" | cut -d':' -f2)
           CONTENT=$(echo "$match_line" | cut -d':' -f3-)
 
-          # Проверяем, добавлен ли этот конкретный файл в локальный .secretsignore репозитория
+          # Проверяем исключения .secretsignore через git check-ignore (поддержка масок, папок и т.д.)
           if [ -n "$REPO_ROOT" ] && [ -f "$REPO_ROOT/.secretsignore" ]; then
-            if grep -Fxq "$FILE_PATH" "$REPO_ROOT/.secretsignore"; then
-              continue # Файл в исключениях, пропускаем ошибку
+            if git -C "$REPO_ROOT" -c "core.excludesFile=$REPO_ROOT/.secretsignore" check-ignore --no-index -q "$FILE_PATH" 2>/dev/null; then
+              continue
+            fi
+          fi
+
+          # Игнорируем очевидные тестовые заглушки в присваиваниях ключей и паролей
+          if [[ "$name" == *"Assignment"* ]]; then
+            if echo "$CONTENT" | grep -E -i -q "[:=][[:space:]]*['\"][^'\"]*(test|dummy|mock|fake|example|sample|placeholder|offline|xxx|your[-_]|changeme|<[^>]+>)[^'\"]*['\"]"; then
+              continue
             fi
           fi
 
@@ -97,7 +118,8 @@ let
     done < "${secretsPatternsFile}"
 
     if [ "$FOUND_SECRETS" -eq 1 ]; then
-      echo -e "\n\033[1;31m[BLOCK] Коммит заблокирован. Удалите секреты или добавьте файл в .secretsignore перед коммитом.\033[0m"
+      echo -e "\n\033[1;31m[BLOCK] Коммит заблокирован. Удалите секреты или добавьте файл/маску в .secretsignore перед коммитом.\033[0m"
+      echo -e "\033[0;33m(Для разового пропуска: GIT_SECRETS_SKIP=1 git commit, либо git config hooks.secret-scan false для репозитория)\033[0m"
       exit 1
     fi
     exit 0
@@ -111,6 +133,11 @@ let
 
     MSG_FILE="$1"
     COMMIT_MSG=$(cat "$MSG_FILE")
+
+    # Пропускаем служебные коммиты слияний, фиксапов и сквошей
+    if echo "$COMMIT_MSG" | grep -E -q "^(Merge |Revert |fixup! |squash! |amend! )"; then
+      exit 0
+    fi
 
     # Регулярное выражение для Conventional Commits
     CONVENTIONAL_REGEX="^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([a-z0-9_-]+\))?!?: .+"

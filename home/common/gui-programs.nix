@@ -35,9 +35,6 @@
       # opencode-desktop
       # opencode
 
-      # t3code (official release pingdotgg/t3code)
-      t3code
-
       # orca ai / orca-ide (stablyai/orca via nvfetcher)
       orca-ai
 

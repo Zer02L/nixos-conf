@@ -13,6 +13,19 @@ in
   options.custom.services.t3-server = {
     enable = lib.mkEnableOption "T3 Code headless background server";
 
+    channel = lib.mkOption {
+      type = lib.types.enum [ "stable" "nightly" ];
+      default = "stable";
+      description = "Release channel for t3-cli ('stable' or 'nightly').";
+    };
+
+    package = lib.mkOption {
+      type = lib.types.package;
+      default = if cfg.channel == "nightly" then pkgs.t3-cli-nightly else pkgs.t3-cli;
+      defaultText = lib.literalExpression ''if cfg.channel == "nightly" then pkgs.t3-cli-nightly else pkgs.t3-cli'';
+      description = "The t3-cli package to run.";
+    };
+
     port = lib.mkOption {
       type = lib.types.port;
       default = 3773;
@@ -70,7 +83,7 @@ in
         User = "zerg";
         Group = "users";
         WorkingDirectory = "/home/zerg";
-        ExecStart = "${pkgs.t3-cli}/bin/t3 server --port ${toString cfg.port} --host ${cfg.host}";
+        ExecStart = "${cfg.package}/bin/t3 server --port ${toString cfg.port} --host ${cfg.host}";
         Restart = "on-failure";
         RestartSec = "5s";
 

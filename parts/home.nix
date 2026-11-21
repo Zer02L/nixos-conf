@@ -44,6 +44,7 @@ let
     stylix = import ../home/common/stylix.nix;
     # karing = import ../home/common/karing.nix;
     # pi-coding-agent = import ../home/common/pi-coding-agent.nix;
+    t3code = import ../home/common/t3code.nix;
     distrobox = import ../home/common/distrobox.nix;
   };
 in

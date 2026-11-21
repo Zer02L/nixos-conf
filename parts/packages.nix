@@ -23,7 +23,9 @@ in
     {
       packages = {
         t3code = pkgsWithCustom.t3code;
+        t3code-nightly = pkgsWithCustom.t3code-nightly;
         t3-cli = pkgsWithCustom.t3-cli;
+        t3-cli-nightly = pkgsWithCustom.t3-cli-nightly;
         omp = pkgsWithCustom.omp;
         amethyst-mod-manager = pkgsWithCustom.amethyst-mod-manager;
         antigravity-manager = pkgsWithCustom.antigravity-manager;

@@ -30,9 +30,6 @@
 
     unzip
 
-    # T3 Code CLI & headless server
-    t3-cli
-
     # Oh My Pi (omp) AI coding agent
     omp
 

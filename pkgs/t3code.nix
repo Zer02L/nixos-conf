@@ -5,10 +5,13 @@
 , fetchFromGitHub
 , dockerTools
 , sources ? import ../_sources/generated.nix { inherit fetchgit fetchurl fetchFromGitHub dockerTools; }
+, sourceKey ? "t3code"
 }:
 
 let
-  inherit (sources.t3code) pname version src;
+  srcData = sources.${sourceKey};
+  inherit (srcData) version src;
+  pname = "t3code";
 
   appimageContents = appimageTools.extract {
     inherit pname version src;
