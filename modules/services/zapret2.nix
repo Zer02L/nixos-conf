@@ -252,6 +252,32 @@ in
 
     # Convenience CLI tools for managing Zapret2 without rebuilding
     environment.systemPackages = [
+      (pkgs.writeShellScriptBin "zapret-start" ''
+        if [ "$EUID" -ne 0 ]; then
+          exec sudo "$0" "$@"
+        fi
+        if ! zapret-test >/dev/null 2>&1; then
+          echo "ERROR: dotfiles/zapret/zapret2.conf has syntax errors! Run 'zapret-test' to inspect." >&2
+          zapret-test
+          exit 1
+        fi
+        echo "Restoring nftables & starting Zapret2..."
+        systemctl restart nftables
+        systemctl start nfqws2@default
+        echo "Done! (Check status with zapret-status)"
+      '')
+      (pkgs.writeShellScriptBin "zapret-stop" ''
+        if [ "$EUID" -ne 0 ]; then
+          exec sudo "$0" "$@"
+        fi
+        echo "Stopping Zapret2 daemon..."
+        systemctl stop nfqws2@default
+        if nft list table inet zapret2 >/dev/null 2>&1; then
+          echo "Removing zapret2 nftables rules..."
+          nft delete table inet zapret2 2>/dev/null || true
+        fi
+        echo "Zapret2 stopped. Bypass active."
+      '')
       (pkgs.writeShellScriptBin "zapret-reload" ''
         echo "Syncing lists and reloading Zapret2..."
         sudo systemctl reload nfqws2@default
@@ -267,6 +293,7 @@ in
           exit 1
         fi
         echo "Configuration verified. Syncing config & restarting Zapret2..."
+        systemctl restart nftables
         systemctl restart nfqws2@default
         echo "Done! (Check status with zapret-status)"
       '')
@@ -277,11 +304,7 @@ in
         TMPCONF=$(mktemp)
         echo "--dry-run" > "$TMPCONF"
         grep -v '^[[:space:]]*#' /home/zerg/nixos-conf/dotfiles/zapret/zapret2.conf | grep -v '^[[:space:]]*$' >> "$TMPCONF"
-        if [ "$EUID" -ne 0 ]; then
-          sudo ${config.services.zapret2.package}/bin/nfqws2 "@$TMPCONF"
-        else
-          ${config.services.zapret2.package}/bin/nfqws2 "@$TMPCONF"
-        fi
+        ${config.services.zapret2.package}/bin/nfqws2 "@$TMPCONF"
         STATUS=$?
         rm -f "$TMPCONF"
         exit $STATUS
@@ -368,9 +391,9 @@ in
         discord-voice = {
           priority = 400;
           parameters = [
-            "--filter-udp=*"
+            "--filter-udp=19294-19344,50000-65535"
             "--payload=stun,discord_ip_discovery"
-            "--lua-desync=fake:blob=0x00000000000000000000000000000000:repeats=2"
+            "--lua-desync=fake:blob=0x00000000000000000000000000000000:repeats=6"
           ];
         };
 

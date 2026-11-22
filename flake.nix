@@ -40,6 +40,11 @@
     };
 
     umbriel.url = "github:noctalia-dev/umbriel/cachix";
+
+    we-layerd = {
+      url = "github:Aromatic05/we-layerd";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

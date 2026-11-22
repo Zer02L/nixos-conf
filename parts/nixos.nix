@@ -71,6 +71,7 @@ let
     desktop = import ../modules/desktop/foundation.nix;
     plasma = import ../modules/desktop/plasma.nix;
     umbriel = import ../modules/desktop/umbriel.nix;
+    we-layerd = import ../modules/desktop/we-layerd.nix;
     users-zerg = import ../modules/users/zerg.nix;
     flatpak = import ../modules/services/flatpak.nix;
 

@@ -2,6 +2,10 @@
 {
   programs.noctalia = {
     enable = true;
+    settings = {
+      # Отключаем фоновый слой noctalia-wallpaper, чтобы не перекрывал we-layerd на Layer::Background
+      wallpaper.enabled = false;
+    };
   };
 
   xdg.configFile."umbriel/config.toml".text = ''
