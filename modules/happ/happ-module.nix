@@ -16,9 +16,11 @@ let
   cfg = config.services.happ;
 
   resolvectl = "${pkgs.systemd}/bin/resolvectl";
+  systemctl = "${pkgs.systemd}/bin/systemctl";
   ip = "${pkgs.iproute2}/bin/ip";
   head = "${pkgs.coreutils}/bin/head";
   awk = "${pkgs.gawk}/bin/awk";
+  grep = "${pkgs.gnugrep}/bin/grep";
 
   # xray-core runs as `nobody`. Once Happ installs `default dev happ-xray`,
   # its own outbound connections to the upstream proxy are fed back into the
@@ -36,33 +38,65 @@ let
     "94.140.14.14#dns.adguard-dns.com"
   ];
 
+  # Both this script and the dhcpcd hook can fire when the TUN appears (dhcpcd
+  # starts on every new link), so the policy rule must be added idempotently --
+  # a plain `ip rule add` races and fails with "RTNETLINK answers: File exists".
+  addDirectRule = ''
+    if ! ${ip} rule show | ${grep} -q 'uidrange ${directUid}-${directUid} lookup ${directTable}'; then
+      ${ip} rule add uidrange ${directUid}-${directUid} table ${directTable} priority 1000 || true
+    fi
+  '';
+
   # Happ's bundled TunDns looks for `resolvectl` in /usr/bin and /usr/sbin
   # only, so on NixOS it silently leaves DNS wherever it was. Sending DNS
   # through the TUN is a bootstrapping trap: xray needs to resolve its own
   # upstream server before the tunnel can carry any packets at all. Keep DNS
   # on the physical uplink instead, including for directSites domains such
   # as Discord, so the resolved address matches the real egress path.
-  dnsScript = pkgs.writeShellScript "happ-dns" ''
+  #
+  # Zapret must also stand down while the tunnel is up. Its nfqws2 queues all
+  # TCP/443 leaving the physical uplink and its `https-general` profile has no
+  # hostlist, so it applies fake-TLS desync to *every* TLS ClientHello --
+  # including xray's own upstream/DoH connections (1.1.1.1 / 8.8.8.8:443 from
+  # routing.json). That leaves the tunnel with no working upstream and every
+  # app hangs. The nft rule uses `queue ... bypass`, so stopping the daemon is
+  # enough; the nftables table itself can stay in place.
+  dnsScript = pkgs.writeShellScript "happ-network" ''
     set -eu
     if ${ip} link show dev ${cfg.tunInterface} > /dev/null 2>&1; then
-      echo "happ-dns: ${cfg.tunInterface} is up, pinning DNS to ${cfg.physicalInterface}"
+      echo "happ-network: ${cfg.tunInterface} is up, pinning DNS to ${cfg.physicalInterface}"
       ${resolvectl} dns ${cfg.physicalInterface} ${lib.concatStringsSep " " resolverDns}
       ${resolvectl} domain ${cfg.physicalInterface} '~.' '~discord.com'
       ${resolvectl} default-route ${cfg.physicalInterface} false
       ${resolvectl} default-route ${cfg.tunInterface} false || true
 
+      ${systemctl} stop nfqws2@default > /dev/null 2>&1 || true
+
       gw=$(${ip} -4 route show default dev ${cfg.physicalInterface} | ${head} -n1 | ${awk} '{print $3}')
       if [ -n "$gw" ]; then
         ${ip} route replace default via "$gw" dev ${cfg.physicalInterface} table ${directTable}
-        ${ip} rule del uidrange ${directUid}-${directUid} table ${directTable} priority 1000 2>/dev/null || true
-        ${ip} rule add uidrange ${directUid}-${directUid} table ${directTable} priority 1000
+        ${addDirectRule}
       fi
     else
-      echo "happ-dns: ${cfg.tunInterface} is down, reverting DNS routing"
+      echo "happ-network: ${cfg.tunInterface} is down, reverting DNS routing"
       ${resolvectl} revert ${cfg.tunInterface} || true
       ${resolvectl} domain ${cfg.physicalInterface} "" || true
       ${ip} rule del uidrange ${directUid}-${directUid} table ${directTable} priority 1000 2>/dev/null || true
       ${ip} route flush table ${directTable} || true
+      ${systemctl} start nfqws2@default > /dev/null 2>&1 || true
+    fi
+  '';
+
+  # The udev `remove` event for a TUN device is unreliable in practice -- on a
+  # GUI disconnect it is often never delivered, so the udev-triggered script
+  # above cannot be relied on to bring Zapret back. A lightweight timer keeps
+  # the daemon's state in sync with the tunnel instead. Both `systemctl stop`
+  # and `systemctl start` are no-ops when already in the requested state.
+  zapretSyncScript = pkgs.writeShellScript "happ-zapret-sync" ''
+    if ${ip} link show dev ${cfg.tunInterface} > /dev/null 2>&1; then
+      ${systemctl} stop nfqws2@default > /dev/null 2>&1 || true
+    else
+      ${systemctl} start nfqws2@default > /dev/null 2>&1 || true
     fi
   '';
 
@@ -76,8 +110,7 @@ let
     gw=$(${ip} -4 route show default dev ${cfg.physicalInterface} | ${head} -n1 | ${awk} '{print $3}')
     if [ -n "$gw" ]; then
       ${ip} route replace default via "$gw" dev ${cfg.physicalInterface} table ${directTable} || true
-      ${ip} rule del uidrange ${directUid}-${directUid} table ${directTable} priority 1000 2>/dev/null || true
-      ${ip} rule add uidrange ${directUid}-${directUid} table ${directTable} priority 1000 || true
+      ${addDirectRule}
     fi
   '';
 in
@@ -173,22 +206,42 @@ in
     # DNS must stay on the physical link even while Happ owns the default
     # route: sending it through the TUN creates a bootstrapping cycle (xray
     # cannot resolve its own upstream) and every lookup times out, which is
-    # what hung both Vesktop and OpenCode. Triggered from udev so it also
-    # works when the TUN is brought up/down from the Happ GUI, not just at boot.
+    # what hung both Vesktop and OpenCode. Zapret also has to be paused while
+    # the tunnel is up (see dnsScript). Triggered from udev so it also works
+    # when the TUN is brought up/down from the Happ GUI, not just at boot.
     services.udev.extraRules = ''
-      SUBSYSTEM=="net", KERNEL=="${cfg.tunInterface}", ACTION=="add|remove", TAG+="systemd", ENV{SYSTEMD_WANTS}+="happ-dns.service"
+      SUBSYSTEM=="net", KERNEL=="${cfg.tunInterface}", ACTION=="add|remove", TAG+="systemd", ENV{SYSTEMD_WANTS}+="happ-network.service"
     '';
 
     networking.dhcpcd.runHook = dhcpcdHook;
 
-    systemd.services.happ-dns = {
-      description = "Happ TUN DNS routing";
+    systemd.services.happ-network = {
+      description = "Happ TUN network policy (DNS, direct routes, Zapret handoff)";
       after = [ "network.target" "systemd-resolved.service" ];
       wants = [ "systemd-resolved.service" ];
       serviceConfig = {
         Type = "oneshot";
         ExecStart = dnsScript;
       };
+    };
+
+    # Belt-and-braces: make sure Zapret comes back even when the TUN's udev
+    # remove event is missed (which happens on a normal GUI disconnect).
+    systemd.services.happ-zapret-sync = {
+      description = "Keep Zapret paused while the Happ tunnel is up";
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = zapretSyncScript;
+      };
+    };
+    systemd.timers.happ-zapret-sync = {
+      description = "Reconcile Zapret with the Happ tunnel state";
+      timerConfig = {
+        OnBootSec = "10s";
+        OnUnitActiveSec = "5s";
+        AccuracySec = "1s";
+      };
+      wantedBy = [ "timers.target" ];
     };
 
     # Happ hard-codes /opt/happ for its binaries, so we materialise the immutable
@@ -227,7 +280,7 @@ in
         net-tools
         # NB: Happ's TunDns does not search PATH for resolvectl -- it only
         # looks in /usr/bin and /usr/sbin, which have no resolvectl on NixOS.
-        # TUN DNS is therefore configured by happ-dns.service below; systemd
+        # TUN DNS is therefore configured by happ-network.service below; systemd
         # stays in PATH for other resolver/network tools Happ may call.
         systemd
       ];
