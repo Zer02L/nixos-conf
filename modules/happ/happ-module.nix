@@ -54,10 +54,14 @@ in
 
     tunInterface = mkOption {
       type = types.str;
-      default = "tun0";
+      default = "happ-xray";
       description = ''
         Name of the TUN interface Happ brings up; it is added to the firewall's
         trusted interfaces so tunnelled traffic is not dropped.
+
+        Happ's xray-core TUN mode names its interface ``happ-xray`` (not
+        ``tun0``). Trusting the wrong name leaves the tunnel interface
+        untrusted by the firewall, so the option must match the real name.
       '';
     };
   };
@@ -122,6 +126,11 @@ in
         iptables
         procps
         net-tools
+        # Happ's TunDns calls `resolvectl dns/domain/default-route` to point the
+        # system resolver at the TUN interface. Without systemd in PATH it logs
+        # "no resolvectl on this system" and leaves DNS on the physical link --
+        # name resolution then dies as soon as the tunnel takes over routing.
+        systemd
       ];
 
       serviceConfig = {
