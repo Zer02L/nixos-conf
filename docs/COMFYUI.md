@@ -16,7 +16,7 @@
 
 ## 2. Управление сервисом (быстрые команды)
 
-Для Fish настроена удобная функция-хелпер **`comfy`**:
+Для Fish настроена удобная функция-хелпер **`comfy`** (определена в `dotfiles/fish/config.fish`, подключенном через `home/common/shell.nix`). В других оболочках используйте прямые `systemctl --user` команды ниже.
 
 ```bash
 # Запустить сервис ComfyUI в фоне
@@ -61,8 +61,32 @@ comfy open
 
 ## 4. Конфигурация в NixOS (`modules/services/comfyui.nix`)
 
-Опции модуля:
-* `services.comfyui.enable = true;` — активация сервиса (в `hosts/zerg/default.nix`).
-* `services.comfyui.autoStart = false;` — `false` по умолчанию, чтобы ComfyUI не занимал видеопамять (VRAM) при старте ПК. Запуск происходит мгновенно по команде `comfy start`. Если нужен автозапуск вместе с системой — установите `true`.
-* `services.comfyui.port = 8188;` — порт веб-интерфейса.
-* `services.comfyui.storageDir = "/home/zerg/comfyui/storage";` — путь к данным.
+Модуль объявляет опции в пространстве `services.comfyui-podman`:
+
+* `services.comfyui-podman.enable = true;` — активация сервиса (в `hosts/zerg/default.nix`); модуль подключён через `profiles/mixins/ai.nix`.
+* `services.comfyui-podman.autoStart = false;` — `false` по умолчанию, чтобы ComfyUI не занимал видеопамять (VRAM) при старте ПК. Запуск происходит мгновенно по команде `comfy start`. Если нужен автозапуск вместе с системой — установите `true`. Поскольку сервис пользовательский (`systemd.user.services.comfyui`), для старта до логина нужен `linger = true` у пользователя `zerg` — на хосте `zerg` он уже включён в `modules/users/zerg.nix`.
+* `services.comfyui-podman.port = 8188;` — порт веб-интерфейса (публикуется только на `127.0.0.1`).
+* `services.comfyui-podman.storageDir = "/home/zerg/comfyui/storage";` — путь к данным.
+* `services.comfyui-podman.image = "docker.io/yanwk/comfyui-boot:cu126-slim";` — образ контейнера; при смене образа проверьте совместимость CUDA с драйвером хоста.
+
+### Особенности rootless GPU
+
+* CDI-манифест NVIDIA фильтруется в `ExecStartPre`: из `/var/run/cdi/nvidia-container-toolkit.json` удаляются несуществующие mount-пути, результат пишется в `~/.config/cdi/nvidia.json`.
+* В `podman run` добавлен `--group-add keep-groups` — без него `crun` падает на `setgroups` и GPU недоступен.
+* Путь `PATH` юнита расширен до `/run/wrappers/bin`, откуда rootless Podman берёт `newuidmap`/`newgidmap`.
+* ComfyUI-Manager при первом запуске получает `config.ini` с `security_level = weak` и `allow_flagged_nodepack_install = True` (только для локального хоста) — это нужно для установки кастомных нод.
+
+### Восстановление при ошибке GPU
+
+1. Посмотрите причину: `comfy logs` (эквивалент `journalctl --user -u comfyui -f`).
+2. Убедитесь, что CDI-манифест создан: `ls -l /var/run/cdi/nvidia-container-toolkit.json`. Если файла нет, включите `hardware.nvidia-container-toolkit.enable = true` (уже задано в модуле) и пересоберите систему, затем перегенерируйте манифест:
+   ```bash
+   sudo nvidia-ctk cdi generate --output=/var/run/cdi/nvidia-container-toolkit.json
+   ```
+3. Удалите кэш сгенерированного манифеста и зависший контейнер, затем перезапустите:
+   ```bash
+   rm -f ~/.config/cdi/nvidia.json
+   podman rm -f comfyui
+   comfy restart
+   ```
+4. Если GPU по-прежнему недоступен, проверьте `nvidia-smi` на хосте и соответствие версии CUDA в образе (`cu126`) версии драйвера.

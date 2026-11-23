@@ -56,7 +56,7 @@
 
 | Key | Action |
 |---|---|
-| `gd` | Go to definition |
+| `gd` | Go to definition (FzfLua LSP definitions) |
 | `gD` | Go to declaration |
 | `gr` | Find references |
 | `gi` | Go to implementation |
@@ -101,6 +101,13 @@
 | Key | Action |
 |---|---|
 | `<leader>gg` | Lazygit (плавающее окно) |
+
+## PostgreSQL (dadbod)
+
+| Key | Action |
+|---|---|
+| `<leader>db` | Открыть DBUI |
+| `<leader>dq` | DB query (промпт) |
 
 ## Yazi (файловый менеджер)
 

@@ -27,12 +27,16 @@
    };
    ```
 
+  > Шаблон по умолчанию не импортирует `hardware-configuration.nix` (строка закомментирована в `default.nix`). Если вы не используете `nixos-anywhere`, выполните `nixos-generate-config --show-hardware-config > /tmp/hardware-configuration.nix` **на целевом сервере** в сессии установщика, затем `scp root@<IP>:/tmp/hardware-configuration.nix hosts/my-server/hardware-configuration.nix` со своего ПК и раскомментируйте импорт. Не генерируйте файл на машине администратора — получите не тот hardware-config.
+
 ---
 
 ## 2. Установка с нуля в 1 команду (`nixos-anywhere`)
 
 Вам **не нужно** вручную монтировать ISO или ставить NixOS через панель хостинга. 
-Закажите любой сервер со стандартным дистрибутивом (**Ubuntu** или **Debian**) и запустите со своего ПК:
+Закажите любой сервер со стандартным дистрибутивом (**Ubuntu** или **Debian**) и запустите со своего ПК.
+
+**Prerequisite:** публичный SSH-ключ администратора должен быть уже в `authorized_keys` пользователя **root** на чистом VPS (панель хостинга / cloud-init). Ключ из `users.users.zerg.openssh.authorizedKeys.keys` в конфигурации подействует только после установки NixOS. Также нужны `git`, сеть и инструменты `sops`/`ssh-to-age` для раздела 3 (при необходимости: `nix shell nixpkgs#sops nixpkgs#ssh-to-age`).
 
 ```bash
 git add -A
@@ -117,7 +121,12 @@ systemd.services.my-app = {
 ## 5. Последующие обновления системы
 
 После первоначальной установки деплойте обновления под пользователем `zerg`:
+
+* Пользователь `zerg` должен входить в `wheel` (так настроено в `modules/users/zerg.nix`) и вводить пароль для `sudo`, либо у вас настроен passwordless sudo.
+* Если включён `custom.server.access = "tailscale"` (раздел 4.А), публичный порт 22 закрыт — используйте **Tailscale-IP** (`100.x.y.z`), а не публичный IP.
+* `root@<IP>` нужен только для первой установки через `nixos-anywhere`.
+
 ```bash
 git add -A
-nixos-rebuild switch --flake .#my-server --target-host zerg@<IP_ИЛИ_TAILSCALE_IP> --use-remote-sudo
+nixos-rebuild switch --flake .#my-server --target-host zerg@<TAILSCALE_IP_ИЛИ_PUBLIC_IP> --use-remote-sudo
 ```

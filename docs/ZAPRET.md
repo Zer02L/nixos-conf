@@ -13,11 +13,11 @@ Active. Owned by zerg. Consumed by `profiles/mixins/vpn-suite.nix` via `services
 
 - **Core binary**: `pkgs.zapret2` (`nfqws2`).
 - **Engine**: Lua modules `zapret-lib.lua` and `zapret-antidpi.lua` symlinked to `/var/lib/zapret2/lua/`.
-- **Systemd Service**: `nfqws2@default.service` running as a hardened system service (`User=root`, `ProtectHome=read-only`, `StateDirectoryMode=0755`, `CAP_NET_ADMIN`, `CAP_NET_RAW`). Auto-detected hosts in `/var/lib/zapret2/` are readable without root privileges.
+- **Systemd Service**: `nfqws2@default.service` running as a hardened system service (`User=root`, `ProtectHome=read-only`, `StateDirectoryMode=0755`). `CapabilityBoundingSet`: `CAP_NET_ADMIN`, `CAP_NET_RAW` (DPI/NFQUEUE) plus `CAP_DAC_OVERRIDE`, `CAP_FOWNER`, `CAP_CHOWN` (state-directory maintenance). Details: [SECURITY.md](../SECURITY.md).
 - **Firewall Integration**: Native `networking.nftables` (`table inet zapret2`), queue `200`, fwmark `0x40000000`. Only the first 16 packets per connection are forwarded to NFQUEUE (`maxPackets = 16`). Local RFC 1918 networks are automatically bypassed in nftables.
 - **Live Configuration Source**:
-  - Main config: [dotfiles/zapret/zapret2.conf](file:///home/zerg/nixos-conf/dotfiles/zapret/zapret2.conf)
-  - Domain lists: [dotfiles/zapret/lists/](file:///home/zerg/nixos-conf/dotfiles/zapret/lists/)
+  - Main config: [dotfiles/zapret/zapret2.conf](../dotfiles/zapret/zapret2.conf)
+  - Domain lists: [dotfiles/zapret/lists/](../dotfiles/zapret/lists/)
   - Synced to `/var/lib/zapret2/` in `preStart` with automatic `#` comment stripping, syntax validation, and fallback to the nix store copy if the repo path is absent.
   - Automatic fallback: if `zapret2.conf` has invalid syntax, `preStart` preserves and reverts to `zapret2.conf.last-good` to prevent daemon downtime.
 - **Profiles** (in priority order):
@@ -28,7 +28,8 @@ Active. Owned by zerg. Consumed by `profiles/mixins/vpn-suite.nix` via `services
   5. `discord-voice` (priority 400): UDP with payload detection for `stun,discord_ip_discovery` and fake desync packets.
   6. `quic` (priority 500): UDP port 443 with fake QUIC initial desync.
 - **Hostlists & State**:
-  - Auto-detected hosts persist under `/var/lib/zapret2/` (`0755` directory, files `0644`).
+  - Auto-detected hosts persist under `/var/lib/zapret2/`. `preStart` sets directories to `0777` and list/config files to `0644` so user CLI tools work without `sudo`; see [SECURITY.md](../SECURITY.md) for the trade-off.
+  - Private lists `private-include.txt` / `private-exclude.txt` (in `.gitignore`) are appended to the synced lists, along with SOPS secrets `/run/secrets/zapret_private_hosts` and `/run/secrets/zapret_private_exclude`.
   - Excluded domains (`.ru` and `dotfiles/zapret/lists/list-exclude.txt`) bypass DPI desync completely.
   - Gaming UDP ports (e.g. Steam / Darktide matchmaker) are unaffected as only STUN/Discord and QUIC are intercepted.
 
@@ -36,13 +37,16 @@ Active. Owned by zerg. Consumed by `profiles/mixins/vpn-suite.nix` via `services
 
 ### Управление на лету (без пересборки системы)
 
-Для работы с Zapret2 в систему установлены пользовательские консольные утилиты (запускаются от обычного пользователя; при необходимости управления службой они запросят `sudo`):
+Для работы с Zapret2 в систему установлены пользовательские консольные утилиты (запускаются от обычного пользователя; при необходимости управления службой они запросят `sudo`).
+
+> [!WARNING]
+> `zapret-test` и `zapret-restart` читают конфиг по **жёстко заданному пути** `/home/zerg/nixos-conf/dotfiles/zapret/zapret2.conf` без fallback'а в Nix store. Если репозиторий лежит в другом месте, эти команды не работают: сервис в `preStart` всё равно подхватит конфиг из store, но `zapret-test` упадёт, а `zapret-restart` откажется перезапускать сервис. Держите репозиторий по этому пути или скорректируйте путь в `modules/services/zapret2.nix`.
 
 ```bash
 # 1. Быстро перезагрузить списки без разрыва соединений (посылает SIGHUP):
 zapret-reload
 
-# 2. Перезапустить службу с предварительной проверкой синтаксиса zapret2.conf:
+# 2. Проверить конфиг, затем перезапустить nftables и службу:
 zapret-restart
 
 # 3. Полностью остановить службу и снять правила перехвата nftables:
@@ -64,11 +68,11 @@ zapret-status
 
 ### Редактирование списков доменов
 
-Все файлы списков находятся в [dotfiles/zapret/lists/](file:///home/zerg/nixos-conf/dotfiles/zapret/lists/):
-* **[list-nofake.txt](file:///home/zerg/nixos-conf/dotfiles/zapret/lists/list-nofake.txt)**: домены, которые сбрасывают сессию при получении фейковых пакетов (`fatsharkgames.se`, `atoma.cloud`, `amazonaws.com`, `cloudfront.net`). Для них используется чистый `multisplit`.
-* **[list-general.txt](file:///home/zerg/nixos-conf/dotfiles/zapret/lists/list-general.txt)**: основные заблокированные ресурсы (Discord, расширения, сторонние сервисы), для которых требуется `fake`.
-* **[list-google.txt](file:///home/zerg/nixos-conf/dotfiles/zapret/lists/list-google.txt)**: YouTube и домены сервисов Google.
-* **[list-exclude.txt](file:///home/zerg/nixos-conf/dotfiles/zapret/lists/list-exclude.txt)**: исключения (.ru, банки, госуслуги, VK).
+Все файлы списков находятся в [dotfiles/zapret/lists/](../dotfiles/zapret/lists/):
+* **[list-nofake.txt](../dotfiles/zapret/lists/list-nofake.txt)**: домены, которые сбрасывают сессию при получении фейковых пакетов (`fatsharkgames.se`, `atoma.cloud`, `amazonaws.com`, `cloudfront.net`). Для них используется чистый `multisplit`.
+* **[list-general.txt](../dotfiles/zapret/lists/list-general.txt)**: основные заблокированные ресурсы (Discord, расширения, сторонние сервисы), для которых требуется `fake`.
+* **[list-google.txt](../dotfiles/zapret/lists/list-google.txt)**: YouTube и домены сервисов Google.
+* **[list-exclude.txt](../dotfiles/zapret/lists/list-exclude.txt)**: исключения (.ru, банки, госуслуги, VK).
 
 > [!IMPORTANT]
 > **Синтаксис списков**: Указывайте только доменные имена (суффиксы) без протокола (`https://`) и без подстановочных символов (`*`).
@@ -83,7 +87,7 @@ zapret-reload
 
 ### Редактирование стратегий и параметров
 
-Файл [dotfiles/zapret/zapret2.conf](file:///home/zerg/nixos-conf/dotfiles/zapret/zapret2.conf) содержит все флаги, очереди, профили и LUA-десинхронизаторы:
+Файл [dotfiles/zapret/zapret2.conf](../dotfiles/zapret/zapret2.conf) содержит все флаги, очереди, профили и LUA-десинхронизаторы:
 1. Отредактируйте нужный профиль (например, измените стратегию `multisplit` на `split2` или скорректируйте `pos=...`).
 2. Проверьте синтаксис:
    ```bash
@@ -95,7 +99,8 @@ zapret-reload
    ```
 
 > [!NOTE]
-> Добавление новых TCP/UDP-портов перехвата (например, нестандартный порт 8080) настраивается на уровне nftables в опции `services.custom-zapret.tcpPorts` файла [modules/services/zapret2.nix](file:///home/zerg/nixos-conf/modules/services/zapret2.nix) и требует пересборки системы (`nixos-rebuild switch`).
+> Добавление новых **TCP**-портов перехвата (например, нестандартный порт 8080) делается в опции `services.custom-zapret.tcpPorts` файла [modules/services/zapret2.nix](../modules/services/zapret2.nix) и требует пересборки системы (`nixos-rebuild switch`). **UDP**-порты этой опцией изменить нельзя: в модуле жёстко задано `services.zapret2.firewall.udpPorts = null` (перехватываются STUN/Discord и QUIC 443 в первых 16 пакетах). Для новых UDP-портов правьте сам модуль.
+
 
 ### Приватные и локальные списки (не попадают в Git)
 
@@ -115,7 +120,7 @@ services.custom-zapret.interfaces = [ "enp6s0" "wlp5s0" ];
 
 ### Включение и отключение в NixOS
 
-Сервис настраивается декларативно в [modules/services/zapret2.nix](file:///home/zerg/nixos-conf/modules/services/zapret2.nix) и включен по умолчанию:
+Сервис настраивается декларативно в [modules/services/zapret2.nix](../modules/services/zapret2.nix) и включен по умолчанию:
 ```nix
 # Включение (в profiles/mixins/vpn-suite.nix)
 services.custom-zapret.enable = true;
@@ -150,12 +155,12 @@ sudo systemctl start nfqws2@default
 
 ### 2. Сайт сбрасывает сессию (TCP RST / Cloudflare / Atoma Cloud)
 Если ресурс сбрасывает соединение при подключении:
-1. Перенесите домен из `list-general.txt` в [dotfiles/zapret/lists/list-nofake.txt](file:///home/zerg/nixos-conf/dotfiles/zapret/lists/list-nofake.txt) (для него применится мягкий `multisplit` без фейковых пакетов).
+1. Перенесите домен из `list-general.txt` в [dotfiles/zapret/lists/list-nofake.txt](../dotfiles/zapret/lists/list-nofake.txt) (для него применится мягкий `multisplit` без фейковых пакетов).
 2. Выполните:
    ```bash
    zapret-reload
    ```
-3. Если ресурс является российским и не должен проходить через обход DPI — добавьте его в [dotfiles/zapret/lists/list-exclude.txt](file:///home/zerg/nixos-conf/dotfiles/zapret/lists/list-exclude.txt).
+3. Если ресурс является российским и не должен проходить через обход DPI — добавьте его в [dotfiles/zapret/lists/list-exclude.txt](../dotfiles/zapret/lists/list-exclude.txt).
 
 ### 3. Очистка кэша автодетекта (Autodetect Cache Reset)
 Если в автоматический список попали ложные блокировки:

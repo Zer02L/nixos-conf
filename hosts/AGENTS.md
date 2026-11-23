@@ -16,7 +16,7 @@ All files here are system-level NixOS host configuration owned by the system own
 
 ## Work Guidance
 
-- To add a new host: create `hosts/<name>/` with `default.nix`, `disko.nix`, `hardware-configuration.nix`; add corresponding entry in `flake.nix` `nixosConfigurations`
+- To add a new host: create `hosts/<name>/` with `default.nix`, `disko.nix`, `hardware-configuration.nix`; add corresponding entry in `parts/nixos.nix` `nixosConfigurations`
 - Never hand-edit `hardware-configuration.nix` — regenerate with `nixos-generate-config`
 - `disko.nix` is declarative disk partitioning; test changes carefully — wrong values destroy data
 - Host-specific modules go in the host directory; shared modules stay in `modules/`

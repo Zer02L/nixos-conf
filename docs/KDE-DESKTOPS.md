@@ -4,11 +4,13 @@
 
 | Десктоп | Категория | Приложения |
 |---|---|---|
-| **1** | Терминал | ghostty, neovim |
-| **2** | Браузер | librewolf, mullvad-browser |
-| **3** | IDE | zed, vscode, jetbrains |
-| **4** | Коммуникация | vesktop, telegram, bitwarden |
-| **5** | Прочее | obsidian, super-productivity, blender, onlyoffice, obs, mpv |
+| **1** | Терминал | ghostty, kitty (nvim запускается внутри терминала) |
+| **2** | Браузер | librewolf, firefox, mullvad-browser |
+| **3** | IDE | zed, vscode (`Code`), jetbrains-* |
+| **4** | Коммуникация | vesktop, telegram-desktop, bitwarden |
+| **5** | Прочее | obsidian, super-productivity, blender, obs, mpv |
+
+Источник правил — `home/common/plasma.nix`, секция `programs.plasma.window-rules`.
 
 ## Как это работает
 
@@ -17,6 +19,9 @@
 **kwinrulesrc** теперь генерируется plasma-manager'ом из `home/common/plasma.nix` (опция `programs.plasma.window-rules`). Изменения вносятся в Nix, после чего `home-manager switch`.
 
 **Karousel** — тайлинг-скрипт, работающий *внутри* каждого рабочего стола. KWin Rules управляют распределением окон по столам, Karousel — расположением внутри стола.
+
+> [!WARNING]
+> Модуль `home/common/karousel.nix` сейчас **закомментирован** в `parts/home.nix` и не импортируется профилями — то есть Karousel не включается при `home-manager switch`. Таблица биндингов ниже описана по коду модуля и актуальна только если вы его вернёте в `modules`/профиль.
 
 ## Два режима привязки
 
@@ -87,7 +92,7 @@ xprop | grep WM_CLASS
 | `Meta + Tab` | Переключение между окнами |
 | `Meta + Shift + Tab` | Переключение в обратном порядке |
 | `Meta + Ctrl + ←/→` | Предыдущий/следующий стол |
-| `Meta + F1-F4` | Перейти к столу N |
+| `Meta + F1-F4` | Перейти к столу N (1–4); для 5-го стола используйте `Meta + Ctrl + →` с 4-го или `qdbus org.kde.KWin /KWin setActiveDesktop 5` |
 | `Meta + W` | Overview (все столы) |
 | `Meta + G` | Grid View (сетка столов) |
 | `Meta + T` | Редактор тайлов (Tile Editor) |
@@ -98,41 +103,41 @@ xprop | grep WM_CLASS
 
 ## Karousel (тайлинг внутри стола)
 
-WASD-схема: `A`/`S`/`D`/`W` + модификаторы под левую руку. Никаких конфликтов с глобальными шорткатами KDE.
+Схема **HJKL** (vi-подобная), как задано в `home/common/karousel.nix`. Если модуль включён, эти комбинации пересекаются с глобальными (`Meta + L` — блокировка экрана, `Meta + H/J/K/L` — навигация), поэтому проверьте `~/.config/kglobalshortcutsrc` после `home-manager switch`.
 
 | Комбинация | Действие |
 |---|---|
-| `Meta + S` | Фокус на следующую колонку вниз |
+| `Meta + H` / `Meta + J` / `Meta + K` / `Meta + L` | Фокус на колонку влево / вниз / вверх / вправо |
 | `Meta + Home` / `Meta + End` | Фокус на первую/последнюю колонку |
-| `Meta + [` / `Meta + ]` | Уменьшить/увеличить колонку |
-| `Meta + Ctrl + D` | Сжать колонки вправо |
+| `Meta + 1..9` | Фокус на колонку N |
 | **Перемещение окон** | |
-| `Meta + Shift + W` | Окно вверх |
-| `Meta + Shift + D` | Окно вправо |
+| `Meta + Shift + H/J/K/L` | Окно влево / вниз / вверх / вправо |
+| `Meta + Shift + Home/End` | Окно в первую/последнюю колонку |
 | `Meta + Shift + 1..9` | Окно в колонку N |
 | **Перемещение колонок** | |
-| `Meta + Ctrl + Shift + A` | Колонку влево |
-| `Meta + Ctrl + Shift + D` | Колонку вправо |
+| `Meta + Ctrl + Shift + H/L` | Колонку влево / вправо |
+| `Meta + Ctrl + Shift + Home/End` | Колонку в начало/конец |
 | `Meta + Ctrl + Shift + 1..9` | Колонку на позицию N |
-| `Meta + Ctrl + Shift + F1..F12` | Колонку на десктоп N |
-| **Режимы** | |
-| `Meta + Space` | Float/unfloat окна |
+| `Meta + Ctrl + PgUp/PgDown` | Колонку на предыдущий/следующий десктоп |
+| **Размеры и режимы** | |
+| `Meta + Ctrl + Plus/Minus` | Увеличить/уменьшить колонку |
+| `Meta + Ctrl + X` | Выровнять ширину колонок |
+| `Meta + Ctrl + H/L` | Сжать колонки влево/вправо |
+| `Meta + R` / `Meta + Shift + R` | Цикл предустановленных ширин (вперёд/назад) |
+| `Meta + Shift + Space` | Float/unfloat окна |
 | `Meta + X` | Stacked/grid режим колонки |
 | **Скролл** | |
-| `Meta + Alt + A` / `Meta + Alt + D` | Скролл на колонку влево/вправо |
-| `Meta + Alt + PgUp` / `Meta + Alt + PgDown` | Скролл влево/вправо |
-| `Meta + Alt + Return` | Центрировать фокус |
-| `Meta + Ctrl + Return` | Переместить Karousel на текущий экран |
-| **Сервис** | |
-| `Meta + Ctrl + Shift + R` | Перезапустить Karousel (если тайлинг сломался) |
-| `Meta + Ctrl + Shift + X` | Перезагрузить Plasma Shell (если глючит интерфейс) |
+| `Meta + Alt + C` | Скролл к окну в фокусе |
+| `Meta + Alt + H/L` | Скролл на колонку влево/вправо |
+| `Meta + Alt + PgUp/PgDown` | Скролл влево/вправо |
+| `Meta + Alt + Home/End` | Скролл в начало/конец |
 
 ## Troubleshooting
 
 **Правило не работает?**
 - Убедись, что WMClass совпадает точно (регистр имеет значение)
 - Проверь `qdbus org.kde.KWin /KWin reconfigure`
-- Некоторые Wayland-приложения报告уют другой WM_CLASS, чем X11. Проверь через `xprop`
+- Некоторые Wayland-приложения сообщают другой WM_CLASS, чем X11. `xprop` работает только в X11/XWayland; в чистом Wayland используйте GUI «Определить свойства окна» в диспетчере правил KWin (см. раздел «Найти WM_CLASS приложения»)
 
 **Не видишь нужный стол?**
 - Добавь столы: **Настрой → Рабочий стол → Виртуальные рабочие столы** → кол-во
@@ -140,17 +145,18 @@ WASD-схема: `A`/`S`/`D`/`W` + модификаторы под левую р
 **Конфликт с Karousel?**
 - Если окно открывается на **всех столах** сразу — Karousel видит `desktops.length = 0` и не тайлит его.
 - Внутренняя проверка в Karousel: `getDesktopForClient()` требует `kwinClient.desktops.length === 1`.
-- Решение: `qdbus org.kde.KWin /KWin reconfigure` — после `home-manager switch` KWin перечитывает kwinrulesrc.
-- При `home-manager switch` `qdbus` теперь вызывается автоматически из activation-скриптов.
+- Решение: выполни `qdbus org.kde.KWin /KWin reconfigure` вручную после `home-manager switch` — автоматического вызова в activation-скриптах сейчас нет.
 
 **Окно на всех столах?**
 - Проверь, что KWin перечитал конфиг: `qdbus org.kde.KWin /KWin reconfigure`
-- Проверь WM_CLASS через `xprop` (или `kwin_rules_dump` на Wayland)
+- Проверь WM_CLASS через `xprop` (X11/XWayland) или GUI «Определить свойства окна» в KWin (Wayland)
 - Отключи Karousel временно: если правила работают без него — конфликт с Karousel
 
 ---
 
 - `home/common/plasma.nix` — декларативный источник правил (Nix)
+- `home/common/karousel.nix` — конфиг тайлинга (сейчас отключён в `parts/home.nix`)
 - `~/.config/kwinrulesrc` — генерируется plasma-manager'ом, перезаписывается при `home-manager switch`
+- `~/.config/kglobalshortcutsrc` — биндинги Karousel (если модуль включён)
 - Для тестирования правь `~/.config/kwinrulesrc` напрямую, затем переноси в `plasma.nix`
 - Перезагрузить KWin после изменений: `qdbus org.kde.KWin /KWin reconfigure`

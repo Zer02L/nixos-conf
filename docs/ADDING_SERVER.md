@@ -3,7 +3,7 @@
 В этой инструкции описан базовый процесс добавления нового сервера (VPS или локальной физической машины) в общую конфигурацию NixOS.
 
 > [!TIP]
-> Подробное руководство по развертыванию серверов в **Европе** и **России**, многосайтовому веб-хостингу (Caddy), удаленной разработке в **T3 Code** и запуску конструктора сайтов **SiteCreator (Fleet)** смотрите в [SERVER_AND_WEB_DEPLOYMENT.md](file:///home/zerg/nixos-conf/docs/SERVER_AND_WEB_DEPLOYMENT.md).
+> Подробное руководство по развертыванию серверов в **Европе** и **России**, многосайтовому веб-хостингу (Caddy), удаленной разработке в **T3 Code** и запуску конструктора сайтов **SiteCreator (Fleet)** смотрите в [SERVER_AND_WEB_DEPLOYMENT.md](./SERVER_AND_WEB_DEPLOYMENT.md).
 
 ---
 
@@ -26,7 +26,7 @@ profiles/
     ├── ai.nix       # ComfyUI + PostgreSQL
     ├── gaming.nix   # Steam + wfhelper
     ├── containers.nix # Podman
-    └── vpn-suite.nix  # AmneziaWG + WARP + FlClash + dynamic timezone
+    └── vpn-suite.nix  # AmneziaWG + WARP + FlClash + Happ + nsjail + Zapret2 + dynamic timezone
 ```
 
 Сервер использует профиль `profiles/server.nix` (или региональные `profiles/server/eu.nix` / `profiles/server/ru.nix`), который исключает установку графических драйверов, дисплейных менеджеров, аудио-стека и пользовательских GUI-приложений.
@@ -92,11 +92,19 @@ cp -r hosts/server-template hosts/vps
 
 ### Шаг 4. Генерация `hardware-configuration.nix`
 
-Если сервер уже запущен с установщика NixOS (Minimal ISO или kexec-образ):
+Если сервер уже запущен с установщика NixOS (Minimal ISO или kexec-образ), **выполните команду на целевом сервере** — на машине администратора этого относительного пути и hardware-конфигурации сервера нет:
+
 ```bash
-nixos-generate-config --show-hardware-config > hosts/vps/hardware-configuration.nix
+# на сервере, в сессии установщика:
+nixos-generate-config --show-hardware-config > /tmp/hardware-configuration.nix
+# затем скопируйте файл на машину администратора (с своего ПК):
+scp root@<IP_СЕРВЕРА>:/tmp/hardware-configuration.nix hosts/vps/hardware-configuration.nix
 ```
-И убедитесь, что импорт `./hardware-configuration.nix` включен в `default.nix`.
+
+> [!WARNING]
+> Не выполняйте `nixos-generate-config > hosts/vps/hardware-configuration.nix` на своём ПК — так вы получите конфиг рабочей станции вместо серверного.
+
+В `hosts/server-template/default.nix` импорт по умолчанию **закомментирован** (`# ./hardware-configuration.nix`) — раскомментируйте его после копирования файла. Для `nixos-anywhere` генерировать hardware-config заранее не нужно.
 
 ---
 
@@ -144,15 +152,17 @@ nix run github:nix-community/nixos-anywhere -- --flake .#vps root@<IP_СЕРВЕ
 ### Регулярное обновление (с локального ПК по SSH)
 Обновление сервера прямо с вашего компьютера без входа по SSH вручную:
 ```bash
-nixos-rebuild switch --flake .#vps --target-host root@<IP_СЕРВЕРА> --use-remote-sudo
+nixos-rebuild switch --flake .#vps --target-host zerg@<IP_СЕРВЕРА> --use-remote-sudo
 ```
+
+> Для первого подключения `nixos-anywhere` используется `root@<IP>` (ключ root'а должен быть добавлен в панели хостинга). После установки NixOS вход и деплой идут под `zerg`; пользователь `zerg` должен быть sudoer (настраивается в `modules/users/zerg.nix`). Если включён `custom.server.access = "tailscale"`, подключайтесь к Tailscale-IP сервера — публичный порт 22 закрыт.
 
 ### Полезный Alias для Fish shell
 В `dotfiles/fish/config.fish` можно добавить функцию для быстрого деплоя:
 ```fish
 function upvps --description 'Deploy config to VPS'
     git -C ~/nixos-conf add -A
-    nixos-rebuild switch --flake ~/nixos-conf#vps --target-host root@$argv[1] --use-remote-sudo
+    nixos-rebuild switch --flake ~/nixos-conf#vps --target-host zerg@$argv[1] --use-remote-sudo
 end
 ```
 Использование: `upvps 194.87.xxx.xxx`.

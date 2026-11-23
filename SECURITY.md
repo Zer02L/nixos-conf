@@ -48,9 +48,10 @@ SystemCallArchitectures   = native
 SystemCallFilter          = @system-service
 UMask                     = 0077
 
-# Capabilities для raw sockets и NFQUEUE
+# Capabilities: сетевые наследуются от апстримного nfqws2@.service,
+# файловые добавлены локальным drop-in (modules/services/zapret2.nix)
 AmbientCapabilities       = CAP_NET_ADMIN, CAP_NET_RAW
-CapabilityBoundingSet     = CAP_NET_ADMIN, CAP_NET_RAW
+CapabilityBoundingSet     = CAP_NET_ADMIN, CAP_NET_RAW, CAP_DAC_OVERRIDE, CAP_FOWNER, CAP_CHOWN
 
 # Директория состояния и прав
 StateDirectory            = zapret2
@@ -68,8 +69,13 @@ StateDirectoryMode        = 0755
 |---|---|
 | `CAP_NET_RAW` | raw socket — отправка поддельных TLS/QUIC handshake пакетов (`fake`) |
 | `CAP_NET_ADMIN` | взаимодействие с NFQUEUE, привязка к исходящим интерфейсам (`bind-fix`), маркировка пакетов |
+| `CAP_DAC_OVERRIDE`, `CAP_FOWNER`, `CAP_CHOWN` | обслуживание state-каталога `/var/lib/zapret2` (создание/перетирание списков и `zapret2.conf` в `preStart` с фиксированными правами, без привязки к uid) |
 
 Всё остальное (загрузка модулей ядра, write-доступ к `/proc/sys`, модификация `/home`, монтирование, создание SUID-файлов) — заблокировано `CapabilityBoundingSet` и жесткой изоляцией systemd.
+
+### Известные ослабления state-каталога
+
+`preStart` намеренно делает `/var/lib/zapret2`, `.../lists` и `.../lua` доступными для записи (`chmod 777`), а файлы списков и конфига — `0644`. Это нужно, чтобы пользовательские утилиты (`zapret-test`, `zapret-tool`, `zapret-status`) работали без `sudo`. Побочный эффект: любой локальный пользователь может удалить/подменить файлы в этих каталогах (sticky-бит не выставлен). Доверяйте только локальным пользователям хоста; для серверов, где это неприемлемо, отключите Zapret2 (`services.custom-zapret.enable = false`) — на серверных профилях он не включается.
 
 ## Границы безопасности при компрометации
 

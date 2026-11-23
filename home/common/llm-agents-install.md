@@ -140,6 +140,74 @@ nix run github:numtide/llm-agents.nix#antigravity-cli -- --help
 
 ---
 
+## t3code / t3-cli
+
+T3 Code (IDE + headless CLI). В этом репозитории пакеты собраны через `nvfetcher` и доступны сразу:
+
+```bash
+# Стабильный / nightly канал
+nix run .#t3-cli -- --help
+nix run .#t3-cli-nightly -- --help
+
+# Собрать AppImage GUI
+nix build .#t3code-nightly
+```
+
+Декларативно канал выбирается опциями `custom.t3code.channel` (home) и `custom.services.t3-server.channel` (server); по умолчанию `nightly` и `stable` соответственно.
+
+- Repo: https://github.com/pingdotgg/t3code
+
+---
+
+## opencode
+
+OpenCode — агентный CLI/TUI для кодинга.
+
+```bash
+nix run .#opencode
+# или из апстрима: curl -fsSL https://opencode.ai/install | bash
+```
+
+- Repo: https://github.com/anomalyco/opencode
+
+---
+
+## orca (Orca AI IDE)
+
+```bash
+nix run .#orca
+```
+
+Алиасы в оверлее: `orca`, `orca-ai`, `orca-ide`.
+
+- Repo: https://github.com/stablyai/orca
+
+---
+
+## skills-manager
+
+Графический менеджер agent-скиллов (AppImage).
+
+```bash
+nix run .#skills-manager
+```
+
+- Repo: https://github.com/xingkongliang/skills-manager
+
+---
+
+## pi-coding-agent
+
+Агент Oh My Pi (`pi`), пакет дублируется с omp:
+
+```bash
+nix run .#pi-coding-agent
+```
+
+- Repo: https://github.com/can1357/oh-my-pi
+
+---
+
 ## Обновление
 
 ```bash
@@ -150,4 +218,11 @@ cargo install workmux --force              # workmux
 curl -fsSL https://herdr.dev/install.sh | sh # herdr
 npm update -g openskills                   # openskills
 npm update -g @fission-ai/openspec@latest  # openspec
+
+# nvfetcher-пакеты (t3code, opencode, orca, skills-manager и др.)
+nvfetcher   # бинарник из home/common/dev-tools.nix
+git add _sources/generated.nix _sources/generated.json
 ```
+
+> [!NOTE]
+> Для инструментов, уже упакованных в этом флаке, ручная установка через `npm`/`bun`/`curl` не нужна и может конфликтовать с декларативной — используйте `nix run .#<package>` или соответствующий home-manager модуль.

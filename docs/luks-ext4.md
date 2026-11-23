@@ -24,6 +24,8 @@
 
 ## Переустановка
 
+**Prerequisites:** в installer ISO должны быть доступны `git` и сеть (для приватного репозитория — учётные данные/ключ SSH). Если сети нет, скопируйте репозиторий на флешку заранее или используйте предыдущую копию на диске.
+
 1. Загрузиться с NixOS installer ISO.
 2. Склонировать репозиторий, из каталога репозитория:
    ```bash
@@ -41,11 +43,11 @@
 ```bash
 lsblk -f                      # nvme0n1p2 → crypted → ext4 /
 mount | grep -E ' / | /boot'  # опции: discard,noatime
-cat /proc/crypto | grep -q xts && echo LUKS-шифрование активно
-systemctl status fstrim.timer # TRIM по расписанию (дополнительно к discard)
+sudo cryptsetup status crypted # активный LUKS-контейнер, тип шифра xts-plain64
+systemctl status fstrim.timer # TRIM по расписанию (включён в profiles/core.nix)
 ```
 
 ## Что устарело после перехода
 
-- `btrfs-recovery.md` — btrfs больше нет, инструкции неактуальны.
-- `btrfs-progs` в `modules/programs/admin-tools.nix` — можно убрать из пакетов.
+- `btrfs-recovery.md` — btrfs больше нет, инструкции неактуальны (документ помечен как архивный).
+- `btrfs-progs` в `modules/programs/admin-tools.nix` — уже закомментирован, из пакетов удалён.

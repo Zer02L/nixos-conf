@@ -52,41 +52,44 @@ wireguard_private_key: "YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWE="
 
 После сохранения `sops` автоматически зашифрует все значения.
 
+> [!IMPORTANT]
+> Добавление ключа в `secrets.yaml` — только первый шаг. Чтобы secret появился как файл в `/run/secrets/<имя>`, его нужно **дополнительно объявить в `sops.secrets.<имя>`** в NixOS-модуле (см. раздел 4). Например, Zapret2 ожидает `/run/secrets/zapret_private_hosts` и `/run/secrets/zapret_private_exclude` — одноимённые ключи должны быть и в YAML, и в `sops.secrets`. Ключ `zapret_exclude_ips` из примера выше сейчас ни одним модулем не потребляется.
+
 ---
 
 ## 4. Объявление секретов в NixOS (`modules/services/secrets.nix`)
 
+Базовый модуль подключает `sops-nix` и задаёт значения по умолчанию через `lib.mkDefault`:
+
 ```nix
-{ inputs, ... }: {
+# modules/services/secrets.nix
+{ config, lib, inputs, ... }:
+{
   imports = [ inputs.sops-nix.nixosModules.sops ];
 
   sops = {
-    defaultSopsFile = "${inputs.self}/secrets.yaml";
-    age.sshKeyPaths = [ "/home/zerg/.ssh/id_ed25519" ];
+    defaultSopsFile = lib.mkDefault "${inputs.self}/secrets.yaml";
+    # Рабочая станция расшифровывает личным SSH-ключом
+    age.sshKeyPaths = lib.mkDefault [ "/home/zerg/.ssh/id_ed25519" ];
 
-    # Список секретов для расшифровки при загрузке:
-    secrets = {
-      # Исключение IP из Zapret (автоматически перезапускает сервис при изменении)
-      "zapret_exclude_ips" = {
-        mode = "0440";
-        restartUnits = [ "zapret-discord-youtube.service" ];
-      };
-
-      # Секрет, доступный конкретному пользователю
-      "api_token" = {
-        owner = "zerg";
-        mode = "0400";
-      };
-
-      # Секрет, монтируемый по кастомному пути
-      "wireguard_private_key" = {
-        path = "/etc/wireguard/private.key";
-        mode = "0400";
-      };
-    };
+    # Списки секретов собираются из модулей через lib.mkMerge.
+    # Сейчас секции для хоста zerg пуста; пример объявления:
+    secrets = lib.mkMerge [
+      (lib.mkIf (config.networking.hostName == "zerg") { })
+      # {
+      #   zapret_private_exclude = {
+      #     mode = "0440";
+      #     restartUnits = [ "nfqws2@default.service" ];
+      #   };
+      # }
+    ];
   };
 }
 ```
+
+* **Серверы:** `profiles/server.nix` переопределяет ключ на хостовый: `sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ]`.
+* **Потребители секретов:** объявляют свои `sops.secrets.<name>` в своих модулях, например `modules/services/sitecraft.nix` для `envSecret` (с `restartUnits = [ "sitecraft.service" ]`), а Zapret2 читает `/run/secrets/zapret_private_hosts` и `/run/secrets/zapret_private_exclude` в `preStart` (см. [ZAPRET.md](ZAPRET.md)).
+* Доступные атрибуты секрета: `owner`, `mode`, `path`, `restartUnits` — как в примерах ниже.
 
 ---
 
@@ -117,13 +120,16 @@ wireguard_private_key: "YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWE="
 
 ## 6. Применение изменений
 
-После любых правок в `.sops.yaml` или `secrets.yaml`:
+После любых правок в `.sops.yaml`, `secrets.yaml` **или** объявлении нового `sops.secrets.<name>`:
 ```bash
 git add .sops.yaml secrets.yaml
 sudo nixos-rebuild switch --flake .#zerg
 ```
 
-Проверить результат в оперативной памяти:
+Проверить результат в оперативной памяти можно только для секретов, которые реально объявлены в `sops.secrets`. Например, после добавления объявления `zapret_private_exclude` (см. раздел 4):
 ```bash
-sudo cat /run/secrets/zapret_exclude_ips
+sudo ls -l /run/secrets/zapret_private_exclude
+sudo cat /run/secrets/zapret_private_exclude
 ```
+
+> Если файла нет — проверьте, что ключ существует в `secrets.yaml` **и** объявлен в `sops.secrets`, и что пересборка была успешной. Само наличие ключа в YAML файл не создаёт.

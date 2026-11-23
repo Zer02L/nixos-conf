@@ -43,10 +43,17 @@ hosts/
 
 ## 2. Развертывание чистого сервера в 1 команду (`nixos-anywhere`)
 
-Вам **не нужно** вручную монтировать ISO в панели хостинга. Арендуйте любой VPS со стандартным дистрибутивом **Ubuntu** или **Debian** и запустите со своего ПК:
+Вам **не нужно** вручную монтировать ISO в панели хостинга. Арендуйте любой VPS со стандартным дистрибутивом **Ubuntu** или **Debian** и запустите со своего ПК.
+
+**Prerequisites:**
+
+* Публичный SSH-ключ администратора уже находится в `authorized_keys` пользователя **root** на чистом VPS (через панель хостинга / cloud-init). Ключ в `users.users.zerg.openssh.authorizedKeys.keys` из конфигурации начнёт действовать **только после** установки NixOS — для первого подключения он не поможет.
+* Рабочая сеть на ПК и сервере; инструменты `git`, `sops`, `ssh-to-age` доступны в окружении (при необходимости: `nix shell nixpkgs#sops nixpkgs#ssh-to-age`).
+* Все файлы конфигурации зафиксированы в Git (см. раздел 7).
 
 ```bash
-# 1. Добавьте свой публичный SSH-ключ в hosts/server-eu/default.nix или hosts/server-ru/default.nix:
+# 1. Добавьте свой публичный SSH-ключ в hosts/server-eu/default.nix или hosts/server-ru/default.nix
+#    (для последующих входов под zerg):
 # users.users.zerg.openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3... your-key" ];
 
 # 2. Установка в 1 команду (для сервера в Европе):
@@ -87,27 +94,32 @@ nix run github:nix-community/nixos-anywhere -- --flake .#server-ru root@<IP_СЕ
 
 ## 4. T3 Code: Удаленная разработка в фоне
 
-На сервере развернут модуль [`modules/services/t3-server.nix`](file:///home/zerg/nixos-conf/modules/services/t3-server.nix), позволяющий запускать AI-агента T3 Code как системный демон:
+На сервере развернут модуль [`modules/services/t3-server.nix`](../modules/services/t3-server.nix), позволяющий запускать AI-агента T3 Code как системный демон:
 
 ```nix
 custom.services.t3-server = {
   enable = true;
   port = 3773;
+  channel = "nightly"; # "stable" (по умолчанию) или "nightly" → pkgs.t3-cli-nightly
 
   # Для сервера в РФ: направляет запросы к Claude/OpenAI через внешний туннель
   # proxy = "http://127.0.0.1:1080";
+
+  # openFirewall = false; # по умолчанию; порт открывается только для tailscale0
 };
 ```
 
+Опции модуля: `channel`, `package` (переопределяет бинарник), `port`, `host` (по умолчанию `0.0.0.0`), `proxy`, `openFirewall`. На клиентской машине канал T3 Code задаётся отдельно — `custom.t3code.channel` в `home/common/t3code.nix` (по умолчанию `nightly`).
+
 ### Преимущества:
-* **Автономность 24/7**: агент работает в фоне даже при закрытой крышке ноутбука или выключенном домашнем ПК (благодаря `linger = true` у пользователя `zerg`).
-* **Безопасность (Zero Open Ports)**: порт 3773 закрыт снаружи и слушается только на интерфейсе `tailscale0`. Подключение со смартфона или ПК происходит по адресу `http://100.x.y.z:3773`.
+* **Автономность 24/7**: агент работает в фоне даже при закрытой крышке ноутбука или выключенном домашнем ПК — `t3-server` это системный юнит (`systemd.services.t3-server`, `wantedBy = multi-user.target`, `Restart = on-failure`), а не пользовательский, поэтому `linger` на него не влияет.
+* **Безопасность (Zero Open Ports)**: порт 3773 закрыт снаружи (`openFirewall = false`) и дополнительно разрешён только на интерфейсе `tailscale0`, если включён Tailscale. Подключение со смартфона или ПК происходит по адресу `http://100.x.y.z:3773`.
 
 ---
 
 ## 5. Многосайтовый веб-хостинг на Caddy
 
-Модуль [`modules/services/caddy.nix`](file:///home/zerg/nixos-conf/modules/services/caddy.nix) обеспечивает параллельную работу десятков сайтов на одном белом IP:
+Модуль [`modules/services/caddy.nix`](../modules/services/caddy.nix) обеспечивает параллельную работу десятков сайтов на одном белом IP:
 
 * **Авто-SSL**: Caddy сам получает и продлевает бесплатные сертификаты Let's Encrypt / ZeroSSL для каждого домена.
 * **HTTP/3 (QUIC)**: открыт порт `443 UDP` для мгновенной загрузки на мобильных устройствах.
@@ -117,9 +129,21 @@ custom.services.t3-server = {
 
 ## 6. Развертывание SiteCreator и клиентских сайтов (Fleet)
 
-Модуль [`modules/services/sitecraft.nix`](file:///home/zerg/nixos-conf/modules/services/sitecraft.nix) реализует архитектуру **Fleet of Binaries** из документации SiteCreator.
+Модуль [`modules/services/sitecraft.nix`](../modules/services/sitecraft.nix) реализует архитектуру **Fleet of Binaries** из документации SiteCreator.
 
-### Конфигурация в `hosts/server-ru/default.nix`:
+> [!IMPORTANT]
+> В репозитории `hosts/server-ru/default.nix` сервис объявлен с `enable = lib.mkDefault false`, а клиентские сайты в `fleet`/`staticSites` закомментированы как примеры. Приведённый ниже конфиг — иллюстрация: раскомментируйте нужные записи, задайте `enable = true`, создайте секреты в `secrets.yaml` и пересоберите систему.
+
+**Prerequisites:**
+
+* Исходники SiteCreator уже склонированы **на сервере** именно в `/home/zerg/Projects/web/SiteCreator` (значение по умолчанию `workingDirectory`); при другом пути переопределите `workingDirectory` и `executable`.
+* На сервере доступны `git` и `make`, бинарник собран: `cd /home/zerg/Projects/web/SiteCreator && make build` (результат — `bin/server`, см. `executable`).
+* Если задаёте `envSecret = "sitecraft_env"`, соответствующий ключ должен существовать в `secrets.yaml`, быть объявлен в `sops.secrets` и иметь формат env-файла `KEY=VALUE` (например, `TELEGRAM_BOT_TOKEN=...`).
+* Домены клиентов уже направлены на IP сервера, иначе Caddy не сможет выпустить сертификаты.
+
+При падении `make build` или смене пути бинарника остаточный юнит можно временно снять командой `sudo systemctl disable --now sitecraft` и вернуть предыдущий `executable` в конфигурации перед повторным `nixos-rebuild switch`.
+
+### Конфигурация в `hosts/server-ru/default.nix` (пример):
 
 ```nix
 custom.services.sitecraft = {
@@ -171,6 +195,8 @@ custom.services.sitecraft = {
 2. **Telegram Webhook**: Caddy отдает доверенный HTTPS на 443 порту, поэтому эндпоинт `/api/chat/telegram-webhook` без проблем принимает вебхуки от Telegram.
 3. **Хранилище данных**: база SQLite изолирована в `/var/lib/sitecraft/fleet/<имя>/pb_data` и не стирается при деплоях.
 4. **On-Demand TLS**: если клиент направляет свой домен на ваш сервер, Caddy валидирует его через эндпоинт `/api/check-domain` и автоматически выпускает SSL без правок конфига.
+
+Полезные опции модуля: `port` (по умолчанию `8090`), `dataDir` (`/var/lib/sitecraft/pb_data`), `workingDirectory`, `executable`, `telegramProxy`. Имена юнитов: `sitecraft.service` для платформы и `sitecraft-fleet-<имя>.service` для каждого клиента.
 
 ---
 

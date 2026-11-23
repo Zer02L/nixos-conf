@@ -19,7 +19,8 @@ All `.nix` files here are shared home-manager module configuration owned by the 
 - Keep modules single-concern; one tool per file
 - `firefox-librewolf-like.nix` is complex (custom policies, UI tweaks) — read fully before editing
 - `git-hooks.nix` defines pre-commit hooks — changes affect CI-equivalent local workflow
-- Plasma settings (window rules, KWin, screen locker) live in `home/common/plasma.nix` (via plasma-manager); see `KDE-DESKTOPS.md` in root for operational docs
+- Plasma settings (window rules, KWin, screen locker) live in `home/common/plasma.nix` (via plasma-manager); see `docs/KDE-DESKTOPS.md` for operational docs
+- `karousel.nix` (KWin tiling) is currently commented out in `parts/home.nix` and not imported by the desktop profile — see `docs/KDE-DESKTOPS.md`
 - `llm-agents-install.md` is a reference doc (not Nix config) for installing AI agent tools
 
 ## Verification

@@ -1,5 +1,8 @@
 # Btrfs Recovery — parent transid verify failed
 
+> [!WARNING]
+> **Архивная инструкция.** С 2026-08 рабочая станция использует LUKS + ext4 (см. [luks-ext4.md](./luks-ext4.md)); btrfs больше нет. Документ оставлен только для исторических дисков со старой разметкой.
+
 ## Симптомы
 
 - `Input/output error` при доступе к файлам в `/nix/store`

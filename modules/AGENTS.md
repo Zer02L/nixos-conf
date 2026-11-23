@@ -15,7 +15,7 @@ All `.nix` files under this directory are system-level NixOS configuration owned
 - Standalone files (`system.nix`, `nix.nix`, `fonts.nix`) remain at the top level when they don't belong to a group
 ## Work Guidance
 
-- Add new services to `services/`, following existing patterns (see `omniroute.nix` for Docker containers, `pipewire.nix` for minimal service imports)
+- Add new services to `services/`, following existing patterns (see `podman.nix`/`sitecraft.nix` for containerized services, `pipewire.nix` for minimal service imports)
 - Add new programs to `programs/`; use `programs/common.nix` for shared packages, dedicated files/directories for complex configs (`steam.nix`, `chromium.nix`, `flclash/`, `wfhelper/`)
 - Add hardware-specific config to `hardware/` (one file per device/driver)
 - User definitions go in `users/`; one file per user
@@ -38,7 +38,7 @@ If just validating syntax: `nix eval .#nixosConfigurations.zerg.config.system.bu
 
 | Path | Covers |
 | `services/` | Podman, Docker containers, PipeWire, zram, power, PostgreSQL, secrets |
-  | `hardware/` | GPU drivers (Nvidia), hardware-specific kernel modules |
+| `hardware/` | GPU drivers (Nvidia), hardware-specific kernel modules |
 | `programs/` | System-wide program packages and program-specific options |
 | `networking/` | DNS, firewall, DHCP, hostname |
 | `desktop/` | Desktop environments (Plasma6/KDE) and DE-specific services (SDDM) |
