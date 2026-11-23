@@ -11,8 +11,75 @@ let
     mkOption
     types
     stringAfter
+    mkAfter
     ;
   cfg = config.services.happ;
+
+  resolvectl = "${pkgs.systemd}/bin/resolvectl";
+  ip = "${pkgs.iproute2}/bin/ip";
+  head = "${pkgs.coreutils}/bin/head";
+  awk = "${pkgs.gawk}/bin/awk";
+
+  # xray-core runs as `nobody`. Once Happ installs `default dev happ-xray`,
+  # its own outbound connections to the upstream proxy are fed back into the
+  # TUN it created, so nothing can reach the internet. Route that uid via the
+  # physical uplink in a separate table.
+  directTable = "1010";
+  directUid = "65534";
+
+  # Keep this in sync with services.resolved.settings.Resolve.DNS in
+  # modules/networking/base.nix. 1.1.1.1 / 8.8.8.8 are deliberately NOT used:
+  # TSPU DNATs their UDP queries to a black hole (NXDOMAIN) and cuts DoT.
+  resolverDns = [
+    "9.9.9.9#dns.quad9.net"
+    "149.112.112.112#dns.quad9.net"
+    "94.140.14.14#dns.adguard-dns.com"
+  ];
+
+  # Happ's bundled TunDns looks for `resolvectl` in /usr/bin and /usr/sbin
+  # only, so on NixOS it silently leaves DNS wherever it was. Sending DNS
+  # through the TUN is a bootstrapping trap: xray needs to resolve its own
+  # upstream server before the tunnel can carry any packets at all. Keep DNS
+  # on the physical uplink instead, including for directSites domains such
+  # as Discord, so the resolved address matches the real egress path.
+  dnsScript = pkgs.writeShellScript "happ-dns" ''
+    set -eu
+    if ${ip} link show dev ${cfg.tunInterface} > /dev/null 2>&1; then
+      echo "happ-dns: ${cfg.tunInterface} is up, pinning DNS to ${cfg.physicalInterface}"
+      ${resolvectl} dns ${cfg.physicalInterface} ${lib.concatStringsSep " " resolverDns}
+      ${resolvectl} domain ${cfg.physicalInterface} '~.' '~discord.com'
+      ${resolvectl} default-route ${cfg.physicalInterface} false
+      ${resolvectl} default-route ${cfg.tunInterface} false || true
+
+      gw=$(${ip} -4 route show default dev ${cfg.physicalInterface} | ${head} -n1 | ${awk} '{print $3}')
+      if [ -n "$gw" ]; then
+        ${ip} route replace default via "$gw" dev ${cfg.physicalInterface} table ${directTable}
+        ${ip} rule del uidrange ${directUid}-${directUid} table ${directTable} priority 1000 2>/dev/null || true
+        ${ip} rule add uidrange ${directUid}-${directUid} table ${directTable} priority 1000
+      fi
+    else
+      echo "happ-dns: ${cfg.tunInterface} is down, reverting DNS routing"
+      ${resolvectl} revert ${cfg.tunInterface} || true
+      ${resolvectl} domain ${cfg.physicalInterface} "" || true
+      ${ip} rule del uidrange ${directUid}-${directUid} table ${directTable} priority 1000 2>/dev/null || true
+      ${ip} route flush table ${directTable} || true
+    fi
+  '';
+
+  # dhcpcd re-writes resolved's per-link settings on every lease event, so
+  # pin the resolver again after each hook run. This keeps DNS off the TUN
+  # even when dhcpcd (re)configures the Happ interface.
+  dhcpcdHook = mkAfter ''
+    ${resolvectl} dns ${cfg.physicalInterface} ${lib.concatStringsSep " " resolverDns} || true
+    ${resolvectl} domain ${cfg.physicalInterface} '~.' '~discord.com' || true
+    ${resolvectl} default-route ${cfg.physicalInterface} false || true
+    gw=$(${ip} -4 route show default dev ${cfg.physicalInterface} | ${head} -n1 | ${awk} '{print $3}')
+    if [ -n "$gw" ]; then
+      ${ip} route replace default via "$gw" dev ${cfg.physicalInterface} table ${directTable} || true
+      ${ip} rule del uidrange ${directUid}-${directUid} table ${directTable} priority 1000 2>/dev/null || true
+      ${ip} rule add uidrange ${directUid}-${directUid} table ${directTable} priority 1000 || true
+    fi
+  '';
 in
 {
 
@@ -64,6 +131,17 @@ in
         untrusted by the firewall, so the option must match the real name.
       '';
     };
+
+    physicalInterface = mkOption {
+      type = types.str;
+      default = "enp6s0";
+      description = ''
+        Physical uplink used for traffic Happ marks as Direct (e.g. Discord).
+        DNS for those domains is routed through this interface so the resolved
+        address matches the real egress path (and Zapret's interface-bound DPI
+        bypass). Keep it in sync with `services.custom-zapret.interfaces`.
+      '';
+    };
   };
 
   config = mkIf cfg.enable {
@@ -91,6 +169,27 @@ in
     networking.firewall.checkReversePath = "loose";
     networking.firewall.trustedInterfaces = [ cfg.tunInterface ];
     boot.kernelModules = [ "tun" ];
+
+    # DNS must stay on the physical link even while Happ owns the default
+    # route: sending it through the TUN creates a bootstrapping cycle (xray
+    # cannot resolve its own upstream) and every lookup times out, which is
+    # what hung both Vesktop and OpenCode. Triggered from udev so it also
+    # works when the TUN is brought up/down from the Happ GUI, not just at boot.
+    services.udev.extraRules = ''
+      SUBSYSTEM=="net", KERNEL=="${cfg.tunInterface}", ACTION=="add|remove", TAG+="systemd", ENV{SYSTEMD_WANTS}+="happ-dns.service"
+    '';
+
+    networking.dhcpcd.runHook = dhcpcdHook;
+
+    systemd.services.happ-dns = {
+      description = "Happ TUN DNS routing";
+      after = [ "network.target" "systemd-resolved.service" ];
+      wants = [ "systemd-resolved.service" ];
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = dnsScript;
+      };
+    };
 
     # Happ hard-codes /opt/happ for its binaries, so we materialise the immutable
     # Nix store tree there. The copy runs only when the package changes, keeping
@@ -126,10 +225,10 @@ in
         iptables
         procps
         net-tools
-        # Happ's TunDns calls `resolvectl dns/domain/default-route` to point the
-        # system resolver at the TUN interface. Without systemd in PATH it logs
-        # "no resolvectl on this system" and leaves DNS on the physical link --
-        # name resolution then dies as soon as the tunnel takes over routing.
+        # NB: Happ's TunDns does not search PATH for resolvectl -- it only
+        # looks in /usr/bin and /usr/sbin, which have no resolvectl on NixOS.
+        # TUN DNS is therefore configured by happ-dns.service below; systemd
+        # stays in PATH for other resolver/network tools Happ may call.
         systemd
       ];
 
