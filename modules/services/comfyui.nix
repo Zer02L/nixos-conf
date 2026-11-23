@@ -59,6 +59,11 @@ in
         Type = "simple";
         Restart = "on-failure";
         RestartSec = "10s";
+        # Rootless Podman вызывает newuidmap/newgidmap из /run/wrappers/bin,
+        # которого нет в стандартном PATH системных user-юнитов NixOS.
+        Environment = [
+          "PATH=/run/wrappers/bin:${pkgs.shadow}/bin:${lib.makeBinPath [ pkgs.coreutils pkgs.findutils pkgs.gnugrep pkgs.gnused pkgs.systemd ]}"
+        ];
         ExecStartPre = [
           # Гарантируем наличие необходимых каталогов в storage
           "${pkgs.coreutils}/bin/mkdir -p ${cfg.storageDir}/models ${cfg.storageDir}/custom_nodes ${cfg.storageDir}/input ${cfg.storageDir}/output ${cfg.storageDir}/user ${cfg.storageDir}/dot-cache ${cfg.storageDir}/dot-local"
@@ -108,6 +113,9 @@ EOF
           "--stop-signal SIGINT"
           "-p 127.0.0.1:${toString cfg.port}:8188"
           "--device nvidia.com/gpu=all"
+          # rootless: пробрасываем дополнительные группы (video и т.д.),
+          # иначе crun падает на setgroups, а GPU недоступен
+          "--group-add keep-groups"
           "-e CLI_ARGS='--listen 0.0.0.0 --port 8188 --enable-manager'"
           "-v ${cfg.storageDir}/models:/root/ComfyUI/models:Z"
           "-v ${cfg.storageDir}/custom_nodes:/root/ComfyUI/custom_nodes:Z"

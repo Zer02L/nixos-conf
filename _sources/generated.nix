@@ -104,10 +104,10 @@
   };
   orca = {
     pname = "orca";
-    version = "1.4.269";
+    version = "1.4.271";
     src = fetchurl {
-      url = "https://github.com/stablyai/orca/releases/download/v1.4.269/orca-linux.AppImage";
-      sha256 = "sha256-9/9anNIBwjD9pwCcYr2v7QwEobPmmZwdR9FjS0yua6k=";
+      url = "https://github.com/stablyai/orca/releases/download/v1.4.271/orca-linux.AppImage";
+      sha256 = "sha256-90L4F+x3Te3XO7SlSrT1fNBs5ZCRCsRB9o1uQ/gbpFg=";
     };
   };
   pi-coding-agent = {
@@ -144,10 +144,10 @@
   };
   t3-cli-nightly = {
     pname = "t3-cli-nightly";
-    version = "0.1.12-nightly.20261121.5051";
+    version = "0.1.12-nightly.20261123.5124";
     src = fetchurl {
-      url = "https://github.com/pingdotgg/t3code/releases/download/v0.1.12-nightly.20261121.5051/t3-0.1.12-nightly.20261121.5051-linux-x64.tar.gz";
-      sha256 = "sha256-umpD5nvrH7aDhlHUiCwuY85sWAO1nRHNNFDKBbcGs6M=";
+      url = "https://github.com/pingdotgg/t3code/releases/download/v0.1.12-nightly.20261123.5124/t3-0.1.12-nightly.20261123.5124-linux-x64.tar.gz";
+      sha256 = "sha256-hRwoWo5ZpxOwDpT+0Vw1m5Yk9YVnrf378ALUmCNFgM0=";
     };
   };
   t3code = {
@@ -160,10 +160,10 @@
   };
   t3code-nightly = {
     pname = "t3code-nightly";
-    version = "0.1.12-nightly.20261121.5051";
+    version = "0.1.12-nightly.20261123.5124";
     src = fetchurl {
-      url = "https://github.com/pingdotgg/t3code/releases/download/v0.1.12-nightly.20261121.5051/T3-Code-Nightly-x86_64.AppImage";
-      sha256 = "sha256-CySyrhVJLCW6FlU0rJxV3StOVA4IflCS/1o8F3RPbUI=";
+      url = "https://github.com/pingdotgg/t3code/releases/download/v0.1.12-nightly.20261123.5124/T3-Code-Nightly-x86_64.AppImage";
+      sha256 = "sha256-SA2zfxFR08kUcybFQnzz+SsTKMJX4hU9TMhgAC+vCFQ=";
     };
   };
   wfhelper = {

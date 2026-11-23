@@ -67,6 +67,7 @@
       yazi.enable = false;
       firefox.enable = false; # без profileNames темизация Firefox не работает
       rofi.enable = false; # не используется, устраняет warning устаревшего programs.rofi.font в Stylix
+      wayprompt.enable = false; # пакет удалён из nixpkgs, модуль удалён из Home Manager
     };
   };
 }
