@@ -38,11 +38,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-AhgImRbWC00oiCXRVC8Tyyyl+2kUGPQQIgH0OoTRvns=",
+            "sha256": "sha256-9mQfPWnINmZeXCFBaXGTz2jmrTkJpbH/gDxoTSd0zoU=",
             "type": "url",
-            "url": "https://github.com/storytold/craft-launcher/releases/download/v0.19.2/artcraft-launcher-0.19.2-linux-x86_64.AppImage"
+            "url": "https://github.com/storytold/craft-launcher/releases/download/v0.20.0/artcraft-launcher-0.20.0-linux-x86_64.AppImage"
         },
-        "version": "0.19.2"
+        "version": "0.20.0"
     },
     "brave": {
         "cargoLock": null,
@@ -53,11 +53,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-LZ0eZk79YDQ8dzJMg2vkAsvlfOElSZdVhN+n0HPxVqU=",
+            "sha256": "sha256-7/KSV8VpdKeddKqMFo1QYlV9o2wMgsjCQS3nD9yxeGE=",
             "type": "url",
-            "url": "https://github.com/brave/brave-browser/releases/download/v1.100.58/brave-browser_1.100.58_amd64.deb"
+            "url": "https://github.com/brave/brave-browser/releases/download/v1.100.59/brave-browser_1.100.59_amd64.deb"
         },
-        "version": "1.100.58"
+        "version": "1.100.59"
     },
     "brave-origin": {
         "cargoLock": null,
@@ -68,11 +68,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-TM7BTRt8Nkh+HYShyrQkq5TpO5S0F2IG5MEaMiE9xh0=",
+            "sha256": "sha256-zjilCvw0Sa6cMFEAYIxqurGjDIX3UZFRh718Y0src28=",
             "type": "url",
-            "url": "https://github.com/brave/brave-browser/releases/download/v1.100.58/brave-origin_1.100.58_amd64.deb"
+            "url": "https://github.com/brave/brave-browser/releases/download/v1.100.59/brave-origin_1.100.59_amd64.deb"
         },
-        "version": "1.100.58"
+        "version": "1.100.59"
     },
     "creabim": {
         "cargoLock": null,
@@ -113,11 +113,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-fGpPZcgdH+u7AKwDbnn7nVGhdFk39tptTV2F6eYt6e0=",
+            "sha256": "sha256-4bUUhFA2UYxQ7Iy6znfW0ZWhEi3fasMigZpv+ncZ588=",
             "type": "url",
-            "url": "https://github.com/Happ-proxy/happ-desktop/releases/download/4.8.3/Happ.linux.x64.deb"
+            "url": "https://github.com/Happ-proxy/happ-desktop/releases/download/4.8.6/Happ.linux.x64.deb"
         },
-        "version": "4.8.3"
+        "version": "4.8.6"
     },
     "kiri": {
         "cargoLock": null,
@@ -158,11 +158,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-vitFxDe2I+FcKbH4yYqsuEL5IRgZZFS16e7YhDWemgE=",
+            "sha256": "sha256-BOlJD5OU2m1oBEdMwuQes9GPjiYhXfSzS91K1MDYpAE=",
             "type": "url",
-            "url": "https://github.com/can1357/oh-my-pi/releases/download/v19.1.0/omp-linux-x64"
+            "url": "https://github.com/can1357/oh-my-pi/releases/download/v19.1.1/omp-linux-x64"
         },
-        "version": "19.1.0"
+        "version": "19.1.1"
     },
     "opencode": {
         "cargoLock": null,
@@ -173,11 +173,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-VjtdZjY3ImtuO7S7aAMoG8ObDSzYjbBtZ0tkIKqwCbA=",
+            "sha256": "sha256-nd0Y4/r2Tq7M9qD8vJalx6FFIK5f1bYeW+UdiU9Hi0c=",
             "type": "url",
-            "url": "https://github.com/anomalyco/opencode/releases/download/v2.3.2/opencode-linux-x64.tar.gz"
+            "url": "https://github.com/anomalyco/opencode/releases/download/v2.4.1/opencode-linux-x64.tar.gz"
         },
-        "version": "2.3.2"
+        "version": "2.4.1"
     },
     "orca": {
         "cargoLock": null,
@@ -188,11 +188,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-90L4F+x3Te3XO7SlSrT1fNBs5ZCRCsRB9o1uQ/gbpFg=",
+            "sha256": "sha256-THnB/cXz3UV5taQak1pZQD11HGAfKVzah4vAbma30mA=",
             "type": "url",
-            "url": "https://github.com/stablyai/orca/releases/download/v1.4.271/orca-linux.AppImage"
+            "url": "https://github.com/stablyai/orca/releases/download/v1.4.274/orca-linux.AppImage"
         },
-        "version": "1.4.271"
+        "version": "1.4.274"
     },
     "pi-coding-agent": {
         "cargoLock": null,
@@ -263,11 +263,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-hRwoWo5ZpxOwDpT+0Vw1m5Yk9YVnrf378ALUmCNFgM0=",
+            "sha256": "sha256-2Ps9H9TSNkmuhceid1+wldQaAorzU1JW/Xlmw8bO/4o=",
             "type": "url",
-            "url": "https://github.com/pingdotgg/t3code/releases/download/v0.1.12-nightly.20261123.5124/t3-0.1.12-nightly.20261123.5124-linux-x64.tar.gz"
+            "url": "https://github.com/pingdotgg/t3code/releases/download/v0.1.12-nightly.20261124.5209/t3-0.1.12-nightly.20261124.5209-linux-x64.tar.gz"
         },
-        "version": "0.1.12-nightly.20261123.5124"
+        "version": "0.1.12-nightly.20261124.5209"
     },
     "t3code": {
         "cargoLock": null,
@@ -293,11 +293,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-SA2zfxFR08kUcybFQnzz+SsTKMJX4hU9TMhgAC+vCFQ=",
+            "sha256": "sha256-qf3WcsczWJrcNwAJyV2pFLCquw6K41LhxX76kNiP0PI=",
             "type": "url",
-            "url": "https://github.com/pingdotgg/t3code/releases/download/v0.1.12-nightly.20261123.5124/T3-Code-Nightly-x86_64.AppImage"
+            "url": "https://github.com/pingdotgg/t3code/releases/download/v0.1.12-nightly.20261124.5209/T3-Code-Nightly-x86_64.AppImage"
         },
-        "version": "0.1.12-nightly.20261123.5124"
+        "version": "0.1.12-nightly.20261124.5209"
     },
     "wfhelper": {
         "cargoLock": null,
