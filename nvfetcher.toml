@@ -109,4 +109,9 @@ src.github = "xingkongliang/skills-manager"
 src.prefix = "v"
 fetch.url = "https://github.com/xingkongliang/skills-manager/releases/download/v$ver/skills-manager_$ver_amd64.AppImage"
 
+[pandacode]
+src.github = "aicodeking/pandacode"
+src.prefix = "v"
+fetch.url = "https://github.com/aicodeking/pandacode/releases/download/v$ver/PandaCode-Linux-x86_64.AppImage"
+
 

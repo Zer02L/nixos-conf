@@ -33,6 +33,7 @@ in
   orca-ai = final.orca;
   orca-ide = final.orca;
   skills-manager = final.callPackage ./skills-manager.nix { inherit sources; };
+  pandacode = final.callPackage ./pandacode.nix { inherit sources; };
 
   # Electron 45 removed global Buffer from sandboxed preload scripts, breaking
   # r2modman 3.2.21 (`window.node.buffer.from` -> `Buffer.from` during mod downloads).

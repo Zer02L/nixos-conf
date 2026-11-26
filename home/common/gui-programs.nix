@@ -41,6 +41,9 @@
       # skills-manager (xingkongliang/skills-manager via nvfetcher)
       skills-manager
 
+      # pandacode (aicodeking/pandacode via nvfetcher)
+      pandacode
+
       # artcraft-launcher (storytold/craft-launcher via nvfetcher)
       artcraft-launcher
 
