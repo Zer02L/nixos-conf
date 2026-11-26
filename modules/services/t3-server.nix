@@ -56,6 +56,18 @@ in
         Keep FALSE when using Tailscale or Cloudflare Tunnel (recommended).
       '';
     };
+
+    disableTelemetry = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Disable T3 Code telemetry and OTel relay via environment variables.";
+    };
+
+    blockTelemetryHosts = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Sinkhole known telemetry ingest domains in /etc/hosts with zero daemon overhead.";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -70,6 +82,11 @@ in
           HOME = "/home/zerg";
           PAGER = "cat";
         }
+        (lib.mkIf cfg.disableTelemetry {
+          DO_NOT_TRACK = "1";
+          T3CODE_TELEMETRY_ENABLED = "false";
+          T3CODE_OTEL_SDK_DISABLED = "1";
+        })
         (lib.mkIf (cfg.proxy != null) {
           HTTP_PROXY = cfg.proxy;
           HTTPS_PROXY = cfg.proxy;
@@ -91,12 +108,19 @@ in
         NoNewPrivileges = true;
         ProtectSystem = "strict";
         ProtectHome = false; # Required to edit user code projects in /home/zerg
+        ProtectProc = "invisible";
         ReadWritePaths = [
           "/home/zerg"
           "/tmp"
         ];
       };
     };
+
+    # Sinkhole known telemetry ingest endpoints without running a userspace firewall
+    networking.extraHosts = lib.mkIf cfg.blockTelemetryHosts ''
+      0.0.0.0 ingest.t3.codes us.i.posthog.com eu.i.posthog.com api.axiom.co
+      :: ingest.t3.codes us.i.posthog.com eu.i.posthog.com api.axiom.co
+    '';
 
     # Firewall configuration
     networking.firewall.allowedTCPPorts = lib.mkIf cfg.openFirewall [ cfg.port ];

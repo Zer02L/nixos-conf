@@ -63,6 +63,7 @@ let
     # omniroute = import ../modules/services/omniroute.nix;
     secrets = import ../modules/services/secrets.nix;
     networking = import ../modules/networking/base.nix;
+    opensnitch = import ../modules/networking/opensnitch.nix;
     cloudflared = import ../modules/services/cloudflared.nix;
     tailscale = import ../modules/services/tailscale.nix;
     t3-server = import ../modules/services/t3-server.nix;

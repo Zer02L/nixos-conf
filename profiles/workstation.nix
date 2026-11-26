@@ -11,5 +11,8 @@
     ./mixins/containers.nix
     ./mixins/vpn-suite.nix
     ../modules/programs/chromium.nix
+    ../modules/networking/opensnitch.nix
   ];
+
+  custom.opensnitch.enable = lib.mkDefault true;
 }

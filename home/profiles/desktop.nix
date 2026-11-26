@@ -13,4 +13,7 @@
   ];
 
   custom.t3code.gui = true;
+
+  services.opensnitch-ui.enable = true;
+  home.packages = [ pkgs.opensnitch-ui ];
 }
